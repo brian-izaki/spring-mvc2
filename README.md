@@ -32,7 +32,10 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
   - nela foi configurado o thymeleaf. Esta é a parte de **ViewResolver** do Spring
   - Aqui é configurado o caminho do diretório que tem os layouts, e qual será a extensão desses layouts (HTML, XML)
   
-  
+- package: Controller
+  - nas controllers, quando é feito uma requisição que enviam dados para o servidor o Spring faz um parseamento automático dos valores enviados. 
+    - Porém, é necessário que nos parâmetros do método da controller tenha o mesmo nome que o `name` dos input, 
+    - também pode ser feito utilizando Classes, mas elas devem ter os atributos com os mesmos nomes dos atributos `name` de cada input, **obs**: essa classe deve ter um construtor padrão (um construtor que não receba argumentos), caso queira um com argumento, deve criar uma sem antes (nesse caso estpa sendo feito polimorfismo)
 
 #### Thymeleaf
 
