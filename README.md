@@ -63,6 +63,13 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
   - `th:each`: utilizado para **fazer um loop for** sob uma lista de dados. Ele possui o msm conceito do método forEach do JavaScript, a tag que possui ele é que irá se repetir, junto com as tags aninhadas.
 - Objetos da template engine:
   - `#fields`: se refere aos campos de um objeto. Esse objeto deve ser declarado na tag mãe com o `th:object` para que possa pefar os valores dos "fields" desse objeto.
+- Reutilização de layout (parece com componentização do React)
+  - conceito de herdado: ele cria um padrão e vai adicionando fragmentos dentro desse padrão.
+    - para usar o herdado foi necessário usar uma [dependencia externa](https://www.thymeleaf.org/ecosystem.html#community-dialects): `thymeleaf-layout-dialect`
+    - no arquivo HTML que será a base deve adicionar `xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"`
+      - para add o fragmento deve adicionar como atributo o `layout:fragment="conteudo"` na tag de sua escolha
+    - nos que serão os fragmentos `layout:decorator="'diretorio/arquivo_HTML'"` (as aspas simples são usadas para evitar erro pois o arquivo base está dentro de um diretório)
+      - para enviar o fragmento deve adicionar o mesmo atributo de cima `layout:fragment="conteudo"`
 
 #### Validações ✅
 
