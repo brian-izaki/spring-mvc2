@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	layout:decorator="'layout/LayoutPadrao'">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>Cadastro de Cidade</title>
+</head>
+
+<body>
+	<section layout:fragment="conteudo">
+
+		<div class="page-header">
+			<div class="container-fluid">
+				<h1>
+					Cadastro de cidade
+				</h1>
+			</div>
+		</div>
+
+		<div class="container-fluid">
+
+			<form method="POST" class="form-vertical  js-form-loading">
+
+				<div class="row">
+					<div class="form-group col-sm-3">
+						<label for="estado">Estado</label>
+						<select id="estado" class="form-control">
+              <option value="">Selecione um estado</option>
+            </select>
+					</div>
+
+					<div class="form-group col-sm-9">
+						<label for="nome">Nome</label>
+						<input id="nome" type="text" class="form-control" />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<button class="btn  btn-primary" type="submit">Salvar</button>
+				</div>
+
+			</form>
+		</div>
+
+	</section>
+</body>
+
+</html>
