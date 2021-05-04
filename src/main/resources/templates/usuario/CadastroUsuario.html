@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+  layout:decorator="'layout/LayoutPadrao'">
+
+<head>
+  <meta charset="UTF-8" />
+</head>
+
+<body>
+
+  <section layout:fragment="conteudo">
+    <div class="page-header">
+      <div class="container-fluid">
+        <h1>
+          Cadastro de Clientes
+        </h1>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <form method="POST" class="form-vertical js-form-loading">
+
+        <div class="form-group">
+          <label for="nome">Nome</label>
+          <input type="text" class="form-control" id="nome">
+        </div>
+
+        <div class="row">
+          <div class="form-group col-sm-5">
+            <label for="email">E-mail</label>
+            <input id="email" type="text" class="form-control">
+          </div>
+
+          <div class="form-group col-sm-2">
+            <label for="dataNasc">Data de nascimento</label>
+            <input id="dataNasc" type="text" class="form-control">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-sm-3">
+            <label for="senha">Senha</label>
+            <input id="senha" type="password" class="form-control">
+          </div>
+
+          <div class="form-group col-sm-3">
+            <label for="confirmSenha">Confirmação de senha</label>
+            <input id="confirmSenha" type="password" class="form-control">
+          </div>
+
+          <div class="form-group col-sm-2">
+            <label class="control-label">Status</label>
+            <div class="checkbox">
+              <input id="status" type="checkbox" />
+              <label for="status">Status</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-sm-6">
+            <label class="control-label">Grupos</label>
+            <div>
+
+              <div class="checkbox checkbox-inline">
+                <input id="admin" type="checkbox" />
+                <label for="admin">Administrador</label>
+              </div>
+
+              <div class="checkbox checkbox-inline">
+                <input id="vendedor" type="checkbox" />
+                <label for="vendedor">Vendedor</label>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <button class="btn btn-primary" type="submit">Salvar</button>
+        </div>
+
+      </form>
+    </div>
+
+  </section>
+
+</body>
