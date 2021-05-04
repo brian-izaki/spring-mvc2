@@ -64,7 +64,7 @@
 					<div class="form-group col-sm-3">
 						<label for="teorAlcoolico">Teor Alcoólico</label>
 						<div class="input-group">
-							<input id="teorAlcoolico" type="text" class="form-control" />
+							<input id="teorAlcoolico" type="text" class="form-control js-decimal" />
 							<div class="input-group-addon">%</div>
 						</div>
 					</div>
@@ -89,21 +89,21 @@
 						<label for="preco">Preço</label>
 						<div class="input-group">
 							<div class="input-group-addon">R$</div>
-							<input id="preco" type="text" class="form-control" />
+							<input id="preco" type="text" class="form-control js-decimal" />
 						</div>
 					</div>
 
 					<div class="form-group col-sm-3">
 						<label for="comissao">Comissão</label>
 						<div class="input-group">
-							<input id="comissao" type="text" class="form-control" />
+							<input id="comissao" type="text" class="form-control js-decimal" />
 							<div class="input-group-addon">%</div>
 						</div>
 					</div>
 
 					<div class="form-group col-sm-3">
 						<label for="estoque">Estoque</label>
-						<input id="estoque" type="text" class="form-control" />
+						<input id="estoque" type="text" class="form-control js-plain" />
 					</div>
 
 				</div>
@@ -115,9 +115,6 @@
 			</form>
 		</div>
 	</section>
-
-	<script th:src="@{/layout/javascripts/vendors.min.js}"></script>
-	<script th:src="@{/layout/javascripts/algaworks.min.js}"></script>
 </body>
 
 </html>

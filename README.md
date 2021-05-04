@@ -52,7 +52,7 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
 - **É extensível**, pode ser criado tags personalizadas.
 - **JSP**: poderia ser utilizado como template engine, mas o Thymeleaf possui mais sentido nesse projeto por ter tags mais legíveis.
 - Possui tags especificas para poder trabalhar com os dados enviados. As tags do thymeleaf vão possuir o `th:` antes ou depois de um tag html.
-- Utilizando Thymeleaf, conceitos básicos:
+- [Expressions do thymeleaf](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#standard-expression-syntax):
   - para utilizar dados ou variaveis dentro de uma tag dele, deve ser utilizado dentro das strings `"${}"`
     ```HTML		
 		<span th:text="${nomeDoController}"></span>
@@ -61,15 +61,21 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
   - `th:text`: para pegar um texto enviado pelo `.addAttribute` ou `.addFlashAttribute`.
   - `th:object`: pega um objeto enviado pelo servidor.
   - `th:each`: utilizado para **fazer um loop for** sob uma lista de dados. Ele possui o msm conceito do método forEach do JavaScript, a tag que possui ele é que irá se repetir, junto com as tags aninhadas.
-- Objetos da template engine:
+- [Objetos](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#appendix-b-expression-utility-objects):
   - `#fields`: se refere aos campos de um objeto. Esse objeto deve ser declarado na tag mãe com o `th:object` para que possa pefar os valores dos "fields" desse objeto.
-- Reutilização de layout (parece com componentização do React)
-  - conceito de herdado: ele cria um padrão e vai adicionando fragmentos dentro desse padrão.
+- Reutilização de layout (**Fragments**) 
+  - _conceito de herdado_: ele cria um padrão e vai adicionando fragmentos dentro desse padrão.
     - para usar o herdado foi necessário usar uma [dependencia externa](https://www.thymeleaf.org/ecosystem.html#community-dialects): `thymeleaf-layout-dialect`
     - no arquivo HTML que será a base deve adicionar `xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"`
       - para add o fragmento deve adicionar como atributo o `layout:fragment="conteudo"` na tag de sua escolha
     - nos que serão os fragmentos `layout:decorator="'diretorio/arquivo_HTML'"` (as aspas simples são usadas para evitar erro pois o arquivo base está dentro de um diretório)
       - para enviar o fragmento deve adicionar o mesmo atributo de cima `layout:fragment="conteudo"`
+  - _conceito de Fragments_ 🧩:
+    - `th:replace`: ele adiciona o aquivo html inteiro no lugar (head, Doctype, etc)
+      - para que não ocorra isso e apenas adicione o conteudo que vc deseja, deve adicionar o seguinte atributo `th:replace = "caminho_do_arquivo_html :: nome_dado_no_fragmento"` no lugar que for adicionar. 
+      - quem for o fragmento, deve adicionar `th:fragment = "nome_dado_no_fragmento"` na tag dele
+    - `th:insert`: ele vai inserir o conteudo que vai ter dentro da tag, ou seja, caso tenha alguma classe na tag que colocou `th:fragment`, essa classe não irá ser mandada, apenas o que for filho da tag.
+
 
 #### Validações ✅
 
