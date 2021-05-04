@@ -47,7 +47,22 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
 #### Thymeleaf 🍃
 
 - é necessário adicionar a dependencia dele no pom.xml para utilizar esta template engine.
+  - **Template engine**: auxilia para montar layouts, utilizando dados que recebe do servidor (controller) para utilizar no layout da View.
 - Para configurar ele, foi utilizado o arquivo `WebConfig.java`.
+- **É extensível**, pode ser criado tags personalizadas.
+- **JSP**: poderia ser utilizado como template engine, mas o Thymeleaf possui mais sentido nesse projeto por ter tags mais legíveis.
+- Possui tags especificas para poder trabalhar com os dados enviados. As tags do thymeleaf vão possuir o `th:` antes ou depois de um tag html.
+- Utilizando Thymeleaf, conceitos básicos:
+  - para utilizar dados ou variaveis dentro de uma tag dele, deve ser utilizado dentro das strings `"${}"`
+    ```HTML		
+		<span th:text="${nomeDoController}"></span>
+    ```
+- Tags utilizadas no projeto: 
+  - `th:text`: para pegar um texto enviado pelo `.addAttribute` ou `.addFlashAttribute`.
+  - `th:object`: pega um objeto enviado pelo servidor.
+  - `th:each`: utilizado para **fazer um loop for** sob uma lista de dados. Ele possui o msm conceito do método forEach do JavaScript, a tag que possui ele é que irá se repetir, junto com as tags aninhadas.
+- Objetos da template engine:
+  - `#fields`: se refere aos campos de um objeto. Esse objeto deve ser declarado na tag mãe com o `th:object` para que possa pefar os valores dos "fields" desse objeto.
 
 #### Validações ✅
 
@@ -67,3 +82,5 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
 ### Referências
 
 - AlgaWorks Spring experts
+- [Documentação do Thymeleaf](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html)
+  - [Comparação entre Thymeleaf e JSP](https://www.thymeleaf.org/doc/articles/thvsjsp.html)

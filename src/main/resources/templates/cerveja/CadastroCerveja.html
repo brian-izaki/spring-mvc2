@@ -8,20 +8,24 @@
 <body>
 	<h1>Cadastro de cervejas</h1>
 	
-	<form action="" method="POST">
-		<span th:text="${mensagem}"></span>
+	<form action="" method="POST" th:object="${cerveja}">
+		
+		<div th:each="erro : ${#fields.detailedErrors()}">			
+			<span th:text="${erro.message}"></span>
+		</div>
+		<br>
+
+		<label for="sku">SKU</label>
+		<input id="sku" th:field="*{sku}">
 		<br>
 		
-		<label>SKU</label>
-		<input name="sku">
+		<label for="nome">Nome</label>
+		<input id="nome" th:field="*{nome}">
 		<br>
 		
-		<label>Nome</label>
-		<input name="nome">
-		<br>
+		<label for="descricao">Descrição</label>
+		<textarea id="descricao" th:field="*{descricao}"></textarea>
 		
-		<label>Descrição</label>
-		<textarea name="descricao"></textarea>
 		<br>
 		
 		

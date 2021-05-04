@@ -1,19 +1,19 @@
 package com.projetojava.brewer.model;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.NotBlank;
 
 public class Cerveja {
 	
-	@NotBlank
+	@NotBlank(message = "SKU é obrigatório")
 	private String sku;
 	
-	@NotBlank
+	@NotBlank(message = "Nome é obrigatório")
 	private String nome;
 	
-	@NotBlank
-	@Size(max = 50)
+	@NotBlank(message = "Descricao é obrigatório")
+	@Size(message = "O máximo de caracters na descrição é 50",max = 50)
 	private String descricao;
 	
 	
