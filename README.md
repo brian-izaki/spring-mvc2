@@ -221,3 +221,4 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
 - Documentações:
   - [log4j 2](https://logging.apache.org/log4j/2.x/)
   - [Documentação do Thymeleaf](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html)
+  - [Spring JPA Methods](https://docs.spring.io/spring-data/jpa/docs/2.5.0/reference/html/#jpa.query-methods)
