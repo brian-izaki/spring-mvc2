@@ -72,6 +72,16 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
   - `%-5level`: nível do log (info, debug)
   - `$logger{36}`: nome da classe que gerou o log. o numero dentro de {} é a quantidade máxima de caracteres que vai pertmitir mostrar.
 
+- Padrão de Injeção de dependência
+  - Ela tenta evitar que uma classe fique instanciando classes em uma classe de serviço.
+  - No conceito geral, é a ideia de ter parametros no construtor e alguem (frameworks - Spring -, etc) automaticamente injetar essas dependencias para vc no construtor. Elas ficam de forma implicita ("escondida")
+  - ajuda a concentrar em apenas um local para instanciar classe, para quando for dar manutenção apenas ter um lugar para alterar.
+  - Também existe o padrão Factory que torna uma classe unicamente responsável por instanciar uma classe com new e entregar ela pronta.
+  - No Spring o gerenciador de injeção é chamado de ApplicationContext.
+  - Existem annotations especificas que o Spring reconhece para fazer a IDP, `@Component` que diz que essa classe deve ser encontrada pelo `@Autowired`.
+  - Escopo padrão é singleton, ou seja, uma classe injetada com autowired tem apenas uma instancia. Isto será aproveitado para a criação de sessão.
+  - _obs: Ela é diferente do principio de inversão de dependência._
+
 ### Thymeleaf 🍃
 
 - é necessário adicionar a dependencia dele no pom.xml para utilizar esta template engine.
@@ -118,6 +128,7 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
 - o `scope` `provided` diz que quando for empacotar o projeto, não coloque esta dependencia dentro do empacotamento.
 - o `compile` diz que pode empacotar junto.
 - o `exclusions` permite tirar alguma dependencia que esteja dentro da dependencia principal (commons logging faz parte do Spring core que por sua vez faz parte do Spring MVC).
+
 
 ---
 
