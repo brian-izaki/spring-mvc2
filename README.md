@@ -11,6 +11,7 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
 
 - Backend
   - Spring MVC
+  - Spring Data JPA
   - hibernate (validações)
 - Frontend
   - Thymeleaf
@@ -30,8 +31,9 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
 
   - nesse arquivo foi feito uma extensão da classe `AbstractAnnotationConfigDispatcherServletInitializer` que é responsável pela parte do Spring MVC que gerencia as "rotas" da aplicação. Nela foi sobrescrito métodos para saber sobre as nossas rotas. Esta é a parte de **DispatcherServelet** do Spring
   - o método `getServeletMapping` diz qual vai ser o padrão da URL, mas antes dele executar, ele precisa saber quais são as nossas controllers.
-  - Para encontrar nossas controllers do projeto foi criado a classe `WebConfig` e utilizada no método `getServletConfigClasses`.
+  - Para encontrar nossas controllers do projeto foi criado a classe `WebConfig` e utilizada no método `getServletConfigClasses` (tudo que é relacionado à controller e à parte web).
     - para que essa classe encontre os controllers, foi utilizado a annotation `@ComponentScan` e foi necessário passar `@Configuration` para dizer que a classe é de configuração.
+  - `getRootConfigClasses` é executado primeiro que o getServlet, nele é passado as especificações para utilizar as configurações do JpaRepository, e tudo que estiver pra trás da parte web.
 
 - **arquivo 📄: WebConfig.java**
   - nela foi configurado o thymeleaf. Esta é a parte de **ViewResolver** do Spring
@@ -67,11 +69,36 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
       </Console>
     </Appenders>
 
+    <Loggers>
+      <!-- isso limita a inspeção para apenas um pacote e mostra logs d info -->
+      <Logger name="com.algaworks.brewer.controller" level="info" />
+      
+      <Logger name="org.hibernate.SQL" level="debug" />		
+      
+      <Root level="error">
+        <AppenderRef ref="Console" />
+      </Root>
+    </Loggers>
+    
   </Configuration>
   ```
 
   - `%-5level`: nível do log (info, debug)
   - `$logger{36}`: nome da classe que gerou o log. o numero dentro de {} é a quantidade máxima de caracteres que vai pertmitir mostrar.
+  - Para utilizar esses logs personalizados, deve utilizar o `<Logger>` que foi especificado, e é possível ver logs de diferentes packages.
+
+- Spring Data JPA
+  - Possui facilidades para realizar querys, utilizando apenas métodos.
+  - Datasource no projeto: no diretorio webapp deve criar `META-INF` e um arquivo context.xml.
+    - este será um arquivo de configuração do tomcat.
+    - nela terá configurações do datasource, com dados que serão utilizados para conexão do SGBD do projeto.
+    - os poolsize são os numeros de conexões que vão ter com o banco de dados.
+  - No Java, deve ser criado um arquivo de configuração do JPA, `JPAConfig` que irá pegar os dados do Datasource.
+    - Deve dar atenção no método `jpaVendorAdapter`, nele é especificado se gostaria de gerar tabelas a partir das models, porém como nesse projeto está sendo o flyway para gerar tabelas (por causa das migrations) é colocado no método `setGenerateDdl` o argumento **false**.
+    - Esse arquivo também será a configuração para poder utilizar a annotation `@Repositories` que são interfaces que vão permitir realizar as querys com o hibernate apenas na forma de métodos.
+  - Foi criado uma package `repository` para deixar as interfaces de repositorys das models, 
+    - elas são criadas usando o plural da model que ela representa.
+    - elas são extendidas com o `JpaRepository<Nome_Model, tipo_da_PrimaryKey_da_model>`
 
 - Padrão de Injeção de dependência
   - Ela tenta evitar que uma classe fique instanciando classes em uma classe de serviço.
