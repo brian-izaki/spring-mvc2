@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @RequestMapping("/estilo")
-public class CadastroEstilo {
+public class EstiloController {
 	
 	@RequestMapping(value = "/novo", method = RequestMethod.GET)
 	public String novo() {
