@@ -69,6 +69,7 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
 
   </Configuration>
   ```
+
   - `%-5level`: nível do log (info, debug)
   - `$logger{36}`: nome da classe que gerou o log. o numero dentro de {} é a quantidade máxima de caracteres que vai pertmitir mostrar.
 
@@ -129,6 +130,45 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
 - o `compile` diz que pode empacotar junto.
 - o `exclusions` permite tirar alguma dependencia que esteja dentro da dependencia principal (commons logging faz parte do Spring core que por sua vez faz parte do Spring MVC).
 
+### JPA e Hibernate
+
+- JPA são as especificações Java para persistir dados no BD. Hibernate (é um ORM) vai ser responsável para implementar essas especificações.
+- Com eles será possível ter comunicação entre o SGBD e o Java.
+- Flyway é um framework que ajuda a evoluir um SGBD, voltar uma ação feita no BD por exemplo.
+- Java Persistence Query Language (JPQL): ajuda a abstrair comandos DML no banco de dados (pois os comandos pode variar entre os SGBD)
+- Hibernate Criteria: forma de fazer os comandos DML
+- Diferença entre Criteria e JPQL, nenhuma, apenas que no JPQL pode ficar mais verboso e outros não.
+- No projeto:
+
+  - Foi utilizado as dependencias `hibernate-entitymanager` (já possui o JPA) e `hibernate-java8` para datas
+  - Para criar uma tabela é necessário utilizar:
+
+    ```Java
+    import javax.persistence.Entity;
+    import javax.persistence.Table;
+
+    @Entity
+    @Table(name = "nomeQueVaiSerNoBD")
+    public class Cerveja {
+      	@Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long codigo;
+
+        @Column(name = "quantidade_estoque")
+        private int quantidadeEstoque;
+
+        @Enumerated(EnumType.STRING)
+        private Sabor sabor;
+
+        @ManyToOne
+        @JoinColumn(name = "codigo_estilo")
+        private Estilo estilo;
+    }
+    ```
+    - o codigo é obrigatório em uma entidade
+    - `@Column` permite que vc altere o nome da coluna que será gerado na tabela
+    - `@ManyToOne` significa relacionamento de muitos para 1, na tabela de Estilo terá uma variavel que será uma lista que tem o `@OneToMany(mappedBy = "nome_da_coluna_que_conecta")`.
+    - `@JoinColumn` especifica o nome da coluna que será a Foreign Key.
 
 ---
 
