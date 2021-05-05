@@ -48,6 +48,15 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
   - **redirect**: força o browser a fazer uma nova requisição, redireciona para uma nova url,
     - com ele deve ser utilizado a Classe RedirectAttributes para enviar dados do servidor com o método `addFlachAttribute`.
 
+- **package 🎁: converter**
+  - Criado para realizar conversões de tipos quando a página web envia dados de um tipo mas na controller eu precisa ser de outro.
+  - Foi necessário adicionar configurações no WebConfig com o método `FormattingConversionService`
+
+- **package 🎁: repository**
+  - Utilizado para fazer querys no banco de dados.
+  - Foi necessário add o arquvivo `JpaConfig` para configurar essa funcionalidade do Spring
+
+
 - **Logs de sistema** 🖨
 
   - O Spring por padrão usar o commons log, ele recomenda configurar o log para melhorar a produtividade.
@@ -109,6 +118,15 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
   - Existem annotations especificas que o Spring reconhece para fazer a IDP, `@Component` que diz que essa classe deve ser encontrada pelo `@Autowired`.
   - Escopo padrão é singleton, ou seja, uma classe injetada com autowired tem apenas uma instancia. Isto será aproveitado para a criação de sessão.
   - _obs: Ela é diferente do principio de inversão de dependência._
+
+- Camada para acessar o BD
+  - DAO e Repository auxiliam nessa parte, porém os dois trazem conceitos diferentes
+  - **Data Access Object (DAO)**
+    - é mais relacionado ao domínio, regras de negócios.
+
+  - **Repository**
+    - Trata as entidades como coleções.
+    - Está mais relacionado com o DDD (Domain Driven Design)
 
 ### Thymeleaf 🍃
 
