@@ -165,10 +165,24 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
         private Estilo estilo;
     }
     ```
+
     - o codigo é obrigatório em uma entidade
     - `@Column` permite que vc altere o nome da coluna que será gerado na tabela
     - `@ManyToOne` significa relacionamento de muitos para 1, na tabela de Estilo terá uma variavel que será uma lista que tem o `@OneToMany(mappedBy = "nome_da_coluna_que_conecta")`.
     - `@JoinColumn` especifica o nome da coluna que será a Foreign Key.
+
+- Aplicar migração com Flyway (é criar as tabelas no Banco de dados), assim cria tabelas aos poucos.
+  - é parecido com as migrações do Knex, Sequelize. precisa criar um diretório para armazenar os scripts de sql.
+    - _Obs: é necessario criar a pasta "db/migration" no diretório resources do projeto, se não tiver o nome corretamente o flyway não irá encontrar os aqurivos SQL_ 
+  - é necessário configurar o maven para executar o flyway e conectar no Banco de dados mysql:
+    - Deve ir nas opções do run > runs configuration > maven build > (icone da esquerda para nova config)
+    - Depois deve escolher no Browse directory o projeto que vai usar o flyway
+    - no **goals**: flyway:migrate
+    - no Parameters name:
+      - `flyway.user` e valor de usuario do SGBD
+      - `flyway.password` e senha do usuario
+      - `flyway.url`: jdbc:mysql://localhost/nome_database
+    - ao executar o o maven, o flyway cria uma tabela com as versões das migrações.
 
 ---
 
