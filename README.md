@@ -55,7 +55,10 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
 - **package 🎁: repository**
   - Utilizado para fazer querys no banco de dados.
   - Foi necessário add o arquvivo `JpaConfig` para configurar essa funcionalidade do Spring
+  - ver seção [JPA e Hibernate](#jpa-e-hibernate)
 
+- **package 🎁: service**
+  - é responsável por ter códigos que envolvem as Regras de negócios (formatação de dados, execução dos comandos DML, etc).
 
 - **Logs de sistema** 🖨
 
@@ -216,7 +219,7 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
     - `@ManyToOne` significa relacionamento de muitos para 1, na tabela de Estilo terá uma variavel que será uma lista que tem o `@OneToMany(mappedBy = "nome_da_coluna_que_conecta")`.
     - `@JoinColumn` especifica o nome da coluna que será a Foreign Key.
 
-- Aplicar migração com Flyway (é criar as tabelas no Banco de dados), assim cria tabelas aos poucos.
+- **Aplicar migração com Flyway** (é criar as tabelas no Banco de dados), assim cria tabelas aos poucos.
   - é parecido com as migrações do Knex, Sequelize. precisa criar um diretório para armazenar os scripts de sql.
     - _Obs: é necessario criar a pasta "db/migration" no diretório resources do projeto, se não tiver o nome corretamente o flyway não irá encontrar os aqurivos SQL_ 
   - é necessário configurar o maven para executar o flyway e conectar no Banco de dados mysql:
@@ -228,6 +231,23 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
       - `flyway.password` e senha do usuario
       - `flyway.url`: jdbc:mysql://localhost/nome_database
     - ao executar o o maven, o flyway cria uma tabela com as versões das migrações.
+
+- **Transações** (de BD, begin ... commit -ou rollback-)
+  - A aplicação por padrão realiza transações de forma automática
+  - pode ser alterado para ser de forma manual, utilizando a annotation `@EnableTransactionManagement`.
+    ```Java
+    @EnableJpaRepositories(basePackageClasses = Cervejas.class, enableDefaultTransactions = false)
+    @EnableTransactionManagement
+    public class JPAConfig { }
+    ```
+    - Deve notar que `enableDefaultTransactions` está como false, isto desabilita o automático.
+  - Nos arquivos que forem realizar os comandos DML deve utilizar o `@Transactional` para especificar que irá iniciar uma transação, pois agora está de forma manual.
+    ```Java
+    @Transactional
+    public void salvar(Classe nomeClasse) {
+      // comando DML
+    }
+    ```
 
 ---
 

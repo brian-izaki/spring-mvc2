@@ -15,12 +15,16 @@ import com.projetojava.brewer.model.Cerveja;
 import com.projetojava.brewer.model.Origem;
 import com.projetojava.brewer.model.Sabor;
 import com.projetojava.brewer.repository.Estilos;
+import com.projetojava.brewer.service.CadastroCervejaService;
 
 @Controller
 public class CervejasController {
 	
 	@Autowired
 	private Estilos estilos;
+	
+	@Autowired
+	private CadastroCervejaService cadastroCervejaService;
 	
 	@RequestMapping("/cervejas/novo")
 	public ModelAndView novo(Cerveja cerveja) {
@@ -35,15 +39,15 @@ public class CervejasController {
 
 	@RequestMapping(value = "/cervejas/novo", method = RequestMethod.POST)
 	public ModelAndView cadastrar(@Valid Cerveja cerveja, BindingResult result, Model model, RedirectAttributes attributes) {
-//		if (result.hasErrors()) {
-//			
-//			return novo(cerveja);
-//		}
+		if (result.hasErrors()) {
+			
+			System.out.printf("Cerveja <<< erro\n");
+			return novo(cerveja);
+		}
 		
+		cadastroCervejaService.salvar(cerveja);
 		attributes.addFlashAttribute("mensagem", "cerveja salvo com sucesso");
 		
-		if (cerveja.getEstilo() != null)
-			System.out.printf("Estilo <<< %s\n", cerveja.getEstilo().getCodigo());
 		
 		return new ModelAndView("redirect:/cervejas/novo");
 	}
