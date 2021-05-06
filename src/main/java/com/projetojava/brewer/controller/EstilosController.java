@@ -62,17 +62,8 @@ public class EstilosController {
 					.body(result.getFieldError("nome").getDefaultMessage());					
 		}
 			
-		try {
-			estilo = cadastroEstiloService.cadastrar(estilo);
-		} catch (NomeEstiloJaCadastradoException e) {
-			return ResponseEntity
-					.badRequest()
-					.header("Content-Type", "plain/text; charset=utf-8")
-					.body(e.getMessage());	
-		}
-		
+		estilo = cadastroEstiloService.cadastrar(estilo);
 		return ResponseEntity.ok().body(estilo);
-		
 	}
 	
 }
