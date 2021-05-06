@@ -301,6 +301,21 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
       // comando DML
     }
     ```
+
+- **Métodos de callback do JPA**
+  - neste projeto foi feito na classe da model para realizar formatação do dado pra inserir no BD de forma padronizada.
+  - o método deve retornar void
+    ```Java
+    @PrePersist
+    @PreUpdate
+    private void prePersistUpdate() {
+      atributo = atributo.toUpperCase();
+    }
+    ```
+    - _as anotações (são as callbacks)_ indicam que o método deve ser executado antes de realizar ações que vão persisistir os dados. Elas também são chamadas de **JPA Entity life cicle events**.
+    - `@PrePersist` para antes de inserir
+    - `@PreUpdate` para antes de alterar um dado.
+
 ---
 
 ## Referências
@@ -312,3 +327,5 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
   - [log4j 2](https://logging.apache.org/log4j/2.x/)
   - [Documentação do Thymeleaf](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html)
   - [Spring JPA Methods](https://docs.spring.io/spring-data/jpa/docs/2.5.0/reference/html/#jpa.query-methods)
+  - [JPA Entity life cicle events](https://www.baeldung.com/jpa-entity-lifecycle-events)
+    - [hibernate comunity](https://docs.jboss.org/hibernate/stable/entitymanager/reference/en/html/listeners.html)
