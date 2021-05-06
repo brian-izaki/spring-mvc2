@@ -13,8 +13,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
+import com.projetojava.brewer.validation.SKU;
 
 @Entity
 @Table(name = "cerveja")
@@ -24,7 +25,7 @@ public class Cerveja {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
 	
-	@Pattern(regexp = "([a-zA-Z]{2}\\d{4})?", message = "SKU deve seguir o seguinte padrão: XX9999")
+	@SKU
 	@NotBlank(message = "SKU é obrigatório")
 	private String sku;
 	
