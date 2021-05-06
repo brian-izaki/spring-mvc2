@@ -38,6 +38,10 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
 - **arquivo 📄: WebConfig.java**
   - nela foi configurado o thymeleaf. Esta é a parte de **ViewResolver** do Spring
   - Aqui é configurado o caminho do diretório que tem os layouts, e qual será a extensão desses layouts (HTML, XML)
+  - método `mvcConversionService`:
+    - nele está sendo configurado a utilização da package converter
+    - também está sendo feito a conversão de valores BigDecimal e Integer para ser aceito no Java.
+
 - **package 🎁: Controller**
 
   - nas controllers, quando é feito uma requisição que enviam dados para o servidor o Spring faz um parseamento automático dos valores enviados.
