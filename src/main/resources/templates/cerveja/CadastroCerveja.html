@@ -20,18 +20,15 @@
 
 		<div class="container-fluid">
 
-			<!-- <div class="alert  alert-danger  alert-dismissible" role="alert">
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-							aria-hidden="true">&times;</span></button>
-					<i class="fa  fa-exclamation-circle"></i> Já existe um produto com o nome informado.
-				</div> -->
-
+			
 			<form method="POST" th:object="${cerveja}" class="form-vertical  js-form-loading">
+				<th:block th:insert="fragments/MensagensSucesso"></th:block>
+				<th:block th:insert="fragments/MensagensErroValidacao"></th:block>
 
 				<div class="row">
 					<div class="form-group col-sm-2">
 						<label for="sku">SKU</label>
-						<input id="sku" type="text" class="form-control" th:field="*{sku}"/>
+						<input id="sku" type="text" class="form-control" th:field="*{sku}" />
 					</div>
 
 					<div class="form-group col-sm-10">
@@ -51,11 +48,7 @@
 						<div class="bw-field-action">
 							<select id="estilo" class="form-control" th:field="*{estilo}">
 								<option value="">Selecione um estilo</option>
-								<option 
-									th:each="estilo : ${estilos}"
-									th:value="${estilo.codigo}"
-									th:text="${estilo.nome}"
-								>
+								<option th:each="estilo : ${estilos}" th:value="${estilo.codigo}" th:text="${estilo.nome}">
 								</option>
 							</select>
 
@@ -71,9 +64,7 @@
 						<label for="sabor">Sabor</label>
 						<select id="sabor" class="form-control" th:field="*{sabor}">
 							<option value="">Selecione um sabor</option>
-							<option th:each="sabor : ${sabores}" 
-								th:value="${sabor}" 
-								th:text="${sabor.descricao}">
+							<option th:each="sabor : ${sabores}" th:value="${sabor}" th:text="${sabor.descricao}">
 							</option>
 						</select>
 					</div>
@@ -81,9 +72,7 @@
 					<div class="form-group col-sm-3">
 						<label for="teorAlcoolico">Teor Alcoólico</label>
 						<div class="input-group">
-							<input id="teorAlcoolico" type="text" class="form-control js-decimal" 
-								th:field="*{teorAcoolico}" 
-							/>
+							<input id="teorAlcoolico" type="text" class="form-control js-decimal" th:field="*{teorAcoolico}" />
 							<div class="input-group-addon">%</div>
 						</div>
 					</div>
@@ -93,20 +82,11 @@
 						<div>
 							<th:block th:each="origem : ${origens}">
 								<div class="radio radio-inline">
-									<input 
-										th:id="|id_${origem}|" 										 
-										th:value="${origem}"
-										th:field="*{origem}" 
-										class="form-control"
-										type="radio"
-										name="origem"
-									/>
-									<label 
-										th:for="|id_${origem}" 
-										th:text="${origem.descricao}"
-									>
+									<input th:id="|id_${origem}|" th:value="${origem}" th:field="*{origem}" class="form-control"
+										type="radio" name="origem" />
+									<label th:for="|id_${origem}" th:text="${origem.descricao}">
 									</label>
-								</div>							
+								</div>
 							</th:block>
 						</div>
 					</div>
@@ -117,21 +97,21 @@
 						<label for="valor">Valor</label>
 						<div class="input-group">
 							<div class="input-group-addon">R$</div>
-							<input id="valor" type="text" class="form-control js-decimal" th:field="*{valor}"/>
+							<input id="valor" type="text" class="form-control js-decimal" th:field="*{valor}" />
 						</div>
 					</div>
 
 					<div class="form-group col-sm-3">
 						<label for="comissao">Comissão</label>
 						<div class="input-group">
-							<input id="comissao" type="text" class="form-control js-decimal" th:field="*{comissao}"/>
+							<input id="comissao" type="text" class="form-control js-decimal" th:field="*{comissao}" />
 							<div class="input-group-addon">%</div>
 						</div>
 					</div>
 
 					<div class="form-group col-sm-3">
 						<label for="estoque">Estoque</label>
-						<input id="estoque" type="text" class="form-control js-plain" th:field="*{quantidadeEstoque}"/>
+						<input id="estoque" type="text" class="form-control js-plain" th:field="*{quantidadeEstoque}" />
 					</div>
 
 				</div>
