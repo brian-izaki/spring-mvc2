@@ -13,6 +13,7 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
   - Spring MVC
   - Spring Data JPA
   - hibernate (validações)
+  - Jackson
 - Frontend
   - Thymeleaf
   - Bootstrap
@@ -64,9 +65,16 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
 - **package 🎁: service**
   - é responsável por ter códigos que envolvem as Regras de negócios (formatação de dados, execução dos comandos DML, etc).
 
-- **package 🎁: validations**
+- **package 🎁: validation**
   - responsável por ter as Annotations (beans) personalizadas (no contexto desse projeto é para os atributos das models);
   - ver seção [validações](#validações-✅)
+
+- **package 🎁: exception**
+  - Ficam as classes que são de exceções customizadas que a nossa aplicação irá lançar quando houver erros de execução.
+  - Deve notar que os nomes são compridos mas, explicam bem o motivo da classe.
+
+- **package 🎁: handler**
+  - nela tem a classe de Controller Advice.
 
 - **Logs de sistema** 🖨
 
@@ -138,6 +146,18 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
   - **Repository**
     - Trata as entidades como coleções.
     - Está mais relacionado com o DDD (Domain Driven Design)
+
+- **Controller Advice**
+  - O Spring fica monitorando se algum código irá lançar alguma exceção e ele mesmo vai fazer o tratamento dela.
+  - `@ControllerAdvice`: define que uma classe será a controller advice.
+  - nos métodos da classe, *deve ser passado as exceptions que deseja fazer o tratamento* quando alguma controller fizer o lançamento de alguma.
+  > *com essa classe é evitado de fazer o try catch em métodos que tem o exception no control advice.*
+
+- **Requisições pelo JavaScript**
+  - As requisições foram feitas enviando dados em JSON dentro de uma string (JSON.stringify) com o método POST. Porém, o Spring não consegue converter JSON como nos métodos que só recebiam o submit (cadastro de items), logo, foi necessário utilizar a dependencia `jackson-databind` para realizar essa leitura de JSON.
+  - a rota no controller que recebe os dados de requisições Fetch, tiveram que utilizar a annotation `@RequestBody` e retornar o tipo `ResponseEntity` com a annotation `@ResponseBody`, [ver classe estiloController](/src/main/java/com/projetojava/brewer/controller/EstilosController.java)
+  - `ResponseEntity<?>`: ele vai ajudar a **manipular o status de uma resposta** do servidor, podendo controlar para ser 200 (ok), 400 (BadRequest), etc.
+    - a `?` é para quando o método acabe retornando diferentes tipos para condições diferentes. Mas quando tem apenas um tipo de retorno deve especificar o tipo dentro do `<>`
 
 ### Thymeleaf 🍃
 
@@ -281,7 +301,6 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
       // comando DML
     }
     ```
-
 ---
 
 ## Referências
