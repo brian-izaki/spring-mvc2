@@ -60,6 +60,10 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
 - **package 🎁: service**
   - é responsável por ter códigos que envolvem as Regras de negócios (formatação de dados, execução dos comandos DML, etc).
 
+- **package 🎁: validations**
+  - responsável por ter as Annotations (beans) personalizadas (no contexto desse projeto é para os atributos das models);
+  - ver seção [validações](#validações-✅)
+
 - **Logs de sistema** 🖨
 
   - O Spring por padrão usar o commons log, ele recomenda configurar o log para melhorar a produtividade.
@@ -169,6 +173,29 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
 - é necessário utilizar a dependencia hibernate-validated no pom.xml
 - é adicionado notations acima das propriedades da classe que é do model.
 - na controller, antes de colocar a classe da model nos parametros deve adicionar a anotatios `@Valid` ou `@Validated`
+- Pode criar annotations(beans) personalizadas para realizar validações.
+  ```Java
+  @Target({ ElementType.FIELD, ElementType.METHOD, ElementType.ANNOTATION_TYPE})
+  @Retention(RetentionPolicy.RUNTIME)
+  @Constraint(validatedBy = {})
+  @Pattern(regexp = "([a-zA-Z]{2}\\d{4})?")
+  public @interface SKU {
+    
+    @OverridesAttribute(constraint = Pattern.class, name = "message")
+    String message() default "SKU deve seguir o padrão XX9999";
+    
+    Class<?>[] groups() default {};
+    Class<? extends Payload>[] payload() default {};
+    
+  }
+  ```
+    - `@Target`: onde essa validação pode ser aplicada. Dentro dela possui os lugares de forma mais especifica usando o `ElementType`
+    - `@Retention`: em que momento ela será avaliada
+    - `@Constraint`: restrição da validação.
+    - (opcional) `@Pattern`: é utilizado para aplicar padrões com o regexp (poderia ser utilizado lá nos atributos da model)
+    - o método `message()` está sendo utilizado para sobrescrever o `message` do `@Pattern` (como pode ver no `@Override`)
+    - os métodos com o class são obrigatórios para que não ocorram erros.
+      - `payload()`: auxilia a classificar o nível do erro.
 
 ### Maven 🧮
 
