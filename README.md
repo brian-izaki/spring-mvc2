@@ -156,7 +156,9 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
   - `th:text`: para pegar um texto enviado pelo `.addAttribute` ou `.addFlashAttribute`.
   - `th:object`: pega um objeto enviado pelo servidor.
   - `th:each`: utilizado para **fazer um loop for** sob uma lista de dados. Ele possui o msm conceito do método forEach do JavaScript, a tag que possui ele é que irá se repetir, junto com as tags aninhadas.
+  - `th:if`: condicional, `true` irá mostrar o elemento, `false` não mostra.
   - `th:block`: foi utiilzado para usar scripts do JS que seriam utilizado apenas uma vez e que precisava ser executado após o JQuery.
+  - `th:classappend`: Serve para adicionar texto no atributo `class`
 - [Objetos](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#appendix-b-expression-utility-objects):
   - `#fields`: se refere aos campos de um objeto. Esse objeto deve ser declarado na tag mãe com o `th:object` para que possa pefar os valores dos "fields" desse objeto.
 - Reutilização de layout (**Fragments**)
