@@ -12,9 +12,9 @@ class EstiloCadastroRapido {
 
   iniciar() {
     this.form.on("submit", (event) => event.preventDefault());
-    this.modal.on("shown.bs.modal", this.onModalShow);
-    this.modal.on("hide.bs.modal", this.onModalClose);
-    this.btnSalvar.on("click", this.onBtnSalvar);
+    this.modal.on("shown.bs.modal", this.onModalShow.bind(this));
+    this.modal.on("hide.bs.modal", this.onModalClose.bind(this));
+    this.btnSalvar.on("click", this.onBtnSalvar.bind(this));
   }
 
   onModalShow() {
