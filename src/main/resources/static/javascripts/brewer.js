@@ -1,7 +1,21 @@
-$(function () {
-  const decimal = $(".js-decimal");
-  decimal.maskMoney({ thousands: '.', decimal: ','});
+var Brewer = Brewer || {};
 
-  const plain = $(".js-plain");
-  plain.maskMoney({ precision: 0, thousands: '.', decimal: ','});
-});
+class MaskMoney {
+  constructor() {
+    this.decimal = $(".js-decimal");
+    this.plain = $(".js-plain");
+  }
+
+  enable(){
+    this.decimal.maskMoney({ thousands: '.', decimal: ','});
+    this.plain.maskMoney({ precision: 0, thousands: '.', decimal: ','});
+  }
+}
+
+Brewer.MaskMoney = MaskMoney;
+
+$(function() {
+  const maskMoney = new Brewer.MaskMoney();
+
+  maskMoney.enable();
+})

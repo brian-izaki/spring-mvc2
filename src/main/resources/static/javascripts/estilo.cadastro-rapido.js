@@ -1,31 +1,38 @@
-$(function () {
-  const modal = $("#modalCadastroRapidoEstilo");
-  const btnSalvar = modal.find(".js-modal-cadastro-estilo-salvar-botao");
-  const form = modal.find("form");
-  const url = form.attr("action");
-  const inputNomeEstilo = $("#nomeEstilo");
-  const containerMensagemErro = $(".js-mensagem-cadastro-rapido-estilo");
+var Brewer = Brewer || {};
 
-  form.on("submit", (event) => event.preventDefault());
-  modal.on("shown.bs.modal", onModalShow);
-  modal.on("hide.bs.modal", onModalClose);
-  btnSalvar.on("click", onBtnSalvar);
-
-  function onModalShow() {
-    inputNomeEstilo.focus();
+class EstiloCadastroRapido {
+  constructor() {
+    this.modal = $("#modalCadastroRapidoEstilo");
+    this.btnSalvar = this.modal.find(".js-modal-cadastro-estilo-salvar-botao");
+    this.form = this.modal.find("form");
+    this.url = this.form.attr("action");
+    this.inputNomeEstilo = $("#nomeEstilo");
+    this.containerMensagemErro = $(".js-mensagem-cadastro-rapido-estilo");
   }
 
-  function onModalClose() {
-    inputNomeEstilo.val("");
-    containerMensagemErro.addClass("hidden");
-    form.find(".form-group").removeClass("has-error");
+  iniciar() {
+    console.log(this);
+    this.form.on("submit", (event) => event.preventDefault());
+    this.modal.on("shown.bs.modal", this.onModalShow);
+    this.modal.on("hide.bs.modal", this.onModalClose);
+    this.btnSalvar.on("click", this.onBtnSalvar);
   }
 
-  async function onBtnSalvar() {
-    const nomeEstilo = inputNomeEstilo.val().trim();
+  onModalShow() {
+    this.inputNomeEstilo.focus();
+  }
+
+  onModalClose() {
+    this.inputNomeEstilo.val("");
+    this.containerMensagemErro.addClass("hidden");
+    this.form.find(".form-group").removeClass("has-error");
+  }
+
+  async onBtnSalvar() {
+    const nomeEstilo = this.inputNomeEstilo.val().trim();
 
     try {
-      const promisseResponse = await fetch(url, {
+      const promisseResponse = await fetch(this.url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json; charset=utf-8",
@@ -35,28 +42,35 @@ $(function () {
 
       if (promisseResponse.status === 400) {
         const mensagemErro = await promisseResponse.text();
-        inputInvalido(mensagemErro);
+        this.inputInvalido(mensagemErro);
       } else if (promisseResponse.status === 200) {
         const estilo = await promisseResponse.json();
-        inputValido(estilo);
+        this.inputValido(estilo);
       }
     } catch (erro) {
       console.log(erro);
     }
   }
 
-  function inputInvalido(message) {
-    containerMensagemErro.removeClass("hidden");
-    containerMensagemErro.html(`<span> ${message} </span>`);
-    form.find(".form-group").addClass("has-error");
+  inputInvalido(message) {
+    this.containerMensagemErro.removeClass("hidden");
+    this.containerMensagemErro.html(`<span> ${message} </span>`);
+    this.form.find(".form-group").addClass("has-error");
   }
 
-  function inputValido(estilo) {
+  inputValido(estilo) {
     const comboEstilo = $("#estilo");
     comboEstilo.append(
       `<option value=${estilo.codigo}> ${estilo.nome} </option>`
     );
     comboEstilo.val(estilo.codigo);
-    modal.modal("hide");
+    this.modal.modal("hide");
   }
+}
+
+Brewer.EstiloCadastroRapido = EstiloCadastroRapido;
+
+$(function () {
+  const estiloCadastroRapido = new Brewer.EstiloCadastroRapido();
+  estiloCadastroRapido.iniciar();
 });
