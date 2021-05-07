@@ -194,6 +194,42 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
       - quem for o fragmento, deve adicionar `th:fragment = "nome_dado_no_fragmento"` na tag dele
     - `th:insert`: ele vai inserir o conteudo que vai ter dentro da tag, ou seja, caso tenha alguma classe na tag que colocou `th:fragment`, essa classe não irá ser mandada, apenas o que for filho da tag.
 
+- **Dialeto e Processador**:
+  - _dialeto_ é o th e o layout que está no arquivo, é um nome com um conjunto de processadores.
+  - _processador_ é quem entende e implementa os th:value, th:text, etc.
+  - `th:text` = `dialeto:processador`
+  - dialetos podem ser extendidos, criando dialetos personalizados.
+  - Foi necessário criar uma classe para implementar o [novo dialeto](/src/main/java/com/projetojava/brewer/thymeleaf/BrewerDialect.java).
+    ```java
+    public BrewerDialect() {
+		  super("AlgaWorks Brewer", "brewer", StandardDialect.PROCESSOR_PRECEDENCE);
+	  }
+    ```
+    - o segundo argumento do super se refere a qual prefixo será utilizado no html (no padrão é usado o `th:`, agora também pode ser usado `brewer:`)
+  - O arquivo que terá os processadores está no [diretório "processor"](/src/main/java/com/projetojava/brewer/thymeleaf/processor)
+    ```java
+    private static final String NOME_ATRIBUTO = "classforerror";
+    private static final int PRECEDENCIA = 1000;
+    
+    public ClassForErrorAttributeTagProcessor(String dialectPrefix) {
+      super(TemplateMode.HTML, dialectPrefix, null, false, NOME_ATRIBUTO, true, PRECEDENCIA, true);
+    }
+    ```
+    - neste exemplo está a classe `ClassForErrorAttributeTagProcessor` que irá validar se um campo está errado.
+    - o `dialectPrefix`, é um valor passado pela classe de dialeto dialeto.
+    - no `NOME_ATRIBUTO` é o nome do processador
+    - para usar o dialeto seria necessário passar no html:
+      ```HTML
+      <html lang="pt" xmlns="http://www.w3.org/1999/xhtml" xmlns:brewer="http://brewer.projetojava.com">
+      </html>
+      ```
+    - para usar o processador: 
+      ```HTML
+      <div brewer:classforerror="valor">
+      </div>
+      ```
+
+
 ### Validações ✅
 
 - é necessário utilizar a dependencia hibernate-validated no pom.xml
@@ -325,7 +361,9 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
 
 - Documentações:
   - [log4j 2](https://logging.apache.org/log4j/2.x/)
-  - [Documentação do Thymeleaf](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html)
+  - Thymeleaf: 
+    - [Documentação](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html)
+    - [extendendo dialetos](https://www.thymeleaf.org/doc/tutorials/3.0/extendingthymeleaf.html#dialects-and-processors)
   - [Spring JPA Methods](https://docs.spring.io/spring-data/jpa/docs/2.5.0/reference/html/#jpa.query-methods)
   - [JPA Entity life cicle events](https://www.baeldung.com/jpa-entity-lifecycle-events)
-    - [hibernate comunity](https://docs.jboss.org/hibernate/stable/entitymanager/reference/en/html/listeners.html)
+    - fonte: [hibernate comunity](https://docs.jboss.org/hibernate/stable/entitymanager/reference/en/html/listeners.html)

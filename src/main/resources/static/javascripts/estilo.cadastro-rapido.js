@@ -11,7 +11,6 @@ class EstiloCadastroRapido {
   }
 
   iniciar() {
-    console.log(this);
     this.form.on("submit", (event) => event.preventDefault());
     this.modal.on("shown.bs.modal", this.onModalShow);
     this.modal.on("hide.bs.modal", this.onModalClose);
