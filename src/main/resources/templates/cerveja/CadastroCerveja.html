@@ -3,7 +3,6 @@
 	layout:decorator="'layout/LayoutPadrao'" xmlns:brewer="http://brewer.projetojava.com">
 
 <head>
-	<meta charset="UTF-8" />
 	<title>Cadastro de cerveja</title>
 </head>
 
@@ -12,7 +11,7 @@
 
 		<div class="page-header">
 			<div class="container-fluid">
-				<h1>
+				<h1 class="fs-1">
 					Cadastro de cerveja
 				</h1>
 			</div>
@@ -20,9 +19,9 @@
 
 		<div class="container-fluid">
 
-			
+
 			<form method="POST" th:object="${cerveja}" class="form-vertical  js-form-loading">
-				
+
 				<brewer:message />
 
 				<div class="row">
@@ -113,7 +112,20 @@
 						<label for="estoque" class="control-label">Estoque</label>
 						<input id="estoque" type="text" class="form-control js-plain" th:field="*{quantidadeEstoque}" />
 					</div>
+				</div>
 
+				<div class="row">
+					<div class="form-group col-sm-12">
+						<label for="" class="control-label">Foto</label>
+						<div id="upload-drop" class="bw-upload js-upload">
+							<i class="glyphicon glyphicon-cloud-upload"></i>
+							<span>Arraste a foto aqui ou </span>
+							<a class="bw-upload-form-file">
+								selecione
+								<input id="upload-select" type="file" accept=".jpg,.jpeg,.png" />
+							</a>
+						</div>
+					</div>
 				</div>
 
 				<div class="form-group">
@@ -128,6 +140,17 @@
 
 	<th:block layout:fragment="javascript-extra">
 		<script th:src="@{/javascripts/estilo.cadastro-rapido.js}"></script>
+		<script th:src="@{/javascripts/vendors/uikit.min.js}"></script>
+
+		<script>
+			const settings = {
+				type: 'json',
+				filelimit: 1,
+				allow: '*.(jpg|jpeg|png)',
+				url: '/brewer/fotos'
+			}
+			UIkit.upload($('#upload-drop'), settings);
+		</script>
 	</th:block>
 
 </body>

@@ -19,6 +19,7 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
   - Bootstrap
   - [JQuery MaskMoney](https://github.com/plentz/jquery-maskmoney)
   - [bootstrap-switch](https://github.com/Bttstrp/bootstrap-switch)
+  - [UIKit](https://getuikit.com/docs/introduction) (para utilizar componente de upload de imagem)
 - dependencias
   - Maven
 
@@ -351,6 +352,17 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
     - _as anotações (são as callbacks)_ indicam que o método deve ser executado antes de realizar ações que vão persisistir os dados. Elas também são chamadas de **JPA Entity life cicle events**.
     - `@PrePersist` para antes de inserir
     - `@PreUpdate` para antes de alterar um dado.
+
+### Tratando imagens 📷
+- Frontend
+  - foi utilizado a lib do UIKit para realizar as requisições de imagens (por detrás dos panos ele utiliza o ajax)
+
+- Backend
+  - Para receber os dados de imagens, foi necessário criar uma nova rota (controller), ela foi desenvolvida especificamente para receber requisições do JS.
+  - foi  utilizado o tipo `MultipartFile` que permite o recebimento de imagens no parametro. 
+    - antes de usar ele, foi configurado sua utilização no [arquivo `AppinItializer.java`](/src/main/java/com/projetojava/brewer/config/init/AppInitializer.java) para o tomcat saber onde deveria armazenar as imagens de forma temporária
+  - Para que a aplicação mantenha uma alta disponibilidade, foi feito uma implementação de **Java com retorno Assíncrono**, cria-se uma nova thread para que ele faça o processamento da parte de imagem sendo salva em uma pasta temporaria. Pois assim, caso o client fizer uma requisição diferente ele vai conseguir.
+    - essa parte foi desenvolvida na package `storage`
 
 ---
 
