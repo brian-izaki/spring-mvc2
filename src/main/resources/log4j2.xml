@@ -11,7 +11,7 @@
 	
 	<Loggers>
 		<!-- isso limita a inspeção para apenas um pacote e mostra logs d info -->
-		<Logger name="com.algaworks.brewer.controller" level="info" />
+		<Logger name="com.algaworks.brewer" level="debug" />
 		
 		<Logger name="org.hibernate.SQL" level="debug" />		
 		

@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="brewer:war exploded">
-    <output-path>$PROJECT_DIR$/target/brewer-1.0.0-SNAPSHOT</output-path>
+    <output-path>$PROJECT_DIR$/target/brewer</output-path>
     <properties id="maven-jee-properties">
       <options>
         <exploded>true</exploded>
@@ -62,7 +62,7 @@
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/target/brewer-1.0.0-SNAPSHOT/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/target/brewer/META-INF/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="brewer/web/Web" />
     </root>
