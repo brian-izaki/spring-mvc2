@@ -124,7 +124,7 @@
 
                     <label for="" class="control-label">Foto</label>
 
-                    <div class="js-container-foto-cerveja">
+                    <div class="js-container-foto-cerveja" th:attr="data-url-fotos=@{/fotos}">
                         <div id="upload-drop" class="bw-upload js-upload">
 
                             <i class="glyphicon glyphicon-cloud-upload"></i>
@@ -156,45 +156,7 @@
     <script th:src="@{/javascripts/estilo.cadastro-rapido.js}"></script>
     <script th:src="@{/javascripts/vendors/uikit.min.js}"></script>
     <script th:src="@{/javascripts/vendors/handlebars.min.js}"></script>
-
-    <script>
-        const settings = {
-            type: 'json',
-            filelimit: 1,
-            allow: '*.(jpg|jpeg|png)',
-            url: '/brewer/fotos',
-            complete: function (resposta) {
-                const nomeFotoResponse = resposta.response.nome;
-                const contentTypeResponse = resposta.response.contentType;
-                const inputNomeFoto = $('input[name=foto]');
-                const inputContentType = $('input[name=contentType]');
-
-                const fotoCervejaTemplate = $('#foto-cerveja').html();
-                const template = Handlebars.compile(fotoCervejaTemplate);
-                const htmlFotoCerveja = template({ nomeFoto: nomeFotoResponse });
-
-                const containerCerveja = $('.js-container-foto-cerveja');
-
-                const uploadDrop = $('#upload-drop')
-
-                inputNomeFoto.val(nomeFotoResponse);
-                inputContentType.val(contentTypeResponse);
-
-                uploadDrop.addClass("hidden")
-                containerCerveja.append(htmlFotoCerveja);
-
-
-                $('.js-remove-foto').on('click', function() {
-                    $('.js-foto-cerveja').remove();
-
-                    uploadDrop.removeClass('hidden');
-                    inputNomeFoto.val('');
-                    inputContentType.val('');
-                })
-            },
-        }
-        UIkit.upload($('#upload-drop'), settings);
-    </script>
+    <script th:src="@{/javascripts/cerveja.upload-foto.js}"></script>
 </th:block>
 
 </body>
