@@ -363,6 +363,7 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
     - antes de usar ele, foi configurado sua utilização no [arquivo `AppinItializer.java`](/src/main/java/com/projetojava/brewer/config/init/AppInitializer.java) para o tomcat saber onde deveria armazenar as imagens de forma temporária
   - Para que a aplicação mantenha uma alta disponibilidade, foi feito uma implementação de **Java com retorno Assíncrono**, cria-se uma nova thread para que ele faça o processamento da parte de imagem sendo salva em uma pasta temporaria. Pois assim, caso o client fizer uma requisição diferente ele vai conseguir.
     - essa parte foi desenvolvida na package `storage`
+  - Para realizar o salvamento de imagens de forma local, foi criado dentro do package `storage` o `local`, nele está o código que permite manipular arquivos.
 
 ---
 
