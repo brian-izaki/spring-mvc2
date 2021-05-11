@@ -29,6 +29,15 @@ public class FotoStorageLocal implements FotoStorage {
     }
 
     @Override
+    public byte[] recuperarFotoTemporaria(String nome) {
+        try {
+            return Files.readAllBytes(this.localTemporario.resolve(nome));
+        } catch (IOException e) {
+            throw new RuntimeException("Erro ao ler a foto temporária");
+        }
+    }
+
+    @Override
     public String salvarTemporariamente(MultipartFile[] files) {
         String novoNome = null;
         if (files != null && files.length > 0) {
