@@ -15,11 +15,12 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
   - hibernate (validações)
   - Jackson
 - Frontend
-  - Thymeleaf
+  - Thymeleaf (template engine que monta no server)
   - Bootstrap
   - [JQuery MaskMoney](https://github.com/plentz/jquery-maskmoney)
   - [bootstrap-switch](https://github.com/Bttstrp/bootstrap-switch)
   - [UIKit](https://getuikit.com/docs/introduction) (para utilizar componente de upload de imagem)
+  - handlebars (template engine na parte front)
 - dependencias
   - Maven
 
