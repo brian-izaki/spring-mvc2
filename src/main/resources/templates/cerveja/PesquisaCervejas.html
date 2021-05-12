@@ -83,9 +83,11 @@
                 <div class="col-sm-6  form-group">
                     <label for="valorDe">Valor unitário</label>
                     <div class="form-inline">
-                        <input type="text" class="form-control  aw-form-control-inline-sm  js-decimal" id="valorDe" th:field="*{valorDe}"/>
+                        <input type="text" class="form-control  aw-form-control-inline-sm  js-decimal" id="valorDe"
+                               th:field="*{valorDe}"/>
                         <label for="valorAte" class="aw-form-label-between">até</label>
-                        <input type="text" class="form-control  aw-form-control-inline-sm  js-decimal" id="valorAte" th:field="*{valorAte}"/>
+                        <input type="text" class="form-control  aw-form-control-inline-sm  js-decimal" id="valorAte"
+                               th:field="*{valorAte}"/>
                     </div>
                 </div>
             </div>
@@ -109,7 +111,7 @@
                 </thead>
 
                 <tbody>
-                <tr th:each="cerveja : ${cervejas}">
+                <tr th:each="cerveja : ${pagina.content}">
                     <td class="text-center">
                         <img th:src="@{/fotos/thumbnail.{foto}(foto=${cerveja.fotoOuMock})}" class="img-responsive"/>
                     </td>
@@ -128,30 +130,30 @@
                     </td>
                 </tr>
 
-                <tr th:if="${#lists.isEmpty(cervejas)}">
+                <tr th:if="${#lists.isEmpty(pagina.content)}">
                     <td colspan="7">Nenhuma ceveja encontrada</td>
                 </tr>
                 </tbody>
             </table>
         </div>
 
-        <div class="col-sm-12 text-center" >
+        <div class="col-sm-12 text-center" th:if="${not #lists.isEmpty(pagina.content)}">
             <nav>
-                <ul class="pagination pagination-sm">
-                    <li class="disabled">
-                        <a href="#"><span>&laquo;</span></a>
+                <ul class="pagination pagination-sm" th:with="paginaAtual=${pagina.number}">
+                    <li th:class="${pagina.first} ? disabled">
+                        <a th:href="|?page=${paginaAtual - 1}|" th:remove="${pagina.first} ? tag"><span>&laquo;</span></a>
                     </li>
-                    <li class="">
-                        <a href="?page=0">1</a>
-                    </li>
-                    <li>
-                        <a href="?page=1">2</a>
-                    </li>
-                    <li>
-                        <a href="?page=2">3</a>
-                    </li>
-                    <li class="disabled">
-                        <a href="#"><span>&raquo;</span></a>
+
+                    <th:block
+                            th:each="p : ${#numbers.sequence(1, pagina.totalPages)}"
+                            th:with="numeroPagina=${p - 1}">
+                        <li th:class="${paginaAtual == numeroPagina} ? active">
+                            <a th:href="|?page=${numeroPagina}|">[[${p}]]</a>
+                        </li>
+                    </th:block>
+
+                    <li th:class="${pagina.last} ? disabled">
+                        <a th:href="|?page=${paginaAtual + 1}|" th:remove="${pagina.last} ? tag"><span>&raquo;</span></a>
                     </li>
                 </ul>
             </nav>
