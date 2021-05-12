@@ -95,6 +95,10 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
   - vale ressaltar que na classe de implementação, está sendo utilizado `criteria` e `EntityManager`, isso auxilia a diminuir querys caso a tabela tenha `foreign keys`, a solução que o criteria traz é de um join automático com essas tabelas.
   - deve notar tambem que na classe de repository da Cerveja está extendendo a interface de `CervejaQuery` para que na aplicação possa ser utilizada o filtro em apenas um lugar.
 
+- **package 🎁: page**
+  - foi criado uma classe wrapper para o `Page` que é responsável pelos dados de paginação da busca.
+  - com a criação dele, foi necessário refazer os métodos que são diretos do `Page`
+  - essa classe foi instanciada na controller.
 
 - **Logs de sistema** 🖨
 
