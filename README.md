@@ -76,7 +76,16 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
   - Deve notar que os nomes são compridos mas, explicam bem o motivo da classe.
 
 - **package 🎁: handler**
-  - nela tem a classe de Controller Advice.
+  - nela tem a classe de Controller Advice. (veja mais a baixo o tópico sobrre ele)
+
+- **package 🎁: event**
+  - é um padrão de projeto que auxiliam a desacoplar código. 
+  - o evento é apenas uma classe normal.
+  - o evento será chamada pelo `ApplicationEventPublisher` (dentro da classe service)
+    - essa classe possui métodos para reallizar a publicação do evento.
+    - é possível ter diferentes eventos que serão escutados para ações diferentes. 
+    - é colocado dentro do contexto.
+  - foi criado classes com nome listener, elas são responsáveis por executar as ações quando um evento for chamado.
 
 - **Logs de sistema** 🖨
 

@@ -36,7 +36,7 @@ class UploadFoto {
 
     onUploadCompleto(resposta) {
         this.inputNomeFoto.val(resposta.response.nome)
-        this.inputContentType.val(resposta.response.contenType)
+        this.inputContentType.val(resposta.response.contentType)
 
         this.uploadDrop.addClass("hidden")
         const htmlFotoCerveja = this.template({nomeFoto: resposta.response.nome})

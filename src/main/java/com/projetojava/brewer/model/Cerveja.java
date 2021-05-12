@@ -23,6 +23,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.projetojava.brewer.validation.SKU;
+import org.codehaus.groovy.util.StringUtil;
+import org.thymeleaf.util.StringUtils;
 
 @Entity
 @Table(name = "cerveja")
@@ -191,6 +193,10 @@ public class Cerveja {
 
 	public void setContentType(String contentType) {
 		this.contentType = contentType;
+	}
+
+	public String getFotoOuMock () {
+		return !StringUtils.isEmpty(foto) ? foto : "cerveja-mock.png";
 	}
 
 	@Override
