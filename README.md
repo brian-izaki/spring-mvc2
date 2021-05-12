@@ -87,6 +87,15 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
     - é colocado dentro do contexto.
   - foi criado classes com nome listener, elas são responsáveis por executar as ações quando um evento for chamado.
 
+- **package 🎁: helper dentro de repository**
+  - foi montado as consultas SQL para o filtro de cerveja.
+  - a classe com `NomeClasseImpl` deve respeitar esse padrão de nome ao ser criado pois ela será lida pelo Spring para implementar a consulta.
+    - na classe `JPAConfig` é dito qual deve ser o final (nesse caso `Impl`).
+    - O nome da Classe deve ser o msm da classe com a notation `@Repository`.
+  - vale ressaltar que na classe de implementação, está sendo utilizado `criteria` e `EntityManager`, isso auxilia a diminuir querys caso a tabela tenha `foreign keys`, a solução que o criteria traz é de um join automático com essas tabelas.
+  - deve notar tambem que na classe de repository da Cerveja está extendendo a interface de `CervejaQuery` para que na aplicação possa ser utilizada o filtro em apenas um lugar.
+
+
 - **Logs de sistema** 🖨
 
   - O Spring por padrão usar o commons log, ele recomenda configurar o log para melhorar a produtividade.
