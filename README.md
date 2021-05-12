@@ -394,6 +394,15 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
   - no entanto, ele ganha vantagem no processamento do servidor, pois envia pequenas partes d dados.
   - esta é a forma mais complexa de se implementar.
 
+- na prática:
+  - é necessário configurar o `WEBConfig` e add a anotação `@EnableSpringDataWebSupport` para que habilite algumas funcionalidades, como a paginação por exemplo.
+  - Existe uma integração entre Spring MVC com o Spring Data que ajuda na paginação.
+    - quando fizer requisições de páginas, deve utilizar o parametro de URL `?page=indiceDaPagina`
+    - na controller deve adicionar a classe `Pageable` do spring data, ele traz os dados da páginação requisitada pelo front. <br />
+    _obs: ele possui valore padrões que podem ser alterados usando `@PageableDefault(size = 2)`_
+    - na classe de implementação do filtro, foi add métodos do `criteria` para montar um `select` com `limit`
+    
+
 ---
 
 ## Referências
