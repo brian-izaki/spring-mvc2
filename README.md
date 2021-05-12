@@ -384,6 +384,16 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
     - essa parte foi desenvolvida na package `storage`
   - Para realizar o salvamento de imagens de forma local, foi criado dentro do package `storage` o `local`, nele está o código que permite manipular arquivos.
 
+### Paginação :page_facing_up:
+
+- são os dados que são trafegados, pode ser **enviado todos os dados de uma tabela** ou **enviar por partes**.
+- a forma de **enviar tudo d uma vez** ganha vantagem que será feita apenas uma requisição
+  - porém, se houver milhares de dados, o servidor irá processar muita coisa.
+  - esta forma é a mais simples de se implementar
+- já a forma de **enviar por partes** (é a paginação propriamente dita) necessita realizar mais d uma requisição para ver os dados por completo.
+  - no entanto, ele ganha vantagem no processamento do servidor, pois envia pequenas partes d dados.
+  - esta é a forma mais complexa de se implementar.
+
 ---
 
 ## Referências
