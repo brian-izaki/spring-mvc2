@@ -82,32 +82,8 @@
             </table>
         </div>
 
-        <div class="col-sm-12 text-center">
-            <nav>
-                <ul class="pagination pagination-sm" th:with="paginaAtual=${estilosPagina.atual}">
-                    <li th:class="${estilosPagina.primeira} ? disabled">
-                        <a th:href="${estilosPagina.urlParaPagina(paginaAtual - 1)}"
-                            th:remove="${estilosPagina.primeira} ? tag">
-                            <span>&laquo;</span>
-                        </a>
-                    </li>
-
-                    <th:block th:each="p : ${#numbers.sequence(1, estilosPagina.total)}" th:with="numeroPagina=${p - 1}">
-
-                        <li th:class="${numeroPagina == paginaAtual} ? active">
-                            <a th:href="${estilosPagina.urlParaPagina(numeroPagina)}">[[${p}]]</a>
-                        </li>
-
-                    </th:block>
-
-                    <li th:class="${estilosPagina.ultima} ? disabled">
-                        <a th:href="${estilosPagina.urlParaPagina(paginaAtual + 1)}"
-                            th:remove="${estilosPagina.ultima} ? tag">
-                            <span>&laquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+        <div class="col-sm-12 text-center" th:if="${not estilosPagina.vazia}">
+            <brewer:pagination page="${estilosPagina}" />
         </div>
     </div>
 
