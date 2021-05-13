@@ -2,7 +2,7 @@ package com.projetojava.brewer.repository;
 
 import java.util.Optional;
 
-import com.projetojava.brewer.repository.helper.cerveja.EstilosQueries;
+import com.projetojava.brewer.repository.helper.estilo.EstilosQueries;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.projetojava.brewer.model.Estilo;

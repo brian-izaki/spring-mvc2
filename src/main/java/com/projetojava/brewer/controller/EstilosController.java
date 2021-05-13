@@ -1,11 +1,14 @@
 package com.projetojava.brewer.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import com.projetojava.brewer.controller.page.PageWrapper;
 import com.projetojava.brewer.repository.Estilos;
 import com.projetojava.brewer.repository.filter.EstiloFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -29,10 +32,11 @@ public class EstilosController {
 	private Estilos estilos;
 
 	@GetMapping
-	public ModelAndView pesquisar(EstiloFilter filtro) {
+	public ModelAndView pesquisar(EstiloFilter filtro, @PageableDefault(size = 2) Pageable pageable, HttpServletRequest httpServletRequest) {
 		ModelAndView mv = new ModelAndView("estilo/PesquisaEstilos");
-		System.out.println("nome da pesquisa: " + filtro.getNome());
-		mv.addObject("estilos", estilos.filtrar(filtro));
+
+		PageWrapper pagina = new PageWrapper(estilos.filtrar(filtro, pageable), httpServletRequest);
+		mv.addObject("estilosPagina", pagina);
 
 		return mv;
 	}
