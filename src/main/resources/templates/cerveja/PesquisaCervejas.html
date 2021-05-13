@@ -101,11 +101,21 @@
                 <thead>
                 <tr>
                     <th class="table-cervejas-col-foto"></th>
-                    <th class="table-cervejas-col-sku">SKU</th>
-                    <th class="table-cervejas-col-nome">Nome</th>
-                    <th class="table-cervejas-col-estilo">Estilo</th>
-                    <th class="table-cervejas-col-origem">Origem</th>
-                    <th class="table-cervejas-col-valor">Valor</th>
+                    <th class="table-cervejas-col-sku">
+                        <brewer:order page="${pagina}" field="sku" text="SKU"/>
+                    </th>
+                    <th class="table-cervejas-col-nome">
+                        <brewer:order page="${pagina}" field="nome" text="Nome"/>
+                    </th>
+                    <th class="table-cervejas-col-estilo">
+                        <brewer:order page="${pagina}" field="estilo" text="Estilo"/>
+                    </th>
+                    <th class="table-cervejas-col-origem">
+                        <brewer:order page="${pagina}" field="origem" text="Origem"/>
+                    </th>
+                    <th class="table-cervejas-col-valor">
+                        <brewer:order page="${pagina}" field="valor" text="Valor"/>
+                    </th>
                     <th class="table-cervejas-col-acoes"></th>
                 </tr>
                 </thead>
@@ -141,7 +151,8 @@
             <nav>
                 <ul class="pagination pagination-sm" th:with="paginaAtual=${pagina.atual}">
                     <li th:class="${pagina.primeira} ? disabled">
-                        <a th:href="${pagina.urlParaPagina(paginaAtual - 1)}" th:remove="${pagina.primeira} ? tag"><span>&laquo;</span></a>
+                        <a th:href="${pagina.urlParaPagina(paginaAtual - 1)}"
+                           th:remove="${pagina.primeira} ? tag"><span>&laquo;</span></a>
                     </li>
 
                     <th:block
