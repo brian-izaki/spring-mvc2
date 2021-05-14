@@ -1,12 +1,14 @@
 package com.projetojava.brewer.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "estado")
-public class Estado implements Serializable {
+@Table(name = "cidade")
+public class Cidade implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -16,7 +18,10 @@ public class Estado implements Serializable {
 
     private String nome;
 
-    private String sigla;
+    @ManyToOne(fetch = FetchType.LAZY) // fetchtype impede que inicialize a busca por estado
+    @JoinColumn(name = "codigo_estado")
+    @JsonIgnore // não leva a cidade junto nos response
+    private Estado estado;
 
     public Long getCodigo() {
         return codigo;
@@ -34,20 +39,20 @@ public class Estado implements Serializable {
         this.nome = nome;
     }
 
-    public String getSigla() {
-        return sigla;
+    public Estado getEstado() {
+        return estado;
     }
 
-    public void setSigla(String sigla) {
-        this.sigla = sigla;
+    public void setEstado(Estado estado) {
+        this.estado = estado;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Estado estado = (Estado) o;
-        return codigo == estado.codigo;
+        Cidade cidade = (Cidade) o;
+        return Objects.equals(codigo, cidade.codigo);
     }
 
     @Override
