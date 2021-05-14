@@ -57,6 +57,7 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
 
 - **package 🎁: converter**
   - Criado para realizar conversões de tipos quando a página web envia dados de um tipo mas na controller eu precisa ser de outro.
+    - ex: envio uma string do código de uma cidade para o servidor porém, é necessário o tipo Cidade. O converter é responsável por tornar esse código em um código do tipo cidade (pois cidade possui um atributo código) 
   - Foi necessário adicionar configurações no WebConfig com o método `FormattingConversionService`
 
 - **package 🎁: repository**

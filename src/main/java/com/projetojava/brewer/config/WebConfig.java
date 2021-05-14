@@ -2,6 +2,7 @@ package com.projetojava.brewer.config;
 
 import com.github.mxab.thymeleaf.extras.dataattribute.dialect.DataAttributeDialect;
 import com.projetojava.brewer.controller.CervejasController;
+import com.projetojava.brewer.controller.converter.CidadeConverter;
 import com.projetojava.brewer.controller.converter.EstiloConverter;
 import com.projetojava.brewer.thymeleaf.BrewerDialect;
 import nz.net.ultraq.thymeleaf.LayoutDialect;
@@ -84,7 +85,7 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 	public FormattingConversionService mvcConversionService() {
 		DefaultFormattingConversionService conversionService = new DefaultFormattingConversionService();
 		conversionService.addConverter(new EstiloConverter());
-		
+		conversionService.addConverter(new CidadeConverter());
 		
 		NumberStyleFormatter bigDecimalFormatter = new NumberStyleFormatter("#,##0.00");
 		conversionService.addFormatterForFieldType(BigDecimal.class, bigDecimalFormatter);
