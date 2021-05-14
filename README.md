@@ -334,6 +334,12 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
     - `@Column` permite que vc altere o nome da coluna que será gerado na tabela
     - `@ManyToOne` significa relacionamento de muitos para 1, na tabela de Estilo terá uma variavel que será uma lista que tem o `@OneToMany(mappedBy = "nome_da_coluna_que_conecta")`.
     - `@JoinColumn` especifica o nome da coluna que será a Foreign Key.
+    
+- **Embedded** 
+  - foi utilizado na model Cliente com o Endereço, pois na tabela dentro do BD, dados de endereço e cliente estão juntos mas, dentro do projeto foram separados para ser de fácil leitura.
+  - a classe entidade irá receber um atributo com `@Embedded`.
+  - a classe que for embedded irá receber a anotação `@Embeddable` no lugar da `@Entity`.
+  - A classe Endereço não recebe um atributo para código pois ele **não é uma tabela**.
 
 - **Aplicar migração com Flyway** (é criar as tabelas no Banco de dados), assim cria tabelas aos poucos.
   - é parecido com as migrações do Knex, Sequelize. precisa criar um diretório para armazenar os scripts de sql.
