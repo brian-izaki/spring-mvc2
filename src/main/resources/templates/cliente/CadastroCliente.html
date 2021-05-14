@@ -1,119 +1,125 @@
 <!DOCTYPE html>
 <html lang="pt" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-  layout:decorator="'layout/LayoutPadrao'">
+      xmlns:data="http://www.thymeleaf.org/extras/data"
+      layout:decorator="'layout/LayoutPadrao'">
 
 <head>
-  <meta charset="UTF-8" />
-  <title>Cadastro de Cliente</title>
+    <meta charset="UTF-8"/>
+    <title>Cadastro de Cliente</title>
 </head>
 
 <body>
 
-  <section layout:fragment="conteudo">
+<section layout:fragment="conteudo">
     <div class="page-header">
-      <div class="container-fluid">
-        <h1>
-          Cadastro de Clientes
-        </h1>
-      </div>
+        <div class="container-fluid">
+            <h1>
+                Cadastro de Clientes
+            </h1>
+        </div>
     </div>
 
     <div class="container-fluid">
-      <form method="POST" class="form-vertical js-form-loading">
+        <form method="POST" class="form-vertical js-form-loading">
 
-        <div class="form-group bw-required">
-          <label for="nome" class="control-label">Nome</label>
-          <input type="text" class="form-control" id="nome">
-        </div>
+            <div class="form-group bw-required">
+                <label for="nome" class="control-label">Nome</label>
+                <input type="text" class="form-control" id="nome">
+            </div>
 
-        <div class="row">
-          <div class="form-group col-sm-4 bw-required">
-            <label class="control-label">Tipo Pessoa</label>
-            <div>
+            <div class="row">
+                <div class="form-group col-sm-4 bw-required">
+                    <label class="control-label">Tipo Pessoa</label>
+                    <div>
 
-              <div class="radio radio-inline">
-                <input id="id_FISICA" type="radio" class="js-radio-tipo-pessoa"name="tipoPessoa"
-                       data-documento="CPF" data-mascara="000.000.000-00">
-                <label for="id_FISICA" class="control-label">Fisica</label>
-              </div>
+                        <th:block th:each="tipoPessoa : ${tiposPessoa}">
+                            <div class="radio radio-inline">
+                                <input th:id="|id_${tipoPessoa}|"
+                                       type="radio"
+                                       class="js-radio-tipo-pessoa"
+                                       name="tipoPessoa"
+                                       data:documento="${tipoPessoa.documento}"
+                                       data:mascara="${tipoPessoa.mascara}"
+                                />
+                                <label th:for="|id_${tipoPessoa}|"
+                                       class="control-label"
+                                       th:text="${tipoPessoa.descricao}">
+                                </label>
+                            </div>
+                        </th:block>
 
-              <div class="radio radio-inline">
-                <input id="id_JURIDICA" type="radio" class="js-radio-tipo-pessoa" name="tipoPessoa"
-                       data-documento="CNPJ" data-mascara="00.000.000/0000-00">
-                <label for="id_JURIDICA" class="control-label">Júridica</label>
-              </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-sm-8 bw-required">
+                    <label for="cpfOuCnpj" class="control-label">CPF/CNPJ</label>
+                    <input id="cpfOuCnpj" type="text" class="form-control" disabled>
+                </div>
 
             </div>
-          </div>
 
-          <div class="form-group col-sm-8 bw-required">
-            <label for="cpfOuCnpj" class="control-label">CPF/CNPJ</label>
-            <input id="cpfOuCnpj" type="text" class="form-control" disabled>
-          </div>
+            <div class="row">
+                <div class="form-group col-sm-4 bw-required">
+                    <label for="telefone" class="control-label">Telefone</label>
+                    <input id="telefone" type="text" class="form-control js-phone-number">
+                </div>
 
-        </div>
+                <div class="form-group col-sm-8 bw-required">
+                    <label for="email" class="control-label">E-mail</label>
+                    <input id="email" type="text" class="form-control">
+                </div>
+            </div>
 
-        <div class="row">
-          <div class="form-group col-sm-4 bw-required">
-            <label for="telefone" class="control-label">Telefone</label>
-            <input id="telefone" type="text" class="form-control js-phone-number">
-          </div>
+            <div class="row">
+                <div class="form-group col-sm-4 bw-required">
+                    <label for="logradouro" class="control-label">Logradouro</label>
+                    <input id="logradouro" type="text" class="form-control">
+                </div>
 
-          <div class="form-group col-sm-8 bw-required">
-            <label for="email" class="control-label">E-mail</label>
-            <input id="email" type="text" class="form-control">
-          </div>
-        </div>
+                <div class="form-group col-sm-4 bw-required">
+                    <label for="numero" class="control-label">Número</label>
+                    <input id="numero" type="text" class="form-control">
+                </div>
 
-        <div class="row">
-          <div class="form-group col-sm-4 bw-required">
-            <label for="logradouro" class="control-label">Logradouro</label>
-            <input id="logradouro" type="text" class="form-control">
-          </div>
+                <div class="form-group col-sm-4">
+                    <label for="complemento">Complemento</label>
+                    <input id="complemento" type="text" class="form-control">
+                </div>
+            </div>
 
-          <div class="form-group col-sm-4 bw-required">
-            <label for="numero" class="control-label">Número</label>
-            <input id="numero" type="text" class="form-control">
-          </div>
+            <div class="row">
+                <div class="form-group col-sm-4 bw-required">
+                    <label for="cep" class="control-label">CEP</label>
+                    <input id="cep" type="text" class="form-control js-input-cep" data-mascara="00000-000">
+                </div>
 
-          <div class="form-group col-sm-4">
-            <label for="complemento">Complemento</label>
-            <input id="complemento" type="text" class="form-control">
-          </div>
-        </div>
+                <div class="form-group col-sm-4 bw-required">
+                    <label for="estado" class="control-label">Estado</label>
+                    <select id="estado" class="form-control">
+                        <option value="">Selecione um estado</option>
+                    </select>
+                </div>
 
-        <div class="row">
-          <div class="form-group col-sm-4 bw-required">
-            <label for="cep" class="control-label">CEP</label>
-            <input id="cep" type="text" class="form-control">
-          </div>
+                <div class="form-group col-sm-4 bw-required">
+                    <label for="cidade" class="control-label">Cidade</label>
+                    <select id="cidade" class="form-control">
+                        <option value="">Selecione uma cidade</option>
+                    </select>
+                </div>
+            </div>
 
-          <div class="form-group col-sm-4 bw-required">
-            <label for="estado" class="control-label">Estado</label>
-            <select id="estado" class="form-control">
-              <option value="">Selecione um estado</option>
-            </select>
-          </div>
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit">Salvar</button>
+            </div>
 
-          <div class="form-group col-sm-4 bw-required">
-            <label for="cidade" class="control-label">Cidade</label>
-            <select id="cidade" class="form-control">
-              <option value="">Selecione uma cidade</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <button class="btn btn-primary" type="submit">Salvar</button>
-        </div>
-
-      </form>
+        </form>
     </div>
 
-  </section>
+</section>
 
-  <th:block layout:fragment="javascript-extra">
+<th:block layout:fragment="javascript-extra">
     <script th:src="@{/javascripts/cliente.mascara-cpf-cnpj.js}"></script>
-  </th:block>
+    <script th:src="@{/javascripts/mascara-cep.js}"></script>
+</th:block>
 
 </body>

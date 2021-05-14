@@ -1,8 +1,10 @@
 package com.projetojava.brewer.config;
 
-import java.math.BigDecimal;
-import java.util.Locale;
-
+import com.github.mxab.thymeleaf.extras.dataattribute.dialect.DataAttributeDialect;
+import com.projetojava.brewer.controller.CervejasController;
+import com.projetojava.brewer.controller.converter.EstiloConverter;
+import com.projetojava.brewer.thymeleaf.BrewerDialect;
+import nz.net.ultraq.thymeleaf.LayoutDialect;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -26,11 +28,8 @@ import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
-import com.projetojava.brewer.controller.CervejasController;
-import com.projetojava.brewer.controller.converter.EstiloConverter;
-import com.projetojava.brewer.thymeleaf.BrewerDialect;
-
-import nz.net.ultraq.thymeleaf.LayoutDialect;
+import java.math.BigDecimal;
+import java.util.Locale;
 
 @Configuration // diz que é uma classe de configuração
 @ComponentScan(basePackageClasses = { CervejasController.class } ) // faz a leitura das nossas controllers
@@ -60,6 +59,7 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 		engine.setTemplateResolver(templateResolver());
 		
 		engine.addDialect(new LayoutDialect());
+		engine.addDialect(new DataAttributeDialect());
 		engine.addDialect(new BrewerDialect());
 		return engine;
 	}

@@ -26,6 +26,7 @@
 		<servlet.version>3.1.0</servlet.version>
 		<thymeleaf.version>3.0.0.RELEASE</thymeleaf.version>
 		<thymeleaf-layout-dialect.version>2.0.0</thymeleaf-layout-dialect.version>
+		<thymeleaf-extras-data-attribute.version>2.0.1</thymeleaf-extras-data-attribute.version>
 		<hibernate-validator.version>6.0.0.Final</hibernate-validator.version>
 		<log4j.version>2.6</log4j.version>
 		<jcl-over-slf4j.version>1.7.21</jcl-over-slf4j.version>
@@ -54,6 +55,9 @@
 				<version>${flyway-maven-plugin.version}</version>
 				<configuration>
 					<driver>com.mysql.jdbc.Driver</driver>
+					<url>jdbc:mysql://172.17.0.2/brewer</url>
+					<user>root</user>
+					<password>1234</password>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -105,6 +109,13 @@
 			<groupId>org.thymeleaf</groupId>
 			<artifactId>thymeleaf-spring4</artifactId>
 			<version>${thymeleaf.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.mxab.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-data-attribute</artifactId>
+			<version>${thymeleaf-extras-data-attribute.version}</version>
 			<scope>compile</scope>
 		</dependency>
 
