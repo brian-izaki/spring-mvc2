@@ -1,49 +1,54 @@
 <!DOCTYPE html>
 <html lang="pt" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-	layout:decorator="'layout/LayoutPadrao'">
+      layout:decorator="'layout/LayoutPadrao'" xmlns:brewer="http://brewer.projetojava.com">
 
 <head>
-	<meta charset="UTF-8" />
-	<title>Cadastro de Cidade</title>
+    <meta charset="UTF-8"/>
+    <title>Cadastro de Cidade</title>
 </head>
 
 <body>
-	<section layout:fragment="conteudo">
+<section layout:fragment="conteudo">
 
-		<div class="page-header">
-			<div class="container-fluid">
-				<h1>
-					Cadastro de cidade
-				</h1>
-			</div>
-		</div>
+    <div class="page-header">
+        <div class="container-fluid">
+            <h1>
+                Cadastro de cidade
+            </h1>
+        </div>
+    </div>
 
-		<div class="container-fluid">
+    <div class="container-fluid">
 
-			<form method="POST" class="form-vertical  js-form-loading">
+        <form method="POST" class="form-vertical  js-form-loading" th:object="${cidade}">
+            <brewer:message/>
 
-				<div class="row">
-					<div class="form-group col-sm-3 bw-required">
-						<label for="estado" class="control-label">Estado</label>
-						<select id="estado" class="form-control">
-              <option value="">Selecione um estado</option>
-            </select>
-					</div>
+            <div class="row">
+                <div class="form-group col-sm-3 bw-required" brewer:classforerror="estado">
+                    <label for="estado" class="control-label">Estado</label>
+                    <select id="estado" class="form-control" th:field="*{estado}">
+                        <option value="">Selecione um estado</option>
+                        <option th:each="estado : ${estados}"
+                                th:value="${estado.codigo}"
+                                th:text="${estado.nome}"
+                        ></option>
+                    </select>
+                </div>
 
-					<div class="form-group col-sm-9 bw-required">
-						<label for="nome" class="control-label">Nome</label>
-						<input id="nome" type="text" class="form-control" />
-					</div>
-				</div>
+                <div class="form-group col-sm-9 bw-required" brewer:classforerror="nome">
+                    <label for="nome" class="control-label">Nome</label>
+                    <input id="nome" type="text" class="form-control" th:field="*{nome}"/>
+                </div>
+            </div>
 
-				<div class="form-group">
-					<button class="btn  btn-primary" type="submit">Salvar</button>
-				</div>
+            <div class="form-group">
+                <button class="btn  btn-primary" type="submit">Salvar</button>
+            </div>
 
-			</form>
-		</div>
+        </form>
+    </div>
 
-	</section>
+</section>
 </body>
 
 </html>

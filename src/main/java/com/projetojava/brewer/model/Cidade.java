@@ -3,6 +3,8 @@ package com.projetojava.brewer.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -16,8 +18,10 @@ public class Cidade implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigo;
 
+    @NotBlank(message = "O nome da cidade é obrigatório")
     private String nome;
 
+    @NotNull(message = "O estado é obrigatório")
     @ManyToOne(fetch = FetchType.LAZY) // fetchtype impede que inicialize a busca por estado
     @JoinColumn(name = "codigo_estado")
     @JsonIgnore // não leva a cidade junto nos response
