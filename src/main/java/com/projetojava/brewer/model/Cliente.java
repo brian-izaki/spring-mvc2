@@ -47,6 +47,11 @@ public class Cliente implements Serializable {
     @Embedded
     private Endereco endereco;
 
+    @PrePersist @PreUpdate
+    private void prePersistPreUpdate() {
+        this.cpfOuCnpj = this.cpfOuCnpj.replaceAll("\\.|-|\\/", "");
+    }
+
     public Long getCodigo() {
         return codigo;
     }

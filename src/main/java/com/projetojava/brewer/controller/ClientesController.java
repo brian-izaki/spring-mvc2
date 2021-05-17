@@ -3,6 +3,7 @@ package com.projetojava.brewer.controller;
 import com.projetojava.brewer.model.Cliente;
 import com.projetojava.brewer.model.TipoPessoa;
 import com.projetojava.brewer.repository.Estados;
+import com.projetojava.brewer.service.CadastroClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -21,6 +22,9 @@ public class ClientesController {
 	@Autowired
 	private Estados estados;
 
+	@Autowired
+	private CadastroClienteService cadastroClienteService;
+
 	@RequestMapping(value = "/novo", method = RequestMethod.GET)
 	public ModelAndView novo(Cliente cliente) {
 		ModelAndView mv = new ModelAndView("cliente/CadastroCliente");
@@ -35,8 +39,8 @@ public class ClientesController {
 			return novo(cliente);
 		}
 
+		cadastroClienteService.salvar(cliente);
 		attributes.addFlashAttribute("mensagem", "Cliente salvo com sucesso");
-
 		return new ModelAndView("redirect:/clientes/novo");
 	}
 
