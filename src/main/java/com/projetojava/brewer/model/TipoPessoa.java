@@ -1,11 +1,23 @@
 package com.projetojava.brewer.model;
 
-import com.projetojava.brewer.model.validation.group.CfpGroup;
+import com.projetojava.brewer.model.validation.group.CpfGroup;
 import com.projetojava.brewer.model.validation.group.CnpjGroup;
 
 public enum TipoPessoa {
-    FISICA("Física", "CPF", "000.000.000-00", CfpGroup.class),
-    JURIDICA("Jurídica", "CNPJ", "00.000.000/0000-00", CnpjGroup.class);
+
+    FISICA("Física", "CPF", "000.000.000-00", CpfGroup.class) {
+        @Override
+        public String formatar(String cpfOuCnpj) {
+            return cpfOuCnpj.replaceAll("(\\d{3})(\\d{3})(\\d{3})", "$1.$2.$3-");
+        }
+    },
+
+    JURIDICA("Jurídica", "CNPJ", "00.000.000/0000-00", CnpjGroup.class) {
+        @Override
+        public String formatar(String cpfOuCnpj) {
+            return cpfOuCnpj.replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{4})", "$1.$2.$3/$4-");
+        }
+    };
 
     private final String descricao;
     private final String documento;
@@ -18,6 +30,8 @@ public enum TipoPessoa {
         this.mascara = mascara;
         this.grupo = grupo;
     }
+
+    public abstract String formatar(String cpfOuCnpj);
 
     public String getDescricao() {
         return descricao;

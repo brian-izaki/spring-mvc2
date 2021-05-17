@@ -422,6 +422,11 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
     _obs: ele possui valore padrões que podem ser alterados usando `@PageableDefault(size = 2)`_
     - na classe de implementação do filtro, foi add métodos do `criteria` para montar um `select` com `limit`
     
+### Do Java
+
+- **Enum**:
+  - pode ser implementado um método abstrato que irá ser obrigatório para cada valor do Enum. 
+    - no caso desse projeto, foi implementado para realizar a formatação do CPF e CNPJ no Enum `TipoPessoa`, assim evitando o uso de condicionais quando desejar formatar.
 
 ---
 

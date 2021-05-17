@@ -1,7 +1,7 @@
 package com.projetojava.brewer.model;
 
 import com.projetojava.brewer.model.validation.ClienteGroupSequenceProvider;
-import com.projetojava.brewer.model.validation.group.CfpGroup;
+import com.projetojava.brewer.model.validation.group.CpfGroup;
 import com.projetojava.brewer.model.validation.group.CnpjGroup;
 import org.hibernate.validator.constraints.br.CNPJ;
 import org.hibernate.validator.constraints.br.CPF;
@@ -34,7 +34,7 @@ public class Cliente implements Serializable {
     private TipoPessoa tipoPessoa;
 
     @NotBlank(message = "CPF/CNPJ é obrigatório")
-    @CPF(groups = CfpGroup.class)
+    @CPF(groups = CpfGroup.class)
     @CNPJ(groups = CnpjGroup.class)
     @Column(name = "cpf_cnpj")
     private String cpfOuCnpj;
@@ -50,6 +50,11 @@ public class Cliente implements Serializable {
     @PrePersist @PreUpdate
     private void prePersistPreUpdate() {
         this.cpfOuCnpj = this.cpfOuCnpj.replaceAll("\\.|-|\\/", "");
+    }
+
+    @PostLoad
+    private void postLoad() {
+        this.cpfOuCnpj = this.tipoPessoa.formatar(this.cpfOuCnpj);
     }
 
     public Long getCodigo() {
