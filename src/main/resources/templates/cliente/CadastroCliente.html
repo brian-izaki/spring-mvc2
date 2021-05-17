@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:data="http://www.thymeleaf.org/extras/data"
-      layout:decorator="'layout/LayoutPadrao'">
+      layout:decorator="'layout/LayoutPadrao'" xmlns:brewer="http://brewer.projetojava.com">
 
 <head>
     <meta charset="UTF-8"/>
@@ -20,15 +20,18 @@
     </div>
 
     <div class="container-fluid">
-        <form method="POST" class="form-vertical js-form-loading">
+        <form method="POST" th:object="${cliente}" class="form-vertical" th:action="@{/clientes/novo}">
 
-            <div class="form-group bw-required">
+            <brewer:message/>
+
+            <div class="form-group bw-required" brewer:classforerror="nome">
                 <label for="nome" class="control-label">Nome</label>
-                <input type="text" class="form-control" id="nome">
+                <input type="text" class="form-control" id="nome"
+                       th:field="*{nome}">
             </div>
 
             <div class="row">
-                <div class="form-group col-sm-4 bw-required">
+                <div class="form-group col-sm-4 bw-required" brewer:classforerror="tipoPessoa">
                     <label class="control-label">Tipo Pessoa</label>
                     <div>
 
@@ -37,7 +40,8 @@
                                 <input th:id="|id_${tipoPessoa}|"
                                        type="radio"
                                        class="js-radio-tipo-pessoa"
-                                       name="tipoPessoa"
+                                       th:field="*{tipoPessoa}"
+                                       th:value="${tipoPessoa}"
                                        data:documento="${tipoPessoa.documento}"
                                        data:mascara="${tipoPessoa.mascara}"
                                 />
@@ -51,49 +55,56 @@
                     </div>
                 </div>
 
-                <div class="form-group col-sm-8 bw-required">
+                <div class="form-group col-sm-8 bw-required" brewer:classforerror="cpfOuCnpj">
                     <label for="cpfOuCnpj" class="control-label">CPF/CNPJ</label>
-                    <input id="cpfOuCnpj" type="text" class="form-control" disabled>
+                    <input id="cpfOuCnpj" type="text" class="form-control" disabled
+                           th:field="*{cpfOuCnpj}">
                 </div>
 
             </div>
 
             <div class="row">
-                <div class="form-group col-sm-4 bw-required">
+                <div class="form-group col-sm-4">
                     <label for="telefone" class="control-label">Telefone</label>
-                    <input id="telefone" type="text" class="form-control js-phone-number">
+                    <input id="telefone" type="text" class="form-control js-phone-number"
+                           th:field="*{telefone}">
                 </div>
 
-                <div class="form-group col-sm-8 bw-required">
+                <div class="form-group col-sm-8 bw-required" brewer:classforerror="email">
                     <label for="email" class="control-label">E-mail</label>
-                    <input id="email" type="text" class="form-control">
+                    <input id="email" type="text" class="form-control"
+                           th:field="*{email}">
                 </div>
             </div>
 
             <div class="row">
-                <div class="form-group col-sm-4 bw-required">
+                <div class="form-group col-sm-4">
                     <label for="logradouro" class="control-label">Logradouro</label>
-                    <input id="logradouro" type="text" class="form-control">
+                    <input id="logradouro" type="text" class="form-control"
+                           th:field="*{endereco.logradouro}">
                 </div>
 
-                <div class="form-group col-sm-4 bw-required">
+                <div class="form-group col-sm-4">
                     <label for="numero" class="control-label">Número</label>
-                    <input id="numero" type="text" class="form-control">
+                    <input id="numero" type="text" class="form-control"
+                           th:field="*{endereco.numero}">
                 </div>
 
                 <div class="form-group col-sm-4">
                     <label for="complemento">Complemento</label>
-                    <input id="complemento" type="text" class="form-control">
+                    <input id="complemento" type="text" class="form-control"
+                           th:field="*{endereco.complemento}">
                 </div>
             </div>
 
             <div class="row">
-                <div class="form-group col-sm-4 bw-required">
+                <div class="form-group col-sm-4">
                     <label for="cep" class="control-label">CEP</label>
-                    <input id="cep" type="text" class="form-control js-input-cep" data-mascara="00000-000">
+                    <input id="cep" type="text" class="form-control js-input-cep" data-mascara="00000-000"
+                           th:field="*{endereco.cep}">
                 </div>
 
-                <div class="form-group col-sm-4 bw-required">
+                <div class="form-group col-sm-4">
                     <label for="estado" class="control-label">Estado</label>
 
                     <select id="estado" class="form-control">
@@ -106,11 +117,12 @@
 
                 </div>
 
-                <div class="form-group col-sm-4 bw-required">
+                <div class="form-group col-sm-4">
                     <label for="cidade" class="control-label">Cidade</label>
 
                     <div class="bw-field-action">
-                        <select id="cidade" class="form-control" data:url="@{/cidades}" disabled>
+                        <select id="cidade" class="form-control" data:url="@{/cidades}" disabled
+                                th:field="*{endereco.cidade}">
                             <option value="">Deve selecionar um estado</option>
                         </select>
 

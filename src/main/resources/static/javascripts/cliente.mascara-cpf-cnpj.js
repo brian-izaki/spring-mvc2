@@ -9,13 +9,23 @@ class MascaraCpfCnpj {
 
     iniciar() {
         this.radioTipoPessoa.on('change', this.onTipoPessoaAlterado.bind(this));
+        const tipoPessoaSelecionada = this.radioTipoPessoa.filter(':checked')[0];
+        if (tipoPessoaSelecionada) {
+            this.aplicarMascara.call(this, $(tipoPessoaSelecionada));
+        }
+
     }
 
     onTipoPessoaAlterado(event) {
         const tipoPessoaSelecionada = $(event.currentTarget)
+
+        this.aplicarMascara.call(this, tipoPessoaSelecionada);
+        this.inputCpfCnpj.val('');
+    }
+
+    aplicarMascara(tipoPessoaSelecionada){
         this.labelCpfCnpj.text(tipoPessoaSelecionada.data('documento'))
         this.inputCpfCnpj.mask(tipoPessoaSelecionada.data('mascara'))
-        this.inputCpfCnpj.val('');
         this.inputCpfCnpj.removeAttr('disabled')
     }
 

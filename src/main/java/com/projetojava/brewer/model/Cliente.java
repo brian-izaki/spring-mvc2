@@ -1,11 +1,22 @@
 package com.projetojava.brewer.model;
 
+import com.projetojava.brewer.model.validation.ClienteGroupSequenceProvider;
+import com.projetojava.brewer.model.validation.group.CfpGroup;
+import com.projetojava.brewer.model.validation.group.CnpjGroup;
+import org.hibernate.validator.constraints.br.CNPJ;
+import org.hibernate.validator.constraints.br.CPF;
+import org.hibernate.validator.group.GroupSequenceProvider;
+
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "cliente")
+@GroupSequenceProvider(ClienteGroupSequenceProvider.class)
 public class Cliente implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -14,26 +25,27 @@ public class Cliente implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigo;
 
+    @NotBlank(message = "Nome é obrigatório")
     private String nome;
 
+    @NotNull(message = "Tipo pessoa é obrigatório")
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo_pessoa")
     private TipoPessoa tipoPessoa;
 
+    @NotBlank(message = "CPF/CNPJ é obrigatório")
+    @CPF(groups = CfpGroup.class)
+    @CNPJ(groups = CnpjGroup.class)
     @Column(name = "cpf_cnpj")
     private String cpfOuCnpj;
 
     private String telefone;
 
+    @Email(message = "E-mail está inválido")
     private String email;
 
     @Embedded
     private Endereco endereco;
-
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
 
     public Long getCodigo() {
         return codigo;

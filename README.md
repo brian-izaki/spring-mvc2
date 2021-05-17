@@ -287,6 +287,11 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
     - os métodos com o class são obrigatórios para que não ocorram erros.
       - `payload()`: auxilia a classificar o nível do erro.
 
+- Existem também para **CPF e CNPJ**
+  - `@CPF` e `@CNPJ`
+  - Caso utilize os dois para uma mesma coluna deve adicionar como parâmetro o `groups` ele aceita como valor interfaces simples (nesse projeto foi criado em [validations](/src/main/java/com/projetojava/brewer/model/validation/group)), dentro da interface não precisa adicionar mais nada, apenas criar a interface.
+  - Teve que utilizar o `@GroupSequenceProvider` na model para "ensinar" qual a sequencia de Beans que deve seguir para validar os atributos.
+
 ### Maven 🧮
 
 - pom.xml é o arquivo que possui as dependências que serão usadas no projeto.
