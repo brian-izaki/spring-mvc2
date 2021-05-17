@@ -105,3 +105,21 @@
 .table-estilos-col-nome {
 
 }
+
+/* Colunas - Pesquisa de Clientes */
+
+.table-clientes-col-nome {
+    width: 500px;
+}
+
+.table-clientes-col-tipo-pessoa {
+    text-align: center;
+}
+
+.table-clientes-col-cpf-cnpj {
+    text-align: right;
+}
+
+.table-clientes-col-telefone {
+    text-align: right;
+}

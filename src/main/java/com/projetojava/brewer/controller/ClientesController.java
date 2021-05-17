@@ -2,12 +2,15 @@ package com.projetojava.brewer.controller;
 
 import com.projetojava.brewer.model.Cliente;
 import com.projetojava.brewer.model.TipoPessoa;
+import com.projetojava.brewer.repository.Clientes;
 import com.projetojava.brewer.repository.Estados;
+import com.projetojava.brewer.repository.filter.ClienteFilter;
 import com.projetojava.brewer.service.CadastroClienteService;
 import com.projetojava.brewer.service.exception.CpfCnpjClienteJaCadastradoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,7 +27,20 @@ public class ClientesController {
 	private Estados estados;
 
 	@Autowired
+	private Clientes clientes;
+
+	@Autowired
 	private CadastroClienteService cadastroClienteService;
+
+	@GetMapping
+	public ModelAndView pesquisa() {
+		ModelAndView mv = new ModelAndView("cliente/PesquisaCliente");
+
+		mv.addObject("clientes", clientes.findAll());
+		mv.addObject("clienteFilter", new ClienteFilter());
+
+		return mv;
+	}
 
 	@RequestMapping(value = "/novo", method = RequestMethod.GET)
 	public ModelAndView novo(Cliente cliente) {
