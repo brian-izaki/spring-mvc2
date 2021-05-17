@@ -23,32 +23,39 @@ class ComboCidade {
         this.comboEstado = comboEstado;
         this.combo = $('#cidade');
         this.imgLoading = $('.js-img-loading')
+        this.inputHiddenCidadeSelecionada = $('#inputHiddenCidadeSelecionada');
     }
 
     iniciar() {
         this.comboEstado.on('alterado', this.onEstadoAlterado.bind(this))
+        const codigoEstado = this.comboEstado.combo.val();
+        this.inicializarCidades.call(this, codigoEstado);
     }
 
     onEstadoAlterado(evento, codigoEstado) {
-        if (codigoEstado) {
-            const urlRequest = this.combo.data('url');
-            const optionsRequest = {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            }
+        this.inputHiddenCidadeSelecionada.val('');
+        this.inicializarCidades.call(this, codigoEstado);
+    }
 
-            this.iniciarReq();
-
-            fetch(`${urlRequest}?estado=${codigoEstado}`, optionsRequest)
-                .then(responseCidades => responseCidades.json())
-                .then(cidades => this.onBuscarCidadesFinalizado(cidades))
-                .catch(err => console.log("erro ao buscar cidades: ", err))
-                .finally(() => this.finalizarReq())
-        } else {
+    inicializarCidades(codigoEstado){
+        if (!codigoEstado) {
             this.reset();
+            return;
         }
+
+        const urlRequest = this.combo.data('url');
+        const optionsRequest = {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
+        this.iniciarReq();
+        fetch(`${urlRequest}?estado=${codigoEstado}`, optionsRequest)
+            .then(responseCidades => responseCidades.json())
+            .then(cidades => this.onBuscarCidadesFinalizado(cidades))
+            .catch(err => console.log("erro ao buscar cidades: ", err))
+            .finally(() => this.finalizarReq())
     }
 
     onBuscarCidadesFinalizado(cidades) {
@@ -62,6 +69,12 @@ class ComboCidade {
 
         this.combo.html(optionElements.join(''));
         this.combo.removeAttr("disabled")
+
+        const codigoCidadeSelecionada = this.inputHiddenCidadeSelecionada.val();
+        if (codigoCidadeSelecionada) {
+            this.combo.val(codigoCidadeSelecionada)
+        }
+
     }
 
     reset() {

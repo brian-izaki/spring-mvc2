@@ -107,7 +107,7 @@
                 <div class="form-group col-sm-4">
                     <label for="estado" class="control-label">Estado</label>
 
-                    <select id="estado" class="form-control">
+                    <select id="estado" class="form-control" th:field="*{endereco.estado}">
                         <option value="">Selecione um estado</option>
                         <option th:each="estado : ${estados}"
                                 th:value="${estado.codigo}"
@@ -121,6 +121,8 @@
                     <label for="cidade" class="control-label">Cidade</label>
 
                     <div class="bw-field-action">
+                        <input type="hidden" id="inputHiddenCidadeSelecionada"
+                               th:value="*{endereco.cidade} != null ? *{endereco.cidade.codigo}">
                         <select id="cidade" class="form-control" data:url="@{/cidades}" disabled
                                 th:field="*{endereco.cidade}">
                             <option value="">Deve selecionar um estado</option>

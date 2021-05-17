@@ -346,6 +346,7 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
   - a classe entidade irá receber um atributo com `@Embedded`.
   - a classe que for embedded irá receber a anotação `@Embeddable` no lugar da `@Entity`.
   - A classe Endereço não recebe um atributo para código pois ele **não é uma tabela**.
+  - Caso **não queira que um atributo vá para o BD**, deve adicionar a notation `@Transient` do javax.persistence
 
 - **Aplicar migração com Flyway** (é criar as tabelas no Banco de dados), assim cria tabelas aos poucos.
   - é parecido com as migrações do Knex, Sequelize. precisa criar um diretório para armazenar os scripts de sql.
