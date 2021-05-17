@@ -109,7 +109,7 @@
 /* Colunas - Pesquisa de Clientes */
 
 .table-clientes-col-nome {
-    width: 500px;
+    width: 400px;
 }
 
 .table-clientes-col-tipo-pessoa {
@@ -121,5 +121,9 @@
 }
 
 .table-clientes-col-telefone {
+    text-align: right;
+}
+
+.table-clientes-col-cidade-estado {
     text-align: right;
 }
