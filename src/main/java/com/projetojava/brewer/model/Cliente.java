@@ -108,6 +108,10 @@ public class Cliente implements Serializable {
         this.endereco = endereco;
     }
 
+    public String getCpfOuCnpjSemFormatacao() {
+        return TipoPessoa.removerFormatacao(this.cpfOuCnpj);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
