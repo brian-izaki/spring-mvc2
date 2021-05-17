@@ -29,7 +29,7 @@
         </div>
     </div>
 
-    <div class="container-fluid">
+    <div class="container-fluid" th:with="pagina=${paginaClientes}">
         <form method="GET" th:object="${clienteFilter}">
 
             <div class="row">
@@ -44,7 +44,6 @@
                 </div>
             </div>
 
-
             <button type="submit" class="btn  btn-primary">Pesquisar</button>
 
         </form>
@@ -54,27 +53,23 @@
                 <thead>
                 <tr>
                     <th class="table-clientes-col-nome">
-<!--                        <brewer:order page="${pagina}" field="nome" text="Nome"/>-->
-                        Nome
+                        <brewer:order page="${pagina}" field="nome" text="Nome"/>
                     </th>
                     <th class="table-clientes-col-tipo-pessoa">
-<!--                        <brewer:order page="${pagina}" field="tipoPessoa" text="Tipo Pessoa"/>-->
-                        Tipo Pessoa
+                        <brewer:order page="${pagina}" field="tipoPessoa" text="Tipo Pessoa"/>
                     </th>
                     <th class="table-clientes-col-cpf-cnpj">
-<!--                        <brewer:order page="${pagina}" field="cpfOuCnpj" text="CPF/CNPJ"/>-->
-                        CPF/CNPJ
+                        <brewer:order page="${pagina}" field="cpfOuCnpj" text="CPF/CNPJ"/>
                     </th>
                     <th class="table-clientes-col-telefone">
-<!--                        <brewer:order page="${pagina}" field="telefone" text="Telefone"/>-->
-                        Telefone
+                        <brewer:order page="${pagina}" field="telefone" text="Telefone"/>
                     </th>
                     <th class="table-clientes-col-acoes"></th>
                 </tr>
                 </thead>
 
                 <tbody>
-                <tr th:each="cliente : ${clientes}">
+                <tr th:each="cliente : ${pagina.conteudo}">
                     <td th:text="${cliente.nome}">Evandro</td>
                     <td class="text-center" th:text="${cliente.tipoPessoa.descricao}">Física</td>
                     <td class="text-right" th:text="${cliente.cpfOuCnpj}">555.555.555-26</td>
@@ -89,16 +84,16 @@
                     </td>
                 </tr>
 
-                <tr th:if="${#lists.isEmpty(clientes)}">
+                <tr th:if="${pagina.vazia}">
                     <td colspan="7">Nenhum cliente encontrado</td>
                 </tr>
                 </tbody>
             </table>
         </div>
 
-<!--        <div class="col-sm-12 text-center" th:if="${not pagina.vazia}">-->
-<!--            <brewer:pagination page="${pagina}"/>-->
-<!--        </div>-->
+        <div class="col-sm-12 text-center" th:if="${not pagina.vazia}">
+            <brewer:pagination page="${pagina}"/>
+        </div>
 
     </div>
 
