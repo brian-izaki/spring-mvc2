@@ -33,11 +33,10 @@ public class ClientesController {
 	private CadastroClienteService cadastroClienteService;
 
 	@GetMapping
-	public ModelAndView pesquisa() {
+	public ModelAndView pesquisa(ClienteFilter filter, BindingResult result) {
 		ModelAndView mv = new ModelAndView("cliente/PesquisaCliente");
 
-		mv.addObject("clientes", clientes.findAll());
-		mv.addObject("clienteFilter", new ClienteFilter());
+		mv.addObject("clientes", clientes.filtrar(filter));
 
 		return mv;
 	}
