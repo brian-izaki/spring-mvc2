@@ -75,8 +75,7 @@
 <!--                <tr th:each="cliente : ${pagina.conteudo}">-->
                 <tr th:each="cidade : ${cidades}">
                     <td th:text="${cidade.nome}">Taquaritinga</td>
-<!--                    <td class="text-center" th:text="${cidade.estado.nome}">São Paulo</td>-->
-                    <td class="text-right">São Paulo</td>
+                    <td class="text-right" th:text="${cidade.estado.nome}">São Paulo</td>
                     <td class="text-center">
                         <a class="btn  btn-link  btn-xs" title="Editar">
                             <i class="glyphicon glyphicon-pencil"></i>

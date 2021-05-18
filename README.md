@@ -378,6 +378,18 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
     }
     ```
 
+- **Criteria** 
+  - Para iniciar uma criteria foi necessário utilizar o `EntityManager` com o método `.unwrap`:
+    ```Java
+    Criteria criteria = manager.unwrap(Session.class).createCriteria(Cidade.class);
+    ```
+  - com ele é possível realizar:
+    - `Where` com o método `.add(Restriction)` e o restriction possui os métodos para igualdade, maior que, menor que, etc.
+    - `Joins` com o `.createAlias()`
+    - `order` com o `.addOrder()`
+    - `max, min` com o `.setMaresult` e `.setFirstResult`
+  - No final, pode ser **retornado um List** com o resultado da query.
+
 - **Métodos de callback do JPA**
   - neste projeto foi feito na classe da model para realizar formatação do dado pra inserir no BD de forma padronizada.
   - o método deve retornar void
@@ -443,3 +455,4 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
   - [Spring JPA Methods](https://docs.spring.io/spring-data/jpa/docs/2.5.0/reference/html/#jpa.query-methods)
   - [JPA Entity life cicle events](https://www.baeldung.com/jpa-entity-lifecycle-events)
     - fonte: [hibernate comunity](https://docs.jboss.org/hibernate/stable/entitymanager/reference/en/html/listeners.html)
+  - [Consultas utilizando Criteria](https://docs.jboss.org/hibernate/orm/3.5/reference/pt-BR/html/querycriteria.html) do hibernate

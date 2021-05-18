@@ -36,7 +36,7 @@ public class CidadeController {
         ModelAndView mv = new ModelAndView("cidade/PesquisaCidades");
 
         mv.addObject("estados", estados.findAll());
-        mv.addObject("cidades", cidades.findAll());
+        mv.addObject("cidades", cidades.filtrar(filter));
 
         return mv;
     }
