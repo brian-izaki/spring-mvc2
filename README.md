@@ -366,12 +366,14 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
   - é necessário configurar o maven para executar o flyway e conectar no Banco de dados mysql:
     - Deve ir nas opções do run > runs configuration > maven build > (icone da esquerda para nova config)
     - Depois deve escolher no Browse directory o projeto que vai usar o flyway
-    - no **goals**: flyway:migrate
+    - no **goals**: `flyway:migrate`
     - no Parameters name:
       - `flyway.user` e valor de usuario do SGBD
       - `flyway.password` e senha do usuario
       - `flyway.url`: jdbc:mysql://localhost/nome_database
     - ao executar o o maven, o flyway cria uma tabela com as versões das migrações.
+  - Caso execute uma migration e ela ocorra erros, utilize um **goals** de: `flyway:repair`
+    - ele irá retornar uma migração tirando do schema_version a ultima execução
 
 - **Transações** (de BD, begin ... commit -ou rollback-)
   - A aplicação por padrão realiza transações de forma automática
