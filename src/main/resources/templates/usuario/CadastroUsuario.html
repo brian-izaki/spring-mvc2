@@ -47,9 +47,9 @@
                     <input id="senha" type="password" class="form-control" th:field="*{senha}">
                 </div>
 
-                <div class="form-group col-sm-3">
+                <div class="form-group col-sm-3" brewer:classforerror="confirmacaoSenha">
                     <label class="control-label" for="confirmSenha">Confirmação de senha</label>
-                    <input id="confirmSenha" type="password" class="form-control">
+                    <input id="confirmSenha" type="password" class="form-control" th:field="*{confirmacaoSenha}">
                 </div>
 
                 <div class="form-group col-sm-2">

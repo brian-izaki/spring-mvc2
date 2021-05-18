@@ -1,5 +1,7 @@
 package com.projetojava.brewer.model;
 
+import com.projetojava.brewer.validation.AtributoConfirmacao;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -9,6 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
+@AtributoConfirmacao(atributo = "senha", atributoConfirmacao = "confirmacaoSenha", message = "As senhas estão diferentes")
 @Entity
 @Table(name = "usuario")
 public class Usuario implements Serializable {
@@ -28,12 +31,15 @@ public class Usuario implements Serializable {
 
     private String senha;
 
+    @Transient // não tenho na tabela
+    private String confirmacaoSenha;
+
     private Boolean ativo;
 
     //@NotNull(message = "Data de nascimento é obrigatório")
+
     @Column(name = "data_nascimento")
     private LocalDate dataNascimento;
-
     @NotNull(message = "Selecione pelo menos um grupo")
     @ManyToMany
     @JoinTable(name = "usuario_grupo", joinColumns = @JoinColumn(name = "codigo_usuario"),
@@ -70,6 +76,14 @@ public class Usuario implements Serializable {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public String getConfirmacaoSenha() {
+        return confirmacaoSenha;
+    }
+
+    public void setConfirmacaoSenha(String confirmacaoSenha) {
+        this.confirmacaoSenha = confirmacaoSenha;
     }
 
     public Boolean getAtivo() {

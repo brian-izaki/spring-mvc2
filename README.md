@@ -301,8 +301,11 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
 
 - Existem também para **CPF e CNPJ**
   - `@CPF` e `@CNPJ`
-  - Caso utilize os dois para uma mesma coluna deve adicionar como parâmetro o `groups` ele aceita como valor interfaces simples (nesse projeto foi criado em [validations](/src/main/java/com/projetojava/brewer/model/validation/group)), dentro da interface não precisa adicionar mais nada, apenas criar a interface.
+  - Caso utilize os dois para uma mesma coluna deve adicionar como parâmetro o `groups` ele aceita como valor interfaces simples (nesse projeto foi criado em [validations da model](/src/main/java/com/projetojava/brewer/model/validation/group)), dentro da interface não precisa adicionar mais nada, apenas criar a interface.
   - Teve que utilizar o `@GroupSequenceProvider` na model para "ensinar" qual a sequencia de Beans que deve seguir para validar os atributos.
+
+- dentro de validations com beans, possui o diretorio validator, nele foi criado um **mais avançado** na qual confere se dois campos estão repetindo para a validação de senha. Veja na [classe]([validations da model](/src/main/java/com/projetojava/brewer/validation/validator/AtributoConfirmacaoValidator.java))
+
 
 ### Maven 🧮
 
