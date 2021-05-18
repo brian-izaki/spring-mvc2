@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      layout:decorator="'layout/LayoutPadrao'" xmlns:brewer="http://brewer.projetojava.com">
+
+<head>
+    <title>Pesquisa de Cidades</title>
+</head>
+
+<body>
+<section layout:fragment="conteudo">
+
+    <div class="page-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-10">
+                    <h1 class="fs-1">Pesquisa de cidades</h1>
+                </div>
+
+                <div class="col-sm-2">
+                    <div class="aw-page-header-controls">
+                        <a class="btn btn-default" th:href="@{/cidades/novo}">
+                            <i class="glyphicon glyphicon-plus-sign"></i> <span
+                                class="hidden-xs hidden-sm">Nova cidade</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+<!--    <div class="container-fluid" th:with="pagina=${paginaCidades}">-->
+    <div class="container-fluid">
+        <form method="GET" th:object="${cidadeFilter}">
+
+            <div class="row">
+                <div class="form-group  col-sm-9">
+                    <label class="control-label" for="pesquisaNomeCidade">Nome</label>
+                    <input type="text" class="form-control" id="pesquisaNomeCidade" th:field="*{nome}"/>
+                </div>
+
+                <div class="form-group  col-sm-3">
+                    <label class="control-label" for="pesquisaEstado">Estado</label>
+                    <select id="pesquisaEstado" class="form-control" th:field="*{estado}">
+                        <option value="">Selecione um estado</option>
+                        <option th:each="estado : ${estados}"
+                                th:value="${estado.codigo}"
+                                th:text="${estado.nome}"
+                        ></option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="btn  btn-primary">Pesquisar</button>
+
+        </form>
+
+        <div class="table-responsive  bw-tabela-simples">
+            <table class="table  table-hover">
+                <thead>
+                <tr>
+                    <th class="table-cidades-col-nome">
+<!--                        <brewer:order page="${pagina}" field="nome" text="Nome"/>-->
+                        Nome
+                    </th>
+                    <th class="table-cidades-col-estado">
+<!--                        <brewer:order page="${pagina}" field="tipoPessoa" text="Tipo Pessoa"/>-->
+                        Estado
+                    </th>
+                    <th class="table-cidades-col-acoes"></th>
+                </tr>
+                </thead>
+
+                <tbody>
+<!--                <tr th:each="cliente : ${pagina.conteudo}">-->
+                <tr th:each="cidade : ${cidades}">
+                    <td th:text="${cidade.nome}">Taquaritinga</td>
+<!--                    <td class="text-center" th:text="${cidade.estado.nome}">São Paulo</td>-->
+                    <td class="text-right">São Paulo</td>
+                    <td class="text-center">
+                        <a class="btn  btn-link  btn-xs" title="Editar">
+                            <i class="glyphicon glyphicon-pencil"></i>
+                        </a>
+                        <a class="btn  btn-link  btn-xs" title="Excluir">
+                            <i class="glyphicon glyphicon-remove"></i>
+                        </a>
+                    </td>
+                </tr>
+
+<!--                <tr th:if="${pagina.vazia}">-->
+                <tr th:if="${#lists.isEmpty(cidades)}">
+                    <td colspan="7">Nenhuma cidade encontrada</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+<!--        <div class="col-sm-12 text-center" th:if="${not pagina.vazia}">-->
+<!--            <brewer:pagination page="${pagina}"/>-->
+<!--        </div>-->
+
+    </div>
+
+</section>
+</body>
+
+</html>

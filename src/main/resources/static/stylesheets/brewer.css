@@ -127,3 +127,13 @@
 .table-clientes-col-cidade-estado {
     text-align: right;
 }
+
+/* Colunas - Pesquisa de Cidades */
+
+.table-cidades-col-nome {
+    width: 800px;
+}
+
+.table-cidades-col-estado {
+    text-align: right;
+}
