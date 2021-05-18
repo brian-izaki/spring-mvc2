@@ -29,8 +29,7 @@
         </div>
     </div>
 
-<!--    <div class="container-fluid" th:with="pagina=${paginaCidades}">-->
-    <div class="container-fluid">
+    <div class="container-fluid" th:with="pagina=${paginaCidades}">
         <form method="GET" th:object="${cidadeFilter}">
 
             <div class="row">
@@ -60,20 +59,17 @@
                 <thead>
                 <tr>
                     <th class="table-cidades-col-nome">
-<!--                        <brewer:order page="${pagina}" field="nome" text="Nome"/>-->
-                        Nome
+                        <brewer:order page="${pagina}" field="nome" text="Nome"/>
                     </th>
                     <th class="table-cidades-col-estado">
-<!--                        <brewer:order page="${pagina}" field="tipoPessoa" text="Tipo Pessoa"/>-->
-                        Estado
+                        <brewer:order page="${pagina}" field="estado" text="Estado"/>
                     </th>
                     <th class="table-cidades-col-acoes"></th>
                 </tr>
                 </thead>
 
                 <tbody>
-<!--                <tr th:each="cliente : ${pagina.conteudo}">-->
-                <tr th:each="cidade : ${cidades}">
+                <tr th:each="cidade : ${pagina.conteudo}">
                     <td th:text="${cidade.nome}">Taquaritinga</td>
                     <td class="text-right" th:text="${cidade.estado.nome}">São Paulo</td>
                     <td class="text-center">
@@ -86,17 +82,16 @@
                     </td>
                 </tr>
 
-<!--                <tr th:if="${pagina.vazia}">-->
-                <tr th:if="${#lists.isEmpty(cidades)}">
+                <tr th:if="${pagina.vazia}">
                     <td colspan="7">Nenhuma cidade encontrada</td>
                 </tr>
                 </tbody>
             </table>
         </div>
 
-<!--        <div class="col-sm-12 text-center" th:if="${not pagina.vazia}">-->
-<!--            <brewer:pagination page="${pagina}"/>-->
-<!--        </div>-->
+        <div class="col-sm-12 text-center" th:if="${not pagina.vazia}">
+            <brewer:pagination page="${pagina}"/>
+        </div>
 
     </div>
 

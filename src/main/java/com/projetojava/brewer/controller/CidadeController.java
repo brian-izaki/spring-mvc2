@@ -1,5 +1,6 @@
 package com.projetojava.brewer.controller;
 
+import com.projetojava.brewer.controller.page.PageWrapper;
 import com.projetojava.brewer.model.Cidade;
 import com.projetojava.brewer.repository.Cidades;
 import com.projetojava.brewer.repository.Estados;
@@ -7,6 +8,8 @@ import com.projetojava.brewer.repository.filter.CidadeFilter;
 import com.projetojava.brewer.service.CadastroCidadeService;
 import com.projetojava.brewer.service.exception.NomeCidadeJaCadastradoException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -32,11 +36,15 @@ public class CidadeController {
     private CadastroCidadeService cadastroCidadeService;
 
     @GetMapping
-    public ModelAndView pesquisar(CidadeFilter filter) {
+    public ModelAndView pesquisar(CidadeFilter filter,
+                                  @PageableDefault(size = 5) Pageable pageable,
+                                  HttpServletRequest httpServletRequest) {
         ModelAndView mv = new ModelAndView("cidade/PesquisaCidades");
 
         mv.addObject("estados", estados.findAll());
-        mv.addObject("cidades", cidades.filtrar(filter));
+
+        PageWrapper<Cidade> pagina = new PageWrapper<>(cidades.filtrar(filter, pageable), httpServletRequest);
+        mv.addObject("paginaCidades", pagina);
 
         return mv;
     }
