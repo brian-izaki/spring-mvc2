@@ -8,6 +8,8 @@ import com.projetojava.brewer.repository.filter.CidadeFilter;
 import com.projetojava.brewer.service.CadastroCidadeService;
 import com.projetojava.brewer.service.exception.NomeCidadeJaCadastradoException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
@@ -49,6 +51,7 @@ public class CidadeController {
         return mv;
     }
 
+    @Cacheable(value = "cidades", key = "#codigoEstado")
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody List<Cidade> pesquisarPorCodigoEstado(
             @RequestParam(name = "estado", defaultValue = "-1") Long codigoEstado) {
@@ -73,6 +76,7 @@ public class CidadeController {
     }
 
     @PostMapping("/novo")
+    @CacheEvict(value = "cidades", key = "#cidade.estado.codigo", condition = "#cidade.temEstado()")
     public ModelAndView salvar(@Valid Cidade cidade, BindingResult result, Model model, RedirectAttributes attributes) {
         if (result.hasErrors()) {
             return novo(cidade);

@@ -63,4 +63,8 @@ public class Cidade implements Serializable {
     public int hashCode() {
         return Objects.hash(codigo);
     }
+
+    public boolean temEstado() {
+        return estado != null;
+    }
 }

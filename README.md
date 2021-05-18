@@ -24,6 +24,18 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
 - dependencias
   - Maven
 
+## Sumário das anotações
+1. [Spring e padrões de projeto](#Spring-🌼)
+2. [Tymeleaf](#Thymeleaf-🍃)
+3. [Validações](#Validações-✅)
+4. [Maven](#Maven-🧮)
+5. [JPA e Hibernate](#JPA-e-Hibernate)
+6. [Tratando imagens no Java](#Tratando-imagens-📷)
+7. [Paginação com hibernate](#Paginação-:page_facing_up:)
+8. [Cache](#Cache)
+9. [Partes do Java](#Do-Java)
+10. [Links de Referencia](#Referências)
+
 ---
 
 ## Anotações
@@ -434,6 +446,22 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
     _obs: ele possui valore padrões que podem ser alterados usando `@PageableDefault(size = 2)`_
     - na classe de implementação do filtro, foi add métodos do `criteria` para montar um `select` com `limit`
     
+
+### Cache
+- ele utiliza o espaço na memória RAM do servidor, por isso é bom ter pouca coisa lá
+- torna o sistema mais rápido pois vai evitar de acessar o BD o tempo todo.
+  - o cache é o intermediário entre BD e a aplicação. A consulta ocorre no cache primeiro e dps no BD.
+  - **Não é bom** colocar coisa que **ocorrem alteração** o tempo todo.
+- Existem **diferentes tipos de implementações** do Cache, depende do projeto qual utilizar.
+- No projeto pode ser visto na classe `CidadeController`.
+- em código:
+  - deve ser colocado a annotation `@Cacheable` do spring e definir um nome para ela (será por ela que eu poderei manipular esse espaço de cache)
+  - No webConfig deve adicionar `@EnableCaching` para habilitar ele, e ainda adicionar um `@Bean` de `CacheManager` (lugar que será feito a manipulação do cache).
+  - Para que **invalide o cache** é necessário utilizar a annotation `@CacheEvict(value = "nome_do_Cacheable", allEntries = true)`
+    - `allEntries` irá apagar todo o cache.
+    - Caso queira apenas tirar de um valor especifico deve adicionar no `@Cacheable` o atributo `key = "#nome_exato_do_parametro"` e no `@CacheEvict` o mesmo atributo, com a diferença que pode navegar dentro do objeto ex: `"#cidade.estado.codigo"`
+    - pode ser adicionado condições com o atributo `condition`
+
 ### Do Java
 
 - **Enum**:
