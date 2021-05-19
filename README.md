@@ -7,21 +7,25 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
 - Java 1.8
 - tomcat 8.5 com JDBC do mysql
 
-## Tecnologias
+## Utilizado no Projeto
 
 - Backend
   - Spring MVC
   - Spring Data JPA
-  - hibernate (validações)
-  - Jackson
+  - Spring Security
+  - hibernate (validações, queries)
+  - Jackson (Conversão json para objetos Java)
+  - Guava (cache)
 - Frontend
   - Thymeleaf (template engine que monta no server)
   - Bootstrap
   - [JQuery MaskMoney](https://github.com/plentz/jquery-maskmoney)
+  - [JQuery Mask Plugin](https://igorescobar.github.io/jQuery-Mask-Plugin/)(máscara para telefone, cpf, cnpj, entre outros)
   - [bootstrap-switch](https://github.com/Bttstrp/bootstrap-switch)
+  - [bootstrap-datepicker](https://github.com/uxsolutions/bootstrap-datepicker)
   - [UIKit](https://getuikit.com/docs/introduction) (para utilizar componente de upload de imagem)
   - handlebars (template engine na parte front)
-- dependencias
+- gerenciador de dependências
   - Maven
 
 ## Sumário das anotações
@@ -31,10 +35,11 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
 4. [Maven](#Maven-🧮)
 5. [JPA e Hibernate](#JPA-e-Hibernate)
 6. [Tratando imagens no Java](#Tratando-imagens-📷)
-7. [Paginação com hibernate](#Paginação-:page_facing_up:)
+7. [Paginação com hibernate](#paginação-page_facing_up)
 8. [Cache](#Cache)
-9. [Partes do Java](#Do-Java)
-10. [Links de Referencia](#Referências)
+9. [Segurança](#Segurança-🔑)
+10. [Partes do Java](#Do-Java)
+11. [Links de Referencia](#Referências)
 
 ---
 
@@ -467,6 +472,25 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
     - Caso queira apenas tirar de um valor especifico deve adicionar no `@Cacheable` o atributo `key = "#nome_exato_do_parametro"` e no `@CacheEvict` o mesmo atributo, com a diferença que pode navegar dentro do objeto ex: `"#cidade.estado.codigo"`
     - pode ser adicionado condições com o atributo `condition`
 
+### Segurança 🔑
+- **Auntenticação e autorização**
+  - **_AUTENTICAÇÃO_** é a verificação das credenciais (verifica se **vc é quem realmente diz ser**) ex: usuario e senha sendo verificados no BD.
+  - **_AUTORIZAÇÃO_** vêm depois de algo ser autenticado (verifica **se Pode ou não fazer algo**) ex: usuario é permitido a cadastrar novos usuários?
+
+- **Spring Security**
+  - **arquivo 📄: SecurityInitializer.java**
+    - Nele foi feito as configurações para inicializar o Spring Security.
+  
+  - **arquivo 📄: SecurityConfig.java**
+    - São as configurações do Spring Security
+    - nele possui o método responsável pela encriptação das senhas.
+    - é necessário sobrescrever o método `configurer()` com o parâmetro `AuthenticationManagerBuilder` ele irá servir para configurar o login.
+    - o `configurer()` é polimórfico e caso utilize ele com o parâmetro de `HttpSecurity` ele irá servir para configurar o logout.
+
+  - **CSRF**
+    - serve para segurança, apenas formulários que tenham ele será permitido enviar dados.
+    - nos formulários que possuem o `th:action` do thymeleaf é gerado automaticamente, pois a própria _engine_ gera.
+
 ### Do Java
 
 - **Enum**:
@@ -486,6 +510,7 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
     - [Documentação](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html)
     - [extendendo dialetos](https://www.thymeleaf.org/doc/tutorials/3.0/extendingthymeleaf.html#dialects-and-processors)
   - [Spring JPA Methods](https://docs.spring.io/spring-data/jpa/docs/2.5.0/reference/html/#jpa.query-methods)
+  - [Spring Security](https://spring.io/projects/spring-security)
   - [JPA Entity life cicle events](https://www.baeldung.com/jpa-entity-lifecycle-events)
     - fonte: [hibernate comunity](https://docs.jboss.org/hibernate/stable/entitymanager/reference/en/html/listeners.html)
   - [Consultas utilizando Criteria](https://docs.jboss.org/hibernate/orm/3.5/reference/pt-BR/html/querycriteria.html) do hibernate

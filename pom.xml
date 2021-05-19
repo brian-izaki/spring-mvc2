@@ -24,7 +24,7 @@
 		<!-- Versions -->
 		<spring-framework.version>4.3.0.RELEASE</spring-framework.version>
 		<spring-data-jpa.version>1.10.2.RELEASE</spring-data-jpa.version>
-		<spring-security-web.version>4.1.1.RELEASE</spring-security-web.version>
+		<spring-security.version>4.1.1.RELEASE</spring-security.version>
 		<servlet.version>3.1.0</servlet.version>
 		<thymeleaf.version>3.0.0.RELEASE</thymeleaf.version>
 		<thymeleaf-layout-dialect.version>2.0.0</thymeleaf-layout-dialect.version>
@@ -242,7 +242,15 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
-			<version>5.3.2.RELEASE</version>
+			<version>${spring-security.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<!-- Spring security config -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${spring-security.version}</version>
 			<scope>compile</scope>
 		</dependency>
 
