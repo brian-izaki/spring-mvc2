@@ -42,7 +42,7 @@ class MaskDate {
         this.inputDate.mask('00/00/0000')
         this.inputDate.datepicker({
             orientation: "bottom",
-            language: "pt=BR",
+            language: "pt-BR",
             autoclose: "true",
             endDate: "0d",
         })
