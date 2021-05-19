@@ -111,6 +111,10 @@ public class Usuario implements Serializable {
         this.grupos = grupos;
     }
 
+    public boolean isNovo() {
+        return codigo == null;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

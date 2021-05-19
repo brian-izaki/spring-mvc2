@@ -4,6 +4,7 @@ import com.projetojava.brewer.model.Usuario;
 import com.projetojava.brewer.repository.Grupos;
 import com.projetojava.brewer.service.CadastroUsuarioService;
 import com.projetojava.brewer.service.exception.EmailUsuarioJaExistenteException;
+import com.projetojava.brewer.service.exception.SenhaObrigatoriaUsuarioException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -43,6 +44,9 @@ public class UsuariosController {
 			cadastroUsuarioService.salvar(usuario);
 		} catch (EmailUsuarioJaExistenteException e) {
 			result.rejectValue("email", e.getMessage(), e.getMessage());
+			return novo(usuario);
+		} catch (SenhaObrigatoriaUsuarioException e) {
+			result.rejectValue("senha", e.getMessage(), e.getMessage());
 			return novo(usuario);
 		}
 

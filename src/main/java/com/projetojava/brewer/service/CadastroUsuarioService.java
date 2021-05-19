@@ -3,9 +3,11 @@ package com.projetojava.brewer.service;
 import com.projetojava.brewer.model.Usuario;
 import com.projetojava.brewer.repository.Usuarios;
 import com.projetojava.brewer.service.exception.EmailUsuarioJaExistenteException;
+import com.projetojava.brewer.service.exception.SenhaObrigatoriaUsuarioException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.Optional;
 
@@ -21,6 +23,10 @@ public class CadastroUsuarioService {
 
         if (emailOptional.isPresent()) {
             throw new EmailUsuarioJaExistenteException("E-mail digitado já existe");
+        }
+
+        if (usuario.isNovo() && StringUtils.isEmpty(usuario.getSenha())) {
+            throw new SenhaObrigatoriaUsuarioException("Senha é obrigatória para novo usuário");
         }
 
         usuarios.save(usuario);
