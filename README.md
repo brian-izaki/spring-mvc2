@@ -484,12 +484,26 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
   - **arquivo 📄: SecurityConfig.java**
     - São as configurações do Spring Security
     - nele possui o método responsável pela encriptação das senhas.
-    - é necessário sobrescrever o método `configurer()` com o parâmetro `AuthenticationManagerBuilder` ele irá servir para configurar o login.
-    - o `configurer()` é polimórfico e caso utilize ele com o parâmetro de `HttpSecurity` ele irá servir para configurar o logout.
+    - é necessário sobrescrever o método `configurer()` com o parâmetro `AuthenticationManagerBuilder` ele irá servir para configurar o **login**.
+    - o `configurer()` é polimórfico e caso utilize ele com o parâmetro de `HttpSecurity` ele irá servir para configurar o **logout**.
+      - métodos do httpSecurity
+        - `and()` ele faz com que retorne ao objeto anterior para permitir encadear mais métodos.
+        - `antMatchers()` utilizado para mapear o diretório layout.
+        - `permitAll()` concede a permissão ao método que o chamar.
+        - `loginPage()` no argumento deve ser passado a página que deseja mostrar para o usuário, se não utilizar este método é mostrado a página padrão que vem com o Spring Security
 
   - **CSRF**
     - serve para segurança, apenas formulários que tenham ele será permitido enviar dados.
     - nos formulários que possuem o `th:action` do thymeleaf é gerado automaticamente, pois a própria _engine_ gera.
+
+  - Página de login customizada
+    - deve ser enviado via POST os inputs "username" e "password" (devem ser exatamente o mesmo nome)
+    - a página de login apenas é mostrada na url `.../raiz/login`
+    - qnd é feito um login que a **autenticação não conferem**, o spring security passa o parâmetro `raiz/login?error` na URL
+    - após ser autenticado, se quiser deslogar, deve ser passado o parâmetro o caminho `raiz/logout` na url
+    - controller de login
+      - foi utilizado o `@AuthenticationPrincipal` ele só serve para injetar o usuário logado, qualquer controller que eu utilizar ele dá para saber se existe um usuário logado. qnd não tem logado, não ocorre a injeção de dependencia.
+      - Também foi usado a **Model User** que vem **do próprio Spring Security**, com os dados referentes ao de login (essa model pode ser customizada).
 
 ### Do Java
 
