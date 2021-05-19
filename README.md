@@ -484,13 +484,17 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
   - **arquivo 📄: SecurityConfig.java**
     - São as configurações do Spring Security
     - nele possui o método responsável pela encriptação das senhas.
-    - é necessário sobrescrever o método `configurer()` com o parâmetro `AuthenticationManagerBuilder` ele irá servir para configurar o **login**.
-    - o `configurer()` é polimórfico e caso utilize ele com o parâmetro de `HttpSecurity` ele irá servir para configurar o **logout**.
+    - é necessário sobrescrever o método `configurer(AuthenticationManagerBuilder auth)` com o parâmetro `AuthenticationManagerBuilder` ele irá servir para configurar o **login**.
+    - o `configurer(HttpSecurity http)` é polimórfico e caso utilize ele com o parâmetro de `HttpSecurity` ele irá servir para configurar o **logout**.
       - métodos do httpSecurity
         - `and()` ele faz com que retorne ao objeto anterior para permitir encadear mais métodos.
-        - `antMatchers()` utilizado para mapear o diretório layout.
+        - `antMatchers()` utilizado para mapear uma url do sistema.
         - `permitAll()` concede a permissão ao método que o chamar.
         - `loginPage()` no argumento deve ser passado a página que deseja mostrar para o usuário, se não utilizar este método é mostrado a página padrão que vem com o Spring Security
+      - Nele que é feito as **autorizações de acesso** na página.
+        - foi utilizado o `antMatchers("/rota-que-precisa-autorizacao").hasRole("NOME_DA_ROLE")` 
+        - o `hasRole()` foi utilizado para adicionar uma permissão para apenas usuários que tiverem a role especificada, caso uma página necessite ter mais de uma role para ser acessada pode ser usado o método `hasAnyRole(varArgs)` com ele pode ser passado mais de uma string como argumento.
+        - `anyRequest().denyAll()` irá bloquear todas as rotas da aplicação.
 
   - **CSRF**
     - serve para segurança, apenas formulários que tenham ele será permitido enviar dados.
