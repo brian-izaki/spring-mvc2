@@ -23,6 +23,8 @@
 
 		<!-- Versions -->
 		<spring-framework.version>4.3.0.RELEASE</spring-framework.version>
+		<spring-data-jpa.version>1.10.2.RELEASE</spring-data-jpa.version>
+		<spring-security-web.version>4.1.1.RELEASE</spring-security-web.version>
 		<servlet.version>3.1.0</servlet.version>
 		<thymeleaf.version>3.0.0.RELEASE</thymeleaf.version>
 		<thymeleaf-layout-dialect.version>2.0.0</thymeleaf-layout-dialect.version>
@@ -31,9 +33,7 @@
 		<log4j.version>2.6</log4j.version>
 		<jcl-over-slf4j.version>1.7.21</jcl-over-slf4j.version>
 		<hibernate.version>5.1.0.Final</hibernate.version>
-		<spring-data-jpa.version>1.10.2.RELEASE</spring-data-jpa.version>
 		<jackson-core.version>2.7.5</jackson-core.version>
-
 		<guava.version>19.0</guava.version>
 		<commons-beanutils.version>1.9.2</commons-beanutils.version>
 
@@ -235,6 +235,14 @@
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
 			<version>${commons-beanutils.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<!-- Spring security -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>5.3.2.RELEASE</version>
 			<scope>compile</scope>
 		</dependency>
 
