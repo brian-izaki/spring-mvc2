@@ -6,6 +6,7 @@ import com.projetojava.brewer.controller.CervejasController;
 import com.projetojava.brewer.controller.converter.CidadeConverter;
 import com.projetojava.brewer.controller.converter.EstadoConverter;
 import com.projetojava.brewer.controller.converter.EstiloConverter;
+import com.projetojava.brewer.controller.converter.GrupoConverter;
 import com.projetojava.brewer.thymeleaf.BrewerDialect;
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 import org.springframework.beans.BeansException;
@@ -100,6 +101,7 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 		conversionService.addConverter(new EstiloConverter());
 		conversionService.addConverter(new CidadeConverter());
 		conversionService.addConverter(new EstadoConverter());
+		conversionService.addConverter(new GrupoConverter());
 
 		NumberStyleFormatter bigDecimalFormatter = new NumberStyleFormatter("#,##0.00");
 		conversionService.addFormatterForFieldType(BigDecimal.class, bigDecimalFormatter);

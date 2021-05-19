@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
@@ -37,11 +38,10 @@ public class Usuario implements Serializable {
     private Boolean ativo;
 
     //@NotNull(message = "Data de nascimento é obrigatório")
-
     @Column(name = "data_nascimento")
     private LocalDate dataNascimento;
 
-    //@NotNull(message = "Selecione pelo menos um grupo")
+    @Size(min = 1,message = "Selecione pelo menos um grupo")
     @ManyToMany
     @JoinTable(name = "usuario_grupo", joinColumns = @JoinColumn(name = "codigo_usuario"),
             inverseJoinColumns = @JoinColumn(name = "codigo_grupo"))

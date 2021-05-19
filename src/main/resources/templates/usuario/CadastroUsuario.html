@@ -67,15 +67,12 @@
                     <label class="control-label">Grupos</label>
                     <div>
 
-                        <div class="checkbox checkbox-inline">
-                            <input id="admin" type="checkbox"/>
-                            <label class="control-label" for="admin">Administrador</label>
-                        </div>
-
-                        <div class="checkbox checkbox-inline">
-                            <input id="vendedor" type="checkbox"/>
-                            <label class="control-label" for="vendedor">Vendedor</label>
-                        </div>
+                        <th:block th:each="grupo : ${grupos}">
+                            <div class="checkbox checkbox-inline">
+                                <input type="checkbox" th:value="${grupo.codigo}" th:field="*{grupos}"/>
+                                <label class="control-label" th:for="${#ids.prev('grupos')}" th:text="${grupo.nome}"></label>
+                            </div>
+                        </th:block>
 
                     </div>
                 </div>

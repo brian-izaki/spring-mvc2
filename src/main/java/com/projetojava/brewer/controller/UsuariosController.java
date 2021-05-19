@@ -1,6 +1,7 @@
 package com.projetojava.brewer.controller;
 
 import com.projetojava.brewer.model.Usuario;
+import com.projetojava.brewer.repository.Grupos;
 import com.projetojava.brewer.service.CadastroUsuarioService;
 import com.projetojava.brewer.service.exception.EmailUsuarioJaExistenteException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,15 @@ public class UsuariosController {
 	@Autowired
 	private CadastroUsuarioService cadastroUsuarioService;
 
+	@Autowired
+	private Grupos grupos;
+
 	@GetMapping(value = "/novo")
 	public ModelAndView novo(Usuario usuario) {
-		return new ModelAndView("usuario/CadastroUsuario");
+		ModelAndView mv = new ModelAndView("usuario/CadastroUsuario");
+		mv.addObject("grupos", grupos.findAll()	);
+
+		return mv;
 	}
 
 	@PostMapping(value = "/novo")
