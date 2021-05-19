@@ -491,9 +491,13 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
         - `antMatchers()` utilizado para mapear uma url do sistema.
         - `permitAll()` concede a permissão ao método que o chamar.
         - `loginPage()` no argumento deve ser passado a página que deseja mostrar para o usuário, se não utilizar este método é mostrado a página padrão que vem com o Spring Security
-      - Nele que é feito as **autorizações de acesso** na página.
+      - Nele que é feito as **autorizações de acesso** de uma página.
+        - Antes de tudo, no [AppUserDetailsService](/src/main/java/com/projetojava/brewer/security/AppUserDetailsService.java) deve:
+          - no método loadUserByUsername definir no terceiro argumento do retorno de User uma Collection
+          - nessa collection deve ter o tipo `SimpleGrantedAuthority`, as permissões que estão em String no BD são convertidas para esse tipo e adicionadas na collection.
         - foi utilizado o `antMatchers("/rota-que-precisa-autorizacao").hasRole("NOME_DA_ROLE")` 
-        - o `hasRole()` foi utilizado para adicionar uma permissão para apenas usuários que tiverem a role especificada, caso uma página necessite ter mais de uma role para ser acessada pode ser usado o método `hasAnyRole(varArgs)` com ele pode ser passado mais de uma string como argumento.
+        - o `hasRole()` foi utilizado para adicionar uma permissão para apenas usuários que tiverem a role especificada possa acessar a página, caso uma página necessite ter mais de uma role para ser acessada pode ser usado o método `hasAnyRole(varArgs)` com ele pode ser passado mais de uma string como argumento.
+          - No BD a role que for utilizada no projeto deve ser sempre salva com "ROLE_" logo, ficaria "ROLE_NOME_DA_ROLE", caso não queira adicionar isso no momento de inserir, deve ser utilizado o método `hasAuthority` no lugar de `hasRole()`
         - `anyRequest().denyAll()` irá bloquear todas as rotas da aplicação.
 
   - **CSRF**
