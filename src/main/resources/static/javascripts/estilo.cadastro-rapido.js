@@ -34,6 +34,7 @@ class EstiloCadastroRapido {
       const promisseResponse = await fetch(this.url, {
         method: "POST",
         headers: {
+          [window.Brewer.security.header]: window.Brewer.security.token,
           "Content-Type": "application/json; charset=utf-8",
         },
         body: JSON.stringify({ nome: nomeEstilo }),

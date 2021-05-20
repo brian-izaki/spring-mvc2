@@ -19,7 +19,8 @@ class UploadFoto {
             filelimit: 1,
             allow: '*.(jpg|jpeg|png)',
             url: this.containerCerveja.data('url-fotos'),
-            complete: this.onUploadCompleto.bind(this)
+            beforeSend: this.adicionarCsrfToken,
+            complete: this.onUploadCompleto.bind(this),
         }
 
         UIkit.upload($('#upload-drop'), settings);
@@ -51,6 +52,12 @@ class UploadFoto {
         this.inputNomeFoto.val('');
         this.inputContentType.val('');
         this.uploadDrop.removeClass('hidden');
+    }
+
+    adicionarCsrfToken(environments) {
+        const token = $('input[name=_csrf]').val();
+        const header = $('input[name=_csrf_header]').val();
+        environments.headers[header] = token;
     }
 
 }

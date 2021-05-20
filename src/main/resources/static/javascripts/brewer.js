@@ -1,4 +1,5 @@
 var Brewer = Brewer || {};
+Brewer.security = {};
 
 class MaskMoney {
     constructor() {
@@ -52,6 +53,8 @@ class MaskDate {
 Brewer.MaskMoney = MaskMoney;
 Brewer.MaskPhoneNumber = MaskPhoneNumber;
 Brewer.MaskDate = MaskDate;
+Brewer.security.token = $('input[name=_csrf]').val();
+Brewer.security.header = $('input[name=_csrf_header]').val();
 
 $(function () {
     const maskMoney = new Brewer.MaskMoney();

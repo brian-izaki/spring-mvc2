@@ -500,9 +500,14 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
           - No BD a role que for utilizada no projeto deve ser sempre salva com "ROLE_" logo, ficaria "ROLE_NOME_DA_ROLE", caso não queira adicionar isso no momento de inserir, deve ser utilizado o método `hasAuthority` no lugar de `hasRole()`
         - `anyRequest().denyAll()` irá bloquear todas as rotas da aplicação.
 
-  - **CSRF**
-    - serve para segurança, apenas formulários que tenham ele será permitido enviar dados.
+  - **CSRF (Cross-Site Request Forgery)**
+    - Falsificação de informção entre sites em tradução livre. ex: Caso  o usuário esteja logado e ele acesse uma página maliciosa que ao cllicar algo envia uma requisição para uma rota que o usuário logado tem acesso, essa requisição é o CSRF acontecendo. **Altamente perigoso**.
+    - Por padrão, no Spring Security já vem habilitado.
+    - serve para segurança, apenas formulários que tenham ele será permitido enviar dados, caso não tenha o **servidor retorna o status 405**
     - nos formulários que possuem o `th:action` do thymeleaf é gerado automaticamente, pois a própria _engine_ gera.
+    - Quando é feito **requisição via JS, ocorre erro** de status 405. 
+      - Para isso, foi necessário colocar um token do csrf igual aos que tem nos formulários dentro do `layoutPadrão.html` para que o JS capture esse token.
+      - o thymeleaf auxilia nessa parte pois ele possui o objeto `_csrf.token` que gera esse token para a página.
 
   - Página de login customizada
     - deve ser enviado via POST os inputs "username" e "password" (devem ser exatamente o mesmo nome)

@@ -47,7 +47,8 @@ class ComboCidade {
         const optionsRequest = {
             method: "GET",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                [Brewer.security.header]: Brewer.security.token,
             }
         }
         this.iniciarReq();
@@ -78,7 +79,6 @@ class ComboCidade {
     }
 
     reset() {
-        console.log('this da classe cidades ', this)
         this.combo.html('<option value="">Deve selecionar um estado</option>');
         this.combo.val('');
         this.combo.attr('disabled', 'disabled');
