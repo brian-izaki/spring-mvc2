@@ -480,6 +480,7 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
 - **Spring Security**
   - **arquivo 📄: SecurityInitializer.java**
     - Nele foi feito as configurações para inicializar o Spring Security.
+    - Quando é utilizado, o filtro dele altera as acentuações que vem UTF-8. Logo, é necessário retirar o filtro add no AppInitializer e adicionar na classe SecurityInitializer dentro do método herdado `beforeSpringSecurityFilterChain`.
   
   - **arquivo 📄: SecurityConfig.java**
     - São as configurações do Spring Security
@@ -509,7 +510,7 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
       - Para isso, foi necessário colocar um token do csrf igual aos que tem nos formulários dentro do `layoutPadrão.html` para que o JS capture esse token.
       - o thymeleaf auxilia nessa parte pois ele possui o objeto `_csrf.token` que gera esse token para a página.
 
-  - Página de login customizada
+  - **Página de login customizada**
     - deve ser enviado via POST os inputs "username" e "password" (devem ser exatamente o mesmo nome)
     - a página de login apenas é mostrada na url `.../raiz/login`
     - qnd é feito um login que a **autenticação não conferem**, o spring security passa o parâmetro `raiz/login?error` na URL
