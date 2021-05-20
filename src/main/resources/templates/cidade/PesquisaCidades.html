@@ -1,6 +1,10 @@
 <!DOCTYPE html>
-<html lang="pt" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      layout:decorator="'layout/LayoutPadrao'" xmlns:brewer="http://brewer.projetojava.com">
+<html lang="pt"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorator="'layout/LayoutPadrao'"
+      xmlns:brewer="http://brewer.projetojava.com"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity">
 
 <head>
     <title>Pesquisa de Cidades</title>
@@ -16,7 +20,7 @@
                     <h1 class="fs-1">Pesquisa de cidades</h1>
                 </div>
 
-                <div class="col-sm-2">
+                <div class="col-sm-2" sec:authorize-url="/cidades/novo">
                     <div class="aw-page-header-controls">
                         <a class="btn btn-default" th:href="@{/cidades/novo}">
                             <i class="glyphicon glyphicon-plus-sign"></i> <span
@@ -64,7 +68,7 @@
                     <th class="table-cidades-col-estado">
                         <brewer:order page="${pagina}" field="estado" text="Estado"/>
                     </th>
-                    <th class="table-cidades-col-acoes"></th>
+                    <th class="table-cidades-col-acoes" sec:authorize="hasRole('ROLE_CADASTRAR_CIDADE')"></th>
                 </tr>
                 </thead>
 
@@ -72,7 +76,7 @@
                 <tr th:each="cidade : ${pagina.conteudo}">
                     <td th:text="${cidade.nome}">Taquaritinga</td>
                     <td class="text-right" th:text="${cidade.estado.nome}">São Paulo</td>
-                    <td class="text-center">
+                    <td class="text-center" sec:authorize="hasRole('ROLE_CADASTRAR_CIDADE')">
                         <a class="btn  btn-link  btn-xs" title="Editar">
                             <i class="glyphicon glyphicon-pencil"></i>
                         </a>
