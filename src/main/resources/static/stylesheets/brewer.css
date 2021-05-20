@@ -14,6 +14,10 @@
     content: "*";
 }
 
+.bw-tabela-simples {
+    margin-top: 35px;
+}
+
 .bw-tabela-simples table tr th {
     border-bottom-width: 1px;
 }
