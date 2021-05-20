@@ -481,7 +481,12 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
   - **arquivo 📄: SecurityInitializer.java**
     - Nele foi feito as configurações para inicializar o Spring Security.
     - Quando é utilizado, o filtro dele altera as acentuações que vem UTF-8. Logo, é necessário retirar o filtro add no AppInitializer e adicionar na classe SecurityInitializer dentro do método herdado `beforeSpringSecurityFilterChain`.
-  
+      - Há momentos que a aplicação mostra o JSessionId na url e isso é um  risco para aplicação. Para evitar isso, é melhor trafegar utilizando cookies, para configurar isso, deve ser adicionado o seguinte código dentro do método : 
+        ```Java
+        servletContext.setSessionTrackingModes(EnumSet.of(SessionTrackingMode.COOKIE));
+        ```
+    - Para terminar uma sessão caso o sistema fique inativo, foi implementando no diretorio webapp dentro de WEB-INF no web.xml a config para expirar a sessão no tempo que desejar.
+
   - **arquivo 📄: SecurityConfig.java**
     - São as configurações do Spring Security
     - nele possui o método responsável pela encriptação das senhas.
@@ -500,6 +505,15 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
         - o `hasRole()` foi utilizado para adicionar uma permissão para apenas usuários que tiverem a role especificada possa acessar a página, caso uma página necessite ter mais de uma role para ser acessada pode ser usado o método `hasAnyRole(varArgs)` com ele pode ser passado mais de uma string como argumento.
           - No BD a role que for utilizada no projeto deve ser sempre salva com "ROLE_" logo, ficaria "ROLE_NOME_DA_ROLE", caso não queira adicionar isso no momento de inserir, deve ser utilizado o método `hasAuthority` no lugar de `hasRole()`
         - `anyRequest().denyAll()` irá bloquear todas as rotas da aplicação.
+      - máximo de sessões de usuário, é utilizado o seguinte método:
+        ```Java
+        http.authorizeRequests()
+          .sessionManagement()
+          .maximumSessions(1)
+          .expiredUrl("/login");
+        ```
+      - Tempo para expirar uma sessão de usuário.
+
 
   - **CSRF (Cross-Site Request Forgery)**
     - Falsificação de informção entre sites em tradução livre. ex: Caso  o usuário esteja logado e ele acesse uma página maliciosa que ao cllicar algo envia uma requisição para uma rota que o usuário logado tem acesso, essa requisição é o CSRF acontecendo. **Altamente perigoso**.
