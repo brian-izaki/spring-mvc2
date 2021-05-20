@@ -2,6 +2,8 @@ package com.projetojava.brewer.controller;
 
 import com.projetojava.brewer.model.Usuario;
 import com.projetojava.brewer.repository.Grupos;
+import com.projetojava.brewer.repository.Usuarios;
+import com.projetojava.brewer.repository.filter.UsuarioFilter;
 import com.projetojava.brewer.service.CadastroUsuarioService;
 import com.projetojava.brewer.service.exception.EmailUsuarioJaExistenteException;
 import com.projetojava.brewer.service.exception.SenhaObrigatoriaUsuarioException;
@@ -24,7 +26,19 @@ public class UsuariosController {
 	private CadastroUsuarioService cadastroUsuarioService;
 
 	@Autowired
+	private Usuarios usuarios;
+
+	@Autowired
 	private Grupos grupos;
+
+	@GetMapping
+	public ModelAndView pesquisar(UsuarioFilter filter){
+		ModelAndView mv = new ModelAndView("usuario/PesquisaUsuarios");
+		mv.addObject("usuarios", usuarios.findAll());
+		mv.addObject("grupos", grupos.findAll());
+
+		return mv;
+	}
 
 	@GetMapping(value = "/novo")
 	public ModelAndView novo(Usuario usuario) {

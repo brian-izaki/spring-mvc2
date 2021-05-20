@@ -142,6 +142,20 @@
     text-align: right;
 }
 
+/* Colunas - Pesquisa de Usuários */
+
+.table-usuarios-col-nome {
+    width: 35%;
+}
+
+.table-usuarios-col-email {
+    width: 35%;
+}
+
+.table-usuarios-col-status {
+    width: 10%;
+}
+
 /* Componentes */
 
 .checkbox input[type="checkbox"]:checked + input + label::after{
