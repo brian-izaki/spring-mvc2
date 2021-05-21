@@ -4,11 +4,16 @@ import com.projetojava.brewer.model.Grupo;
 import com.projetojava.brewer.model.Usuario;
 import com.projetojava.brewer.model.UsuarioGrupo;
 import com.projetojava.brewer.repository.filter.UsuarioFilter;
+import com.projetojava.brewer.repository.paginacao.PaginacaoUtil;
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.criterion.*;
 import org.hibernate.sql.JoinType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
@@ -22,6 +27,9 @@ public class UsuariosImpl implements UsuariosQueries{
 
     @PersistenceContext
     private EntityManager manager;
+
+    @Autowired
+    private PaginacaoUtil paginacaoUtil;
 
     @Override
     public Optional<Usuario> porEmailEAtivo(String email) {
@@ -45,13 +53,24 @@ public class UsuariosImpl implements UsuariosQueries{
     @SuppressWarnings("unchecked")
     @Override
     @Transactional(readOnly = true)
-    public List<Usuario> filtrar(UsuarioFilter filter) {
+    public Page<Usuario> filtrar(UsuarioFilter filter, Pageable pageable) {
         Criteria criteria = manager.unwrap(Session.class).createCriteria(Usuario.class);
 
-        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+//        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+        paginacaoUtil.preparar(criteria, pageable);
         adicionarFiltro(filter, criteria);
 
-        return criteria.list();
+        List<Usuario> filtrados = criteria.list();
+
+        filtrados.forEach(u -> Hibernate.initialize(u.getGrupos()));
+        return new PageImpl(filtrados, pageable, total(filter));
+    }
+
+    private Long total(UsuarioFilter filter) {
+        Criteria criteria = manager.unwrap(Session.class).createCriteria(Usuario.class);
+        adicionarFiltro(filter, criteria);
+        criteria.setProjection(Projections.rowCount());
+        return (Long) criteria.uniqueResult();
     }
 
     private void adicionarFiltro(UsuarioFilter filter, Criteria criteria) {
@@ -64,7 +83,7 @@ public class UsuariosImpl implements UsuariosQueries{
         if (!StringUtils.isEmpty(filter.getEmail()))
             criteria.add(Restrictions.ilike("email", filter.getEmail(), MatchMode.ANYWHERE));
 
-        criteria.createAlias("grupos", "g", JoinType.LEFT_OUTER_JOIN);
+//        criteria.createAlias("grupos", "g", JoinType.LEFT_OUTER_JOIN);
         if(filter.getGrupos() != null && !filter.getGrupos().isEmpty()) {
             List<Criterion> subqueries = new ArrayList<>();
             for (Long codigoGrupo : filter.getGrupos().stream().mapToLong(Grupo::getCodigo).toArray()) {

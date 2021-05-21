@@ -88,22 +88,18 @@
                         </div>
                     </th>
                     <th class="table-usuarios-col-nome">
-<!--                        <brewer:order page="${usuariosPagina}" field="codigo" text="Código"/>-->
                         Nome
                     </th>
 
                     <th class="table-usuarios-col-email">
-<!--                        <brewer:order page="${usuariosPagina}" field="nome" text="Nome"/>-->
                         E-mail
                     </th>
 
                     <th class="table-usuarios-col-grupo">
-<!--                        <brewer:order page="${usuariosPagina}" field="nome" text="Nome"/>-->
                         Grupo(s)
                     </th>
 
                     <th class="table-usuarios-col-status">
-<!--                        <brewer:order page="${usuariosPagina}" field="nome" text="Nome"/>-->
                         Status
                     </th>
 
@@ -112,7 +108,7 @@
                 </thead>
 
                 <tbody>
-                <tr th:each="usuario : ${usuarios}">
+                <tr th:each="usuario : ${usuariosPagina.conteudo}">
                     <td>
                         <div class="checkbox aw-checkbox-no-margin"
                              th:if="${#authentication.principal.usuario.codigo != usuario.codigo}">
@@ -144,16 +140,16 @@
                     </td>
                 </tr>
 
-                <tr th:if="${#lists.isEmpty(usuarios)}">
-                    <td colspan="4">Nenhum usuário encontrado</td>
+                <tr th:if="${usuariosPagina.vazia}">
+                    <td colspan="6">Nenhum usuário encontrado</td>
                 </tr>
                 </tbody>
             </table>
         </div>
 
-<!--        <div class="col-sm-12 text-center" th:if="${not estilosPagina.vazia}">-->
-<!--            <brewer:pagination page="${estilosPagina}" />-->
-<!--        </div>-->
+        <div class="col-sm-12 text-center" th:if="${not usuariosPagina.vazia}">
+            <brewer:pagination page="${usuariosPagina}" />
+        </div>
     </div>
 
 
