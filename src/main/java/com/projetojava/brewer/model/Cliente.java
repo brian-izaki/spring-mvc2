@@ -1,5 +1,6 @@
 package com.projetojava.brewer.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.projetojava.brewer.model.validation.ClienteGroupSequenceProvider;
 import com.projetojava.brewer.model.validation.group.CpfGroup;
 import com.projetojava.brewer.model.validation.group.CnpjGroup;
@@ -45,6 +46,7 @@ public class Cliente implements Serializable {
     private String email;
 
     @Embedded
+    @JsonIgnore
     private Endereco endereco;
 
     @PrePersist @PreUpdate

@@ -366,7 +366,7 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
   - o método `.save(objeto)` realiza o insert
   - ao realizar uma query as models possuem papel importante pois é por ela que o Hibernate e o JPA vão saber:
     - quais são as colunas de uma tabela, 
-    - se devem realizar ações antes ou depois de algum comando DML, 
+    - se devem realizar ações antes ou depois de algum comando DML (ver seção de métodos de callback), 
     - configurações que alteram a forma padrão do framework como a annotarion `@DynamicUpdate` que permite alterar apenas o valor desejado, e não tudo msm que apenas esteja alterando um valor.
 
 - **Embedded** 

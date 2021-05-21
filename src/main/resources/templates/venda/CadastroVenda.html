@@ -62,16 +62,15 @@
                 <div class="form-group  col-sm-4  bw-required">
                     <label class="control-label" for="nomeCliente">Cliente</label>
                     <div class="input-group">
-                        <input id="nomeCliente" type="text" readonly="readonly" class="form-control" placeholder="Clique na lupa para pesquisar o cliente"/>
+                        <input id="nomeCliente" type="text" readonly="readonly" class="form-control"
+                               placeholder="Clique na lupa para pesquisar o cliente"/>
                         <span class="input-group-btn">
 				        <button class="btn  btn-default  js-tooltip" type="button" title="Pesquisa avançada"
-                            data-toggle="modal" data-target="#pesquisaRapidaClientes">
+                                data-toggle="modal" data-target="#pesquisaRapidaClientes">
 				        	<i class="glyphicon  glyphicon-search"></i>
 				        </button>
 				      </span>
                     </div>
-
-                    <th:block th:replace="cliente/PesquisaRapidaClientes :: pesquisaRapidaClientes"></th:block>
                 </div>
 
                 <div class="form-group  col-sm-4 bw-required">
@@ -106,7 +105,7 @@
                     <div class="row">
                         <div class="form-group  col-lg-12">
                             <input type="text" class="form-control" id="cerveja"
-                                   placeholder="Pesquise e adicione a cerveja pelo SKU ou nome" autofocus="autofocus" />
+                                   placeholder="Pesquise e adicione a cerveja pelo SKU ou nome" autofocus="autofocus"/>
                         </div>
                     </div>
 
@@ -159,17 +158,23 @@
             </div>
         </form>
     </div>
+
+    <th:block th:replace="cliente/PesquisaRapidaClientes :: pesquisaRapidaClientes"></th:block>
 </section>
 
 <th:block layout:fragment="javascript-extra">
+    <script th:src="@{/javascripts/vendors/handlebars.min.js}"></script>
+    <script th:src="@{/javascripts/cliente.pesquisa-rapida.js}"></script>
+
     <script>
-        $(function() {
+        $(function () {
             $('.js-abas-venda a').click(function (e) {
                 e.preventDefault();
                 $(this).tab('show');
             });
         });
     </script>
+
 </th:block>
 
 </html>

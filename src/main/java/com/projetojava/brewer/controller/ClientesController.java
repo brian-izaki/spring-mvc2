@@ -11,17 +11,18 @@ import com.projetojava.brewer.service.exception.CpfCnpjClienteJaCadastradoExcept
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/clientes")
@@ -50,6 +51,13 @@ public class ClientesController {
         return mv;
     }
 
+    @RequestMapping(consumes = { MediaType.APPLICATION_JSON_VALUE })
+    public @ResponseBody List<Cliente> pesquisa(String nome) {
+        validarTamanhoNOme(nome);
+
+        return clientes.findByNomeStartingWithIgnoreCase(nome);
+    }
+
     @RequestMapping(value = "/novo", method = RequestMethod.GET)
     public ModelAndView novo(Cliente cliente) {
         ModelAndView mv = new ModelAndView("cliente/CadastroCliente");
@@ -75,4 +83,15 @@ public class ClientesController {
         return new ModelAndView("redirect:/clientes/novo");
     }
 
+
+    private void validarTamanhoNOme(String nome) {
+        if(StringUtils.isEmpty(nome) || nome.length() < 3) {
+            throw new IllegalArgumentException("Nome passado está vazio ou tem menos de 3 caracteres.");
+        }
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Void> tratarIllegalArgumentException(IllegalArgumentException e) {
+        return ResponseEntity.badRequest().build();
+    }
 }
