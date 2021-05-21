@@ -1,6 +1,7 @@
 package com.projetojava.brewer.model;
 
 import com.projetojava.brewer.validation.AtributoConfirmacao;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -15,6 +16,7 @@ import java.util.Objects;
 @AtributoConfirmacao(atributo = "senha", atributoConfirmacao = "confirmacaoSenha", message = "As senhas estão diferentes")
 @Entity
 @Table(name = "usuario")
+@DynamicUpdate
 public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -46,6 +48,11 @@ public class Usuario implements Serializable {
     @JoinTable(name = "usuario_grupo", joinColumns = @JoinColumn(name = "codigo_usuario"),
             inverseJoinColumns = @JoinColumn(name = "codigo_grupo"))
     private List<Grupo> grupos;
+
+    @PreUpdate
+    private void preUpdate() {
+        this.confirmacaoSenha = senha;
+    }
 
     public Long getCodigo() {
         return codigo;

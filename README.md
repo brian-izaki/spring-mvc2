@@ -361,6 +361,14 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
     - `@ManyToOne` significa relacionamento de muitos para 1, na tabela de Estilo terá uma variavel que será uma lista que tem o `@OneToMany(mappedBy = "nome_da_coluna_que_conecta")`.
     - `@JoinColumn` especifica o nome da coluna que será a Foreign Key.
     
+- **CRUD**
+  - É feito dentro da package repositories, lá é extendido o JpaRepository que auxilia na parte de queries.
+  - o método `.save(objeto)` realiza o insert
+  - ao realizar uma query as models possuem papel importante pois é por ela que o Hibernate e o JPA vão saber:
+    - quais são as colunas de uma tabela, 
+    - se devem realizar ações antes ou depois de algum comando DML, 
+    - configurações que alteram a forma padrão do framework como a annotarion `@DynamicUpdate` que permite alterar apenas o valor desejado, e não tudo msm que apenas esteja alterando um valor.
+
 - **Embedded** 
   - foi utilizado na model Cliente com o Endereço, pois na tabela dentro do BD, dados de endereço e cliente estão juntos mas, dentro do projeto foram separados para ser de fácil leitura.
   - a classe entidade irá receber um atributo com `@Embedded`.

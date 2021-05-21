@@ -144,12 +144,20 @@
 
 /* Colunas - Pesquisa de Usuários */
 
+.table-usuarios-col-checkbox {
+    width: 2%;
+}
+
 .table-usuarios-col-nome {
-    width: 35%;
+    width: 25%;
 }
 
 .table-usuarios-col-email {
-    width: 35%;
+    width: 25%;
+}
+
+.table-usuarios-col-grupo {
+    width: 20%;
 }
 
 .table-usuarios-col-status {
