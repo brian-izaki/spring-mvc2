@@ -34,7 +34,7 @@ public class UsuariosController {
 	@GetMapping
 	public ModelAndView pesquisar(UsuarioFilter filter){
 		ModelAndView mv = new ModelAndView("usuario/PesquisaUsuarios");
-		mv.addObject("usuarios", usuarios.findAll());
+		mv.addObject("usuarios", usuarios.filtrar(filter));
 		mv.addObject("grupos", grupos.findAll());
 
 		return mv;

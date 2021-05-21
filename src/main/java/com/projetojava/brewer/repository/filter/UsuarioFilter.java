@@ -2,11 +2,13 @@ package com.projetojava.brewer.repository.filter;
 
 import com.projetojava.brewer.model.Grupo;
 
+import java.util.List;
+
 public class UsuarioFilter {
 
     private String nome;
     private String email;
-    private Grupo grupos;
+    private List<Grupo> grupos;
 
     public String getNome() {
         return nome;
@@ -24,11 +26,11 @@ public class UsuarioFilter {
         this.email = email;
     }
 
-    public Grupo getGrupos() {
+    public List<Grupo> getGrupos() {
         return grupos;
     }
 
-    public void setGrupos(Grupo grupos) {
+    public void setGrupos(List<Grupo> grupos) {
         this.grupos = grupos;
     }
 }
