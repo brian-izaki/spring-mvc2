@@ -4,10 +4,13 @@ class Multiselecao {
     constructor() {
         this.statusBtn = $('.js-status-btn');
         this.selecaoCheckbox = $('.js-selecao');
+        this.selecaoTodosCheckbox = $('.js-selecao-todos')
     }
 
     iniciar() {
         this.statusBtn.on('click', this.onStatusBtnClicado.bind(this))
+        this.selecaoTodosCheckbox.on('click', this.onSelecaoTodosClicados.bind(this));
+        this.selecaoCheckbox.on('click', this.onSelecaoClicado.bind(this))
     }
 
     onStatusBtnClicado(event) {
@@ -23,7 +26,7 @@ class Multiselecao {
             const data = new FormData();
             data.append("codigos", codigos);
             data.append("status", status);
-            const request = fetch('/brewer/usuarios/status', {
+            fetch(botaoClicado.data('url'), {
                 method: "PUT",
                 headers: {
                     [Brewer.security.header]: Brewer.security.token
@@ -36,10 +39,27 @@ class Multiselecao {
         }
 
     }
+
+    onSelecaoTodosClicados() {
+        const status = this.selecaoTodosCheckbox.prop('checked');
+        this.selecaoCheckbox.prop('checked', status);
+        this.statusBotaoAcao.call(this, status)
+    }
+
+    onSelecaoClicado() {
+        const selecaoCheckboxChecados = this.selecaoCheckbox.filter(':checked');
+        this.selecaoTodosCheckbox.prop('checked', selecaoCheckboxChecados.length >= this.selecaoCheckbox.length);
+        this.statusBotaoAcao.call(this, selecaoCheckboxChecados.length)
+    }
+
+    statusBotaoAcao(ativar) {
+        ativar ? this.statusBtn.removeClass('disabled') : this.statusBtn.addClass('disabled');
+    }
 }
+
 Brewer.Multiselecao = Multiselecao;
 
-$(function() {
+$(function () {
     const multiselecao = new Brewer.Multiselecao();
 
     multiselecao.iniciar();

@@ -146,6 +146,7 @@
 
 .table-usuarios-col-checkbox {
     width: 2%;
+    text-align: center;
 }
 
 .table-usuarios-col-nome {
