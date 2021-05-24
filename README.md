@@ -565,6 +565,17 @@ No projeto está sendo utilizado para armazenar os itens de uma venda.
 Foi usado para testar no momento de carrinho de compras.
 
 - Testam uma pequena parte do sistema (métodos pequenos).
+- No projeto:
+  - está no diretório [test](/src/test/java/com/projetojava/brewer/)
+  - Foi utilizado o JUnit
+  
+- **Desenvolvimento**:
+  As classes que são tests devem ter no final do nome a palavra `Test`, isso diz ao JUnit que a classe é para este fim. <br/>
+  - _annotations_: 
+    - `@Test`: diz que o método serve para essa finalidade.
+    - `@Before`: será executado antes dos testes (foi utilizado para instanciar uma classe).
+  - _métodos_:
+    - `assertEquals(esperado, valorParaTeste)`: faz comparação de igualdade.
 
 ## Referências
 
