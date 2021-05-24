@@ -20,11 +20,32 @@ class TabelaItens{
             }
         })
 
-        response.done(this.onItemAdicionadoServidor.bind(this))
+        response.done(this.onItemAtualizadoServidor.bind(this))
     }
 
-    onItemAdicionadoServidor(htmlResponse) {
+    onItemAtualizadoServidor(htmlResponse) {
         this.tabelaItensContainer.html(htmlResponse)
+        $('.js-tabela-cerveja-quantidade-item').on('change', this.onQuantidadeItemAlterado.bind(this))
+    }
+
+    onQuantidadeItemAlterado(event) {
+        const input = $(event.target);
+        const quantidade = input.val();
+        const codigoCerveja = input.data('codigo-cerveja');
+
+        const response = $.ajax({
+            url: `item/${codigoCerveja}`,
+            method: 'PUT',
+            headers: {
+                [Brewer.security.header]: Brewer.security.token,
+            },
+            data: {
+                quantidade
+            }
+        })
+
+        response.done(this.onItemAtualizadoServidor.bind(this));
+
     }
 }
 Brewer.TabelaItens = TabelaItens;
