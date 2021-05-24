@@ -16,6 +16,7 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
   - hibernate (validações, queries)
   - Jackson (Conversão json para objetos Java)
   - Guava (cache)
+  - JUnit
 - Frontend
   - Thymeleaf (template engine que monta no server)
   - Bootstrap
@@ -40,6 +41,8 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
 9. [Segurança](#Segurança-🔑)
 10. [Partes do Java](#Do-Java)
 11. [Links de Referencia](#Referências)
+12. [http session](#HTTP-Session)
+13. [testes unitários](#Testes-unitarios)
 
 ---
 
@@ -548,6 +551,20 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
     - no caso desse projeto, foi implementado para realizar a formatação do CPF e CNPJ no Enum `TipoPessoa`, assim evitando o uso de condicionais quando desejar formatar.
 
 ---
+
+### HTTP Session
+
+No projeto está sendo utilizado para armazenar os itens de uma venda.
+
+- HTTP é stateless (não mantém estado)
+- Para funcionar uma sessão, no servidor é mantido um objeto que faz referência a uma sessão.
+  - na resposta de uma requisição é enviado um atributo de sessão para identificação, assim, qnd o usuário fizer uma requisição novamente ele envia o valor do atributo da sessão recebido junto com essa nova requisição e o servidor irá verificar para ver se já existe uma aberta.
+
+### Testes unitarios
+
+Foi usado para testar no momento de carrinho de compras.
+
+- Testam uma pequena parte do sistema (métodos pequenos).
 
 ## Referências
 
