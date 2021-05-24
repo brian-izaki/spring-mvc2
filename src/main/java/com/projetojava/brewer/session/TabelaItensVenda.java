@@ -8,6 +8,7 @@ import org.springframework.web.context.annotation.SessionScope;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @SessionScope
 @Component
@@ -23,19 +24,28 @@ public class TabelaItensVenda {
     }
 
     public void adicionarItem(Cerveja cerveja, Integer quantidade) {
-        ItemVenda itemVenda = new ItemVenda();
-        itemVenda.setCerveja(cerveja);
-        itemVenda.setQuantidade(quantidade);
-        itemVenda.setValorUnitario(cerveja.getValor());
+        Optional<ItemVenda> itemVendaOptional = itens.stream()
+                .filter(item -> item.getCerveja().equals(cerveja))
+                .findAny();
 
-        itens.add(itemVenda);
+        ItemVenda itemVenda;
+        if (itemVendaOptional.isPresent()) {
+            itemVenda = itemVendaOptional.get();
+            itemVenda.setQuantidade(itemVenda.getQuantidade() + quantidade);
+        } else {
+            itemVenda = new ItemVenda();
+            itemVenda.setCerveja(cerveja);
+            itemVenda.setQuantidade(quantidade);
+            itemVenda.setValorUnitario(cerveja.getValor());
+            itens.add(0, itemVenda);
+        }
     }
 
     public int total() {
         return itens.size();
     }
 
-    public Object getItens() {
+    public List<ItemVenda> getItens() {
         return itens;
     }
 }
