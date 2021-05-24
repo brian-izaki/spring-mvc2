@@ -559,6 +559,10 @@ No projeto está sendo utilizado para armazenar os itens de uma venda.
 - HTTP é stateless (não mantém estado)
 - Para funcionar uma sessão, no servidor é mantido um objeto que faz referência a uma sessão.
   - na resposta de uma requisição é enviado um atributo de sessão para identificação, assim, qnd o usuário fizer uma requisição novamente ele envia o valor do atributo da sessão recebido junto com essa nova requisição e o servidor irá verificar para ver se já existe uma aberta.
+- Desenvolvimento:
+  - Um objeto fica disponivel para toda a aplicação (as classes de repository, onde eu uso autowired), mas, qnd se 
+    trata de sessão de usuário um objeto pode ter que ser instanciado mais d uma vez para que tenham dados diferentes para cada usuario,
+    para isso, foi utilizado o `@SessionScope` na classe [TabelaItensVenda](/src/java/com/projetojava/brewer/session/TabelaItensVenda.java).
 
 ### Testes unitarios
 

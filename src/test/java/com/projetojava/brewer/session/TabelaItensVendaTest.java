@@ -1,4 +1,4 @@
-package com.projetojava.brewer.venda;
+package com.projetojava.brewer.session;
 
 import com.projetojava.brewer.model.Cerveja;
 import org.junit.Before;

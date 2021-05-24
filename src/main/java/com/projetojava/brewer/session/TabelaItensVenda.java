@@ -1,12 +1,16 @@
-package com.projetojava.brewer.venda;
+package com.projetojava.brewer.session;
 
 import com.projetojava.brewer.model.Cerveja;
 import com.projetojava.brewer.model.ItemVenda;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.SessionScope;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+@SessionScope
+@Component
 public class TabelaItensVenda {
 
     private List<ItemVenda> itens = new ArrayList<>();
@@ -25,6 +29,10 @@ public class TabelaItensVenda {
         itemVenda.setValorUnitario(cerveja.getValor());
 
         itens.add(itemVenda);
+    }
+
+    public int total() {
+        return itens.size();
     }
 
 }

@@ -5,6 +5,8 @@ class AutoComplete {
         this.skuOuNomeInput = $('.js-sku-nome-cerveja-input');
         const htmlTemplateAutoComplete = $('#template-autocomplete-cerveja').html();
         this.template = Handlebars.compile(htmlTemplateAutoComplete);
+        this.emitter = $({})
+        this.on = this.emitter.on.bind(this.emitter)
     }
 
     iniciar(){
@@ -20,19 +22,24 @@ class AutoComplete {
             },
             template: {
                 type: 'custom',
-                method: function(nome, cerveja) {
-                    cerveja.valorFormatado = Brewer.formatarMoeda(cerveja.valor);
-                    return this.template(cerveja);
-                }.bind(this)
+                method: this.templateItens.bind(this)
+            },
+            list: {
+                onChooseEvent: this.onItemSelecionado.bind(this)
             }
         }
 
         this.skuOuNomeInput.easyAutocomplete(options);
     }
+
+    onItemSelecionado() {
+        this.emitter.trigger('item-selecionado', this.skuOuNomeInput.getSelectedItemData());
+    }
+
+    templateItens(nome, cerveja) {
+        cerveja.valorFormatado = Brewer.formatarMoeda(cerveja.valor);
+        return this.template(cerveja);
+    }
+
 }
 Brewer.AutoComplete = AutoComplete;
-
-$(function () {
-    const autoComplete = new Brewer.AutoComplete();
-    autoComplete.iniciar();
-})

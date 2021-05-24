@@ -7,6 +7,7 @@ import com.projetojava.brewer.controller.converter.CidadeConverter;
 import com.projetojava.brewer.controller.converter.EstadoConverter;
 import com.projetojava.brewer.controller.converter.EstiloConverter;
 import com.projetojava.brewer.controller.converter.GrupoConverter;
+import com.projetojava.brewer.session.TabelaItensVenda;
 import com.projetojava.brewer.thymeleaf.BrewerDialect;
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 import org.springframework.beans.BeansException;
@@ -47,7 +48,7 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 @Configuration // diz que é uma classe de configuração
-@ComponentScan(basePackageClasses = { CervejasController.class } ) // faz a leitura das nossas controllers
+@ComponentScan(basePackageClasses = { CervejasController.class, TabelaItensVenda.class} ) // faz a leitura das nossas controllers
 @EnableWebMvc
 @EnableSpringDataWebSupport
 @EnableCaching
