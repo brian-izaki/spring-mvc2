@@ -55,6 +55,13 @@ Brewer.MaskPhoneNumber = MaskPhoneNumber;
 Brewer.MaskDate = MaskDate;
 Brewer.security.token = $('input[name=_csrf]').val();
 Brewer.security.header = $('input[name=_csrf_header]').val();
+Brewer.formatarMoeda = (valor) => {
+    const options = {
+        style: 'currency',
+        currency: 'BRL'
+    }
+    return new Intl.NumberFormat('pt-BR', options).format(valor);
+}
 
 $(function () {
     const maskMoney = new Brewer.MaskMoney();

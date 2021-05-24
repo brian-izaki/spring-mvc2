@@ -1,5 +1,6 @@
 package com.projetojava.brewer.repository.helper.cerveja;
 
+import com.projetojava.brewer.dto.CervejaDTO;
 import com.projetojava.brewer.model.Cerveja;
 import com.projetojava.brewer.repository.filter.CervejaFilter;
 import com.projetojava.brewer.repository.paginacao.PaginacaoUtil;
@@ -19,6 +20,7 @@ import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 public class CervejasImpl implements CervejasQueries {
 
@@ -39,6 +41,16 @@ public class CervejasImpl implements CervejasQueries {
         adicionarFiltro(filtro, criteria);
 
         return new PageImpl(criteria.list(), pageable, total(filtro));
+    }
+
+    @Override
+    public List<CervejaDTO> porSkuOuNome(String skuOuNome) {
+        String jpql = "select new com.projetojava.brewer.dto.CervejaDTO(codigo, sku, nome, origem, valor, foto) " +
+                "from Cerveja where lower(sku) like lower(:skuOuNome) or lower(nome) like lower(:skuOuNome) ";
+        List<CervejaDTO> cervejasFiltradas = manager.createQuery(jpql, CervejaDTO.class)
+                .setParameter("skuOuNome", skuOuNome + "%")
+                .getResultList();
+        return cervejasFiltradas;
     }
 
     private Long total(CervejaFilter filtro) {
