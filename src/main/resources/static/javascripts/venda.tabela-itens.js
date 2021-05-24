@@ -26,6 +26,7 @@ class TabelaItens{
     onItemAtualizadoServidor(htmlResponse) {
         this.tabelaItensContainer.html(htmlResponse)
         $('.js-tabela-cerveja-quantidade-item').on('change', this.onQuantidadeItemAlterado.bind(this))
+        $('.js-tabela-item').on('dblclick', this.onDoubleClick)
     }
 
     onQuantidadeItemAlterado(event) {
@@ -46,6 +47,11 @@ class TabelaItens{
 
         response.done(this.onItemAtualizadoServidor.bind(this));
 
+    }
+
+    onDoubleClick(event) {
+        const item = $(event.currentTarget);
+        item.toggleClass('solicitando-exclusao');
     }
 }
 Brewer.TabelaItens = TabelaItens;
