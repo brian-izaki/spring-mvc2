@@ -28,16 +28,25 @@ public class VendasController {
         Cerveja cerveja = cervejas.findOne(codigoCerveja);
         tabelaItensVenda.adicionarItem(cerveja, 1);
 
-        ModelAndView mv = new ModelAndView("venda/TabelaItensVenda");
-        mv.addObject("itens", tabelaItensVenda.getItens());
-
-        return mv;
+        return mvTabelaItens();
     }
 
+    // está sendo realizado um findOne automático. O Spring e o JPA que realizam essa integração
+    // foi necessário adicionar uma configuração no WEBConfig para habilitar esta funcionalidade.
     @PutMapping("/item/{codigoCerveja}")
-    public ModelAndView alterarQuatidadeItem(@PathVariable Long codigoCerveja, Integer quantidade){
-        Cerveja cerveja = cervejas.findOne(codigoCerveja);
+    public ModelAndView alterarQuatidadeItem(@PathVariable("codigoCerveja") Cerveja cerveja,
+                                             Integer quantidade){
         tabelaItensVenda.alterarQuantidadeItens(cerveja, quantidade);
+        return mvTabelaItens();
+    }
+
+    @DeleteMapping("/item/{codigoCerveja}")
+    public ModelAndView excluirItem(@PathVariable("codigoCerveja") Cerveja cerveja) {
+        tabelaItensVenda.excluirItem(cerveja);
+        return mvTabelaItens();
+    }
+
+    private ModelAndView mvTabelaItens() {
         ModelAndView mv = new ModelAndView("venda/TabelaItensVenda");
         mv.addObject("itens", tabelaItensVenda.getItens());
         return mv;

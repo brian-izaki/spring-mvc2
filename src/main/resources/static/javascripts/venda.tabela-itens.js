@@ -27,6 +27,7 @@ class TabelaItens{
         this.tabelaItensContainer.html(htmlResponse)
         $('.js-tabela-cerveja-quantidade-item').on('change', this.onQuantidadeItemAlterado.bind(this))
         $('.js-tabela-item').on('dblclick', this.onDoubleClick)
+        $('.js-exclusao-item-btn').on('click', this.onExclusaoItemClick.bind(this))
     }
 
     onQuantidadeItemAlterado(event) {
@@ -52,6 +53,19 @@ class TabelaItens{
     onDoubleClick(event) {
         const item = $(event.currentTarget);
         item.toggleClass('solicitando-exclusao');
+    }
+
+    onExclusaoItemClick(event) {
+        const codigoCerveja = $(event.target).data('codigo-cerveja');
+        const resposta = $.ajax({
+            url: `item/${codigoCerveja}`,
+            headers: {
+                [Brewer.security.header]: Brewer.security.token,
+            },
+            method: 'DELETE'
+        })
+
+        resposta.done(this.onItemAtualizadoServidor.bind(this))
     }
 }
 Brewer.TabelaItens = TabelaItens;
