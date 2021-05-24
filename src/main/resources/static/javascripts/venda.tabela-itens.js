@@ -1,6 +1,7 @@
 class TabelaItens{
     constructor(autoComplete) {
         this.autoComplete = autoComplete;
+        this.tabelaItensContainer = $('.js-tabela-cervejas-container');
     }
 
     iniciar() {
@@ -19,9 +20,11 @@ class TabelaItens{
             }
         })
 
-        response.done((data) => {
-            console.log(data)
-        })
+        response.done(this.onItemAdicionadoServidor.bind(this))
+    }
+
+    onItemAdicionadoServidor(htmlResponse) {
+        this.tabelaItensContainer.html(htmlResponse)
     }
 }
 Brewer.TabelaItens = TabelaItens;
