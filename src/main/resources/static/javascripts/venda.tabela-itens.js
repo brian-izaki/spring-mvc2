@@ -27,14 +27,24 @@ class TabelaItens{
 
     onItemAtualizadoServidor(htmlResponse) {
         this.tabelaItensContainer.html(htmlResponse)
-        $('.js-tabela-cerveja-quantidade-item').on('change', this.onQuantidadeItemAlterado.bind(this))
+
+        const quantidadeItemInput = $('.js-tabela-cerveja-quantidade-item');
+        quantidadeItemInput.on('change', this.onQuantidadeItemAlterado.bind(this))
+        quantidadeItemInput.maskMoney({precision: 0, thousands: ''});
+
         $('.js-tabela-item').on('dblclick', this.onDoubleClick)
         $('.js-exclusao-item-btn').on('click', this.onExclusaoItemClick.bind(this))
     }
 
     onQuantidadeItemAlterado(event) {
         const input = $(event.target);
-        const quantidade = input.val();
+        let quantidade = input.val();
+
+        if (quantidade <= 0) {
+            input.val(1);
+            quantidade = 1;
+        }
+
         const codigoCerveja = input.data('codigo-cerveja');
 
         const response = $.ajax({
