@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 import static org.junit.Assert.*;
 
@@ -14,7 +15,8 @@ public class TabelaItensVendaTest {
 
     @Before
     public void setUp() {
-        this.tabelaItensVenda = new TabelaItensVenda();
+        String uuid = UUID.randomUUID().toString();
+        this.tabelaItensVenda = new TabelaItensVenda(uuid);
     }
 
     @Test

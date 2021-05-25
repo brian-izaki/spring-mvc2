@@ -2,6 +2,7 @@ class TabelaItens{
     constructor(autoComplete) {
         this.autoComplete = autoComplete;
         this.tabelaItensContainer = $('.js-tabela-cervejas-container');
+        this.uuid = $('#uuid').val();
     }
 
     iniciar() {
@@ -17,6 +18,7 @@ class TabelaItens{
             },
             data: {
                 codigoCerveja: item.codigo,
+                uuid: this.uuid,
             }
         })
 
@@ -42,7 +44,8 @@ class TabelaItens{
                 [Brewer.security.header]: Brewer.security.token,
             },
             data: {
-                quantidade
+                quantidade,
+                uuid: this.uuid,
             }
         })
 
@@ -58,7 +61,7 @@ class TabelaItens{
     onExclusaoItemClick(event) {
         const codigoCerveja = $(event.target).data('codigo-cerveja');
         const resposta = $.ajax({
-            url: `item/${codigoCerveja}`,
+            url: `item/${this.uuid}/${codigoCerveja}`,
             headers: {
                 [Brewer.security.header]: Brewer.security.token,
             },

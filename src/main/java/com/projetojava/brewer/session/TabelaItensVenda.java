@@ -8,14 +8,24 @@ import org.springframework.web.context.annotation.SessionScope;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
 @SessionScope
 @Component
-public class TabelaItensVenda {
+class TabelaItensVenda {
 
+    private String uuid;
     private List<ItemVenda> itens = new ArrayList<>();
+
+    public TabelaItensVenda(String uuid) {
+        this.uuid = uuid;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
 
     public BigDecimal getValorTotal() {
         return itens.stream()
@@ -65,5 +75,18 @@ public class TabelaItensVenda {
         return itens.stream()
                 .filter(item -> item.getCerveja().equals(cerveja))
                 .findAny();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TabelaItensVenda that = (TabelaItensVenda) o;
+        return Objects.equals(uuid, that.uuid);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(uuid);
     }
 }

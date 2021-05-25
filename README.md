@@ -563,6 +563,13 @@ No projeto está sendo utilizado para armazenar os itens de uma venda.
   - Um objeto fica disponivel para toda a aplicação (as classes de repository, onde eu uso autowired), mas, qnd se 
     trata de sessão de usuário um objeto pode ter que ser instanciado mais d uma vez para que tenham dados diferentes para cada usuario,
     para isso, foi utilizado o `@SessionScope` na classe [TabelaItensVenda](/src/java/com/projetojava/brewer/session/TabelaItensVenda.java).
+    
+- Sessão para view.
+  - foi implementado manualmente (o Spring na versão utilizada não fornece)
+  - utilizado para quando o usuário acessar a página de venda não tenha conflito com outras páginas de venda abertas.
+  - Usado o UUID para ser salvo em cada TabelaItensVenda assim identificando diferentes abas do navegador de uma mesma sessão.
+  - também foi adicionado no HTML o UUID para enviar ao servidor as requisições. (em cada aba o UUID é diferente)
+  - as listas de cada aba do navegador é armazenado em uma lista Set, assim o Java saberá separar.
 
 ### Testes unitarios
 

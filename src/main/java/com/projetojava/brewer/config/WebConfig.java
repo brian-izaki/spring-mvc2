@@ -7,14 +7,12 @@ import com.projetojava.brewer.controller.converter.CidadeConverter;
 import com.projetojava.brewer.controller.converter.EstadoConverter;
 import com.projetojava.brewer.controller.converter.EstiloConverter;
 import com.projetojava.brewer.controller.converter.GrupoConverter;
-import com.projetojava.brewer.session.TabelaItensVenda;
+import com.projetojava.brewer.session.TabelaItensSession;
 import com.projetojava.brewer.thymeleaf.BrewerDialect;
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 import org.springframework.beans.BeansException;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.cache.guava.GuavaCacheManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -49,7 +47,7 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 @Configuration // diz que é uma classe de configuração
-@ComponentScan(basePackageClasses = { CervejasController.class, TabelaItensVenda.class} ) // faz a leitura das nossas controllers
+@ComponentScan(basePackageClasses = { CervejasController.class, TabelaItensSession.class} ) // faz a leitura das nossas controllers
 @EnableWebMvc
 @EnableSpringDataWebSupport
 @EnableCaching
