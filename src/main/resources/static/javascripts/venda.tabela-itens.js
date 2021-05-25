@@ -3,6 +3,9 @@ class TabelaItens{
         this.autoComplete = autoComplete;
         this.tabelaItensContainer = $('.js-tabela-cervejas-container');
         this.uuid = $('#uuid').val();
+
+        this.emitter = $({})
+        this.on = this.emitter.on.bind(this.emitter);
     }
 
     iniciar() {
@@ -32,8 +35,11 @@ class TabelaItens{
         quantidadeItemInput.on('change', this.onQuantidadeItemAlterado.bind(this))
         quantidadeItemInput.maskMoney({precision: 0, thousands: ''});
 
-        $('.js-tabela-item').on('dblclick', this.onDoubleClick)
+        const tabelaItem = $('.js-tabela-item');
+        tabelaItem.on('dblclick', this.onDoubleClick)
         $('.js-exclusao-item-btn').on('click', this.onExclusaoItemClick.bind(this))
+
+        this.emitter.trigger('tabela-itens-atualizada', tabelaItem.data('valorTotal'));
     }
 
     onQuantidadeItemAlterado(event) {
@@ -82,12 +88,3 @@ class TabelaItens{
     }
 }
 Brewer.TabelaItens = TabelaItens;
-
-
-$(function () {
-    const autoComplete = new Brewer.AutoComplete();
-    autoComplete.iniciar();
-
-    const tabelaItens = new Brewer.TabelaItens(autoComplete);
-    tabelaItens.iniciar();
-})

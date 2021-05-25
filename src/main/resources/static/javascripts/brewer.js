@@ -62,6 +62,10 @@ Brewer.formatarMoeda = (valor) => {
     }
     return new Intl.NumberFormat('pt-BR', options).format(valor);
 }
+Brewer.recuperarValorFormatado = (valor) => {
+    const valorFormatado = valor.replace(/\./g, '').replace(',', '.');
+    return Number.parseFloat(valorFormatado);
+}
 
 $(function () {
     const maskMoney = new Brewer.MaskMoney();

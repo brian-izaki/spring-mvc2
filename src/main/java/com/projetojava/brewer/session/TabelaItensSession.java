@@ -5,6 +5,7 @@ import com.projetojava.brewer.model.ItemVenda;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -36,6 +37,10 @@ public class TabelaItensSession {
 
     public List<ItemVenda> getItens(String uuid) {
         return buscarTabelaPorUuid(uuid).getItens();
+    }
+
+    public BigDecimal getValorTotal(String uuid) {
+        return buscarTabelaPorUuid(uuid).getValorTotal();
     }
 
     private TabelaItensVenda buscarTabelaPorUuid(String uuid) {
