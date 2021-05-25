@@ -306,14 +306,35 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
     - o método `message()` está sendo utilizado para sobrescrever o `message` do `@Pattern` (como pode ver no `@Override`)
     - os métodos com o class são obrigatórios para que não ocorram erros.
       - `payload()`: auxilia a classificar o nível do erro.
+  
 
 - Existem também para **CPF e CNPJ**
   - `@CPF` e `@CNPJ`
   - Caso utilize os dois para uma mesma coluna deve adicionar como parâmetro o `groups` ele aceita como valor interfaces simples (nesse projeto foi criado em [validations da model](/src/main/java/com/projetojava/brewer/model/validation/group)), dentro da interface não precisa adicionar mais nada, apenas criar a interface.
   - Teve que utilizar o `@GroupSequenceProvider` na model para "ensinar" qual a sequencia de Beans que deve seguir para validar os atributos.
 
-- dentro de validations com beans, possui o diretorio validator, nele foi criado um **mais avançado** na qual confere se dois campos estão repetindo para a validação de senha. Veja na [classe]([validations da model](/src/main/java/com/projetojava/brewer/validation/validator/AtributoConfirmacaoValidator.java))
 
+- dentro de validations com beans, possui o diretorio validator, nele foi criado um **mais avançado** na qual confere se dois campos estão repetindo para a validação de senha. 
+  Veja na package [validation](/src/main/java/com/projetojava/brewer/validation/validator/AtributoConfirmacaoValidator.java)
+
+<br/>
+  
+- em [**controller.validator**](/src/main/java/com/projetojava/brewer/controller/validator/VendaValidator.java)  
+  foi criado o `VendaValidator` uma validação customizada para a classe de venda.
+  - Foi implementado a interface `Validate` e seus métodos.
+  - no método `supports`, ele faz a seguinte pergunta "Quem eu vou validar?", suporto qual classe?
+  - `validate` são as validações em si.
+    - Deve-se notar o uso do `reject` e `rejectValue`, são eles os responsáveis por dizer que algum dado esteja errado.
+  - Na _Controller de venda_ foi criado o método `inicializarValidador` para inicializar esta validação. <br/>
+      Foi necessário utilizar a annotation `@InitBinder` (ele é o responsável por reconhecer o método criado). Assim, os 
+      métodos que possuírem a annotation `@Valid` vão funcionar msm na model não tendo feito as validações.
+    - A validação agora pode ser feita sem o uso do `@Valid`, pois com a classe de validação pode ser utilizado o método:
+      ```
+      vendaValidator.validate(venda, result);
+      ``` 
+      Ele foi utilizado para validar a listagem de itens, pois, estava sendo montado dentro do método e não durante a 
+      requisição.
+  
 
 ### Maven 🧮
 

@@ -7,8 +7,10 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Entity
 @Table(name = "venda")
@@ -20,7 +22,6 @@ public class Venda implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigo;
 
-    @NotNull(message = "Data de Criação é obrigatória")
     @Column(name = "data_criacao")
     private LocalDateTime dataCriacao;
 
@@ -30,31 +31,27 @@ public class Venda implements Serializable {
     @Column(name = "valor_desconto")
     private BigDecimal valorDesconto;
 
-    @NotNull(message = "Valor Total é obrigatório")
     @Column(name = "valor_total")
-    private BigDecimal valorTotal;
+    private BigDecimal valorTotal = BigDecimal.ZERO;
 
     private String observacao;
 
     @Column(name = "data_hora_entrega")
     private LocalDateTime dataHoraEntrega;
 
-    @NotNull(message = "Status da venda é obrigatório")
     @Enumerated(EnumType.STRING)
     private StatusVenda status = StatusVenda.ORCAMENTO;
 
-    @NotNull(message = "O cliente é obrigatório")
     @ManyToOne
     @JoinColumn(name = "codigo_cliente")
     private Cliente cliente;
 
-    @NotNull(message = "Usuário é obrigatório")
     @ManyToOne
     @JoinColumn(name = "codigo_usuario")
     private Usuario usuario;
 
     @OneToMany(mappedBy = "venda", cascade = CascadeType.ALL)
-    private List<ItemVenda> itens;
+    private List<ItemVenda> itens = new ArrayList<>();
 
     @Transient
     private String uuid;
@@ -184,6 +181,23 @@ public class Venda implements Serializable {
     public void adicionarItens(List<ItemVenda> itens) {
         this.itens = itens;
         this.itens.forEach(i -> i.setVenda(this)); // para cada item está sendo setando este objeto Venda para ele. Para fazer referência.
+    }
+
+    public void calcularValorTotal() {
+        BigDecimal valorTotalItens = getItens().stream()
+                .map(ItemVenda::getValorTotal)
+                .reduce(BigDecimal::add)
+                .orElse(BigDecimal.ZERO);
+
+        this.valorTotal = calcularItensFreteDesconto(valorTotalItens, getValorFrete(), getValorDesconto());
+    }
+
+    private BigDecimal calcularItensFreteDesconto(BigDecimal valorTotalItens,
+                                          BigDecimal valorFrete,
+                                          BigDecimal valorDesconto) {
+        return valorTotalItens
+                .add(Optional.ofNullable(valorFrete).orElse(BigDecimal.ZERO))
+                .subtract(Optional.ofNullable(valorDesconto).orElse(BigDecimal.ZERO));
     }
 
     @Override

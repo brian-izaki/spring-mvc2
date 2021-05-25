@@ -36,7 +36,7 @@
                         <div class="aw-box__icon">
                             <i class="fa  fa-usd  fa-3x"></i>
                         </div>
-                        <div class="aw-box__value"><span class="js-valor-total-box">R$ 0,00</span></div>
+                        <div class="aw-box__value"><span class="js-valor-total-box" th:text="|R$ ${{venda.valorTotal}}|">R$ 0,00</span></div>
                         <div class="aw-box__title">Total</div>
                     </div>
                 </div>
@@ -65,7 +65,7 @@
             </div>
 
             <div class="row">
-                <div class="form-group  col-sm-4  bw-required">
+                <div class="form-group  col-sm-4  bw-required" brewer:classforerror="cliente.codigo">
                     <label class="control-label" for="nomeCliente">Cliente</label>
                     <div class="input-group">
                         <input id="codigoCliente" type="hidden" th:field="*{cliente}">
@@ -126,16 +126,13 @@
                     </div>
 
                     <div class="bw-tabela-cervejas js-tabela-cervejas-container">
-                        <div class="bw-tabela-cervejas__vazio">
-                            <i class="glyphicon  glyphicon-shopping-cart"></i>
-                            <span>Você ainda não adicionou nenhuma cerveja.</span>
-                        </div>
+                        <th:block th:replace="venda/TabelaItensVenda"></th:block>
                     </div>
                 </div>
 
                 <div class="tab-pane" id="entrega">
                     <div class="row">
-                        <div class="form-group  col-sm-3">
+                        <div class="form-group  col-sm-3" brewer:classforerror="dataEntrega">
                             <label class="control-label" for="dataEntrega">Data da entrega</label>
                             <input type="text" class="form-control" id="dataEntrega" th:field="*{dataEntrega}"/>
                         </div>
