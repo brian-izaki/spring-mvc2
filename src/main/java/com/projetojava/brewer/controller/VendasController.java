@@ -1,12 +1,17 @@
 package com.projetojava.brewer.controller;
 
 import com.projetojava.brewer.model.Cerveja;
+import com.projetojava.brewer.model.Venda;
 import com.projetojava.brewer.repository.Cervejas;
+import com.projetojava.brewer.security.UsuarioSistema;
+import com.projetojava.brewer.service.CadastroVendaService;
 import com.projetojava.brewer.session.TabelaItensSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.UUID;
 
@@ -20,13 +25,26 @@ public class VendasController {
     @Autowired
     private TabelaItensSession tabelaItens;
 
+    @Autowired
+    private CadastroVendaService cadastroVendaService;
+
     @GetMapping("/novo")
-    public ModelAndView novo() {
+    public ModelAndView novo(Venda venda) {
         ModelAndView mv = new ModelAndView("venda/CadastroVenda");
-
-        mv.addObject("uuid", UUID.randomUUID().toString());
-
+        venda.setUuid(UUID.randomUUID().toString());
         return mv;
+    }
+
+    @PostMapping("/novo")
+    public ModelAndView salvar(Venda venda, RedirectAttributes attributes,
+                               @AuthenticationPrincipal UsuarioSistema usuarioSistema) {
+        venda.setUsuario(usuarioSistema.getUsuario());
+        venda.adicionarItens(tabelaItens.getItens(venda.getUuid()));
+
+        cadastroVendaService.salvar(venda);
+        attributes.addFlashAttribute("mensagem", "Venda feita com sucesso");
+
+        return new ModelAndView("redirect:/vendas/novo");
     }
 
     @PostMapping("/item")
@@ -42,7 +60,7 @@ public class VendasController {
     @PutMapping("/item/{codigoCerveja}")
     public ModelAndView alterarQuatidadeItem(@PathVariable("codigoCerveja") Cerveja cerveja,
                                              Integer quantidade,
-                                             String uuid){
+                                             String uuid) {
         tabelaItens.alterarQuantidadeItens(uuid, cerveja, quantidade);
         return mvTabelaItens(uuid);
     }

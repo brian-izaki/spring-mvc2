@@ -363,6 +363,7 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
     - `@Column` permite que vc altere o nome da coluna que será gerado na tabela
     - `@ManyToOne` significa relacionamento de muitos para 1, na tabela de Estilo terá uma variavel que será uma lista que tem o `@OneToMany(mappedBy = "nome_da_coluna_que_conecta")`.
     - `@JoinColumn` especifica o nome da coluna que será a Foreign Key.
+    - Existem outras notations de relacionamento, veja as [referencias](#Referências) 
     
 - **CRUD**
   - É feito dentro da package repositories, lá é extendido o JpaRepository que auxilia na parte de queries.
@@ -370,7 +371,9 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
   - ao realizar uma query as models possuem papel importante pois é por ela que o Hibernate e o JPA vão saber:
     - quais são as colunas de uma tabela, 
     - se devem realizar ações antes ou depois de algum comando DML (ver seção de métodos de callback), 
-    - configurações que alteram a forma padrão do framework como a annotarion `@DynamicUpdate` que permite alterar apenas o valor desejado, e não tudo msm que apenas esteja alterando um valor.
+    - configurações que alteram a forma padrão do framework como a annotation `@DynamicUpdate` que permite alterar apenas o valor desejado, e não tudo msm que apenas esteja alterando um valor.
+  - `Cascade`: na model de venda está sendo feito o cadastro de itens além da venda em si. Com o cascade será feito a 
+    inserção dos itens que foram cadastrados (item e venda são tabelas diferentes)
 
 - **Embedded** 
   - foi utilizado na model Cliente com o Endereço, pois na tabela dentro do BD, dados de endereço e cliente estão juntos mas, dentro do projeto foram separados para ser de fácil leitura.
@@ -592,6 +595,8 @@ Foi usado para testar no momento de carrinho de compras.
 
 - AlgaWorks Spring experts
 - [Comparação entre Thymeleaf e JSP](https://www.thymeleaf.org/doc/articles/thvsjsp.html)
+
+- JPA [notations de relacionamento](https://pt.stackoverflow.com/questions/234755/diferen%C3%A7as-onetomany-manytomany-manytoone-onetoone)
 
 - Documentações:
   - [log4j 2](https://logging.apache.org/log4j/2.x/)

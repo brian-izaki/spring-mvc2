@@ -4,7 +4,9 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -34,12 +36,12 @@ public class Venda implements Serializable {
 
     private String observacao;
 
-    @Column(name = "data_entrega")
-    private LocalDateTime dataEntrega;
+    @Column(name = "data_hora_entrega")
+    private LocalDateTime dataHoraEntrega;
 
     @NotNull(message = "Status da venda é obrigatório")
     @Enumerated(EnumType.STRING)
-    private StatusVenda status;
+    private StatusVenda status = StatusVenda.ORCAMENTO;
 
     @NotNull(message = "O cliente é obrigatório")
     @ManyToOne
@@ -51,8 +53,17 @@ public class Venda implements Serializable {
     @JoinColumn(name = "codigo_usuario")
     private Usuario usuario;
 
-    @OneToMany(mappedBy = "venda")
+    @OneToMany(mappedBy = "venda", cascade = CascadeType.ALL)
     private List<ItemVenda> itens;
+
+    @Transient
+    private String uuid;
+
+    @Transient
+    private LocalDate dataEntrega;
+
+    @Transient
+    private LocalTime horaEntrega;
 
     public Long getCodigo() {
         return codigo;
@@ -110,12 +121,28 @@ public class Venda implements Serializable {
         this.observacao = observacao;
     }
 
-    public LocalDateTime getDataEntrega() {
+    public LocalDateTime getDataHoraEntrega() {
+        return dataHoraEntrega;
+    }
+
+    public void setDataHoraEntrega(LocalDateTime dataHoraEntrega) {
+        this.dataHoraEntrega = dataHoraEntrega;
+    }
+
+    public LocalDate getDataEntrega() {
         return dataEntrega;
     }
 
-    public void setDataEntrega(LocalDateTime dataEntrega) {
+    public void setDataEntrega(LocalDate dataEntrega) {
         this.dataEntrega = dataEntrega;
+    }
+
+    public LocalTime getHoraEntrega() {
+        return horaEntrega;
+    }
+
+    public void setHoraEntrega(LocalTime horaEntrega) {
+        this.horaEntrega = horaEntrega;
     }
 
     public Cliente getCliente() {
@@ -140,6 +167,23 @@ public class Venda implements Serializable {
 
     public void setItens(List<ItemVenda> itens) {
         this.itens = itens;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
+    public boolean isNova() {
+        return codigo == null;
+    }
+
+    public void adicionarItens(List<ItemVenda> itens) {
+        this.itens = itens;
+        this.itens.forEach(i -> i.setVenda(this)); // para cada item está sendo setando este objeto Venda para ele. Para fazer referência.
     }
 
     @Override
