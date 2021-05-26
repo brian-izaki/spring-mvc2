@@ -56,13 +56,44 @@ public class VendasController {
         return mv;
     }
 
-    @PostMapping("/novo")
+    @PostMapping(value = "/novo", params = "salvar")
     public ModelAndView salvar(Venda venda, BindingResult result, RedirectAttributes attributes,
                                @AuthenticationPrincipal UsuarioSistema usuarioSistema) {
-        venda.adicionarItens(tabelaItens.getItens(venda.getUuid()));
-        venda.calcularValorTotal();
+        validarVenda(venda, result);
 
-        vendaValidator.validate(venda, result);
+        if (result.hasErrors()) {
+            return novo(venda);
+        }
+
+        venda.setUsuario(usuarioSistema.getUsuario());
+
+        cadastroVendaService.salvar(venda);
+        attributes.addFlashAttribute("mensagem", "Venda feita com sucesso");
+
+        return new ModelAndView("redirect:/vendas/novo");
+    }
+
+    @PostMapping(value = "/novo", params = "emitir")
+    public ModelAndView emitir(Venda venda, BindingResult result, RedirectAttributes attributes,
+                               @AuthenticationPrincipal UsuarioSistema usuarioSistema) {
+        validarVenda(venda, result);
+
+        if (result.hasErrors()) {
+            return novo(venda);
+        }
+
+        venda.setUsuario(usuarioSistema.getUsuario());
+
+        cadastroVendaService.emitir(venda);
+        attributes.addFlashAttribute("mensagem", "Venda emitida com sucesso");
+
+        return new ModelAndView("redirect:/vendas/novo");
+    }
+
+    @PostMapping(value = "/novo", params = "enviarEmail")
+    public ModelAndView enviarEmail(Venda venda, BindingResult result, RedirectAttributes attributes,
+                               @AuthenticationPrincipal UsuarioSistema usuarioSistema) {
+        validarVenda(venda, result);
 
         if (result.hasErrors()) {
             return novo(venda);
@@ -86,6 +117,7 @@ public class VendasController {
 
     // está sendo realizado um findOne automático. O Spring e o JPA que realizam essa integração
     // foi necessário adicionar uma configuração no WEBConfig para habilitar esta funcionalidade.
+
     @PutMapping("/item/{codigoCerveja}")
     public ModelAndView alterarQuatidadeItem(@PathVariable("codigoCerveja") Cerveja cerveja,
                                              Integer quantidade,
@@ -106,5 +138,12 @@ public class VendasController {
         mv.addObject("itens", tabelaItens.getItens(uuid));
         mv.addObject("valorTotal", tabelaItens.getValorTotal(uuid));
         return mv;
+    }
+
+    private void validarVenda(Venda venda, BindingResult result) {
+        venda.adicionarItens(tabelaItens.getItens(venda.getUuid()));
+        venda.calcularValorTotal();
+
+        vendaValidator.validate(venda, result);
     }
 }

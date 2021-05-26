@@ -1,6 +1,7 @@
 package com.projetojava.brewer.service;
 
 import com.projetojava.brewer.model.ItemVenda;
+import com.projetojava.brewer.model.StatusVenda;
 import com.projetojava.brewer.model.Venda;
 import com.projetojava.brewer.repository.Vendas;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +32,11 @@ public class CadastroVendaService {
         }
 
         vendas.save(venda);
+    }
+
+    @Transactional
+    public void emitir(Venda venda) {
+        venda.setStatus(StatusVenda.EMITIDA);
+        salvar(venda);
     }
 }

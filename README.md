@@ -40,9 +40,9 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
 8. [Cache](#Cache)
 9. [Segurança](#Segurança-🔑)
 10. [Partes do Java](#Do-Java)
-11. [Links de Referencia](#Referências)
-12. [http session](#HTTP-Session)
-13. [testes unitários](#Testes-unitarios)
+11. [http session](#HTTP-Session)
+12. [testes unitários](#Testes-unitarios)
+13. [Links de Referencia](#Referências)
 
 ---
 
@@ -203,6 +203,12 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
   - a rota no controller que recebe os dados de requisições Fetch, tiveram que utilizar a annotation `@RequestBody` e retornar o tipo `ResponseEntity` com a annotation `@ResponseBody`, [ver classe estiloController](/src/main/java/com/projetojava/brewer/controller/EstilosController.java)
   - `ResponseEntity<?>`: ele vai ajudar a **manipular o status de uma resposta** do servidor, podendo controlar para ser 200 (ok), 400 (BadRequest), etc.
     - a `?` é para quando o método acabe retornando diferentes tipos para condições diferentes. Mas quando tem apenas um tipo de retorno deve especificar o tipo dentro do `<>`
+  
+- **Controller**
+  - É onde ficam as ações que cada rota irá fazer.
+  - Pode ser utilizado uma **url igual para ações diferentes**, basta adicionar o argumento `params`, foi utilizado na 
+    classe `VendasController`
+  - 
 
 ### Thymeleaf 🍃
 
