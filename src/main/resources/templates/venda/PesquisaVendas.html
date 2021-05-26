@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="'layout/LayoutPadrao'"
+      xmlns:data="http://www.thymeleaf.org/extras/data"
+      xmlns:brewer="http://brewer.projetojava.com">
+
+<head>
+    <title>Pesquisa de Vendas</title>
+</head>
+
+<body>
+<section layout:fragment="conteudo">
+
+    <div class="page-header">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-xs-10">
+                    <h1>Pesquisa de Vendas</h1>
+                </div>
+
+                <div class="col-xs-2">
+                    <div class="aw-page-header-controls">
+                        <a class="btn btn-default" th:href="@{/vendas/novo}">
+                            <i class="glyphicon glyphicon-plus-sign"></i>
+                            <span class="hidden-xs hidden-sm">Nova Venda</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <form method="GET" th:object="${vendaFilter}">
+            <div class="row">
+                <div class="form-group col-sm-6">
+                    <label for="codigo" class="control-label">Codigo</label>
+                    <input type="text" id="codigo" class="form-control"
+                           autofocus="autofocus"
+                           th:field="*{codigo}">
+                </div>
+                <div class="form-group col-sm-6">
+                    <label for="statusVenda" class="control-label">Status</label>
+                    <select id="statusVenda" class="form-control"
+                            th:field="*{statusVenda}">
+                        <option value="">Selecione um Status</option>
+                        <option th:each="status : ${statusVenda}" th:value="${status}"
+                                th:text="${status.descricao}">
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-sm-6">
+                    <label for="dataDe" class="control-label">Data de criação</label>
+                    <div class="form-inline">
+                        <input type="text" id="dataDe"
+                               class="form-control js-date"
+                               th:field="*{dataDe}">
+                        <label> até </label>
+                        <input type="text" id="dataAte"
+                               class="form-control js-date"
+                               th:field="*{dataAte}">
+                    </div>
+                </div>
+
+                <div class="form-group col-sm-6">
+                    <label for="valorDe" class="control-label">Valor total</label>
+                    <div class="form-inline">
+                        <input type="text" id="valorDe"
+                               class="form-control js-decimal"
+                               th:field="*{valorDe}">
+                        <label>até</label>
+                        <input type="text" id="valorAte"
+                               class="form-control js-decimal"
+                               th:field="*{valorAte}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-sm-6">
+                    <label for="nomeCliente" class="control-label">Nome do cliente</label>
+                    <input type="text" id="nomeCliente" class="form-control"
+                           th:field="*{nomeCliente}">
+                </div>
+
+                <div class="form-group col-sm-6">
+                    <label for="cpfOuCnpj" class="control-label">CPF/CNPJ</label>
+                    <input type="text" id="cpfOuCnpj" class="form-control"
+                           th:field="*{cpfOuCnpj}">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button class="btn  btn-primary" type="submit">Pesquisar</button>
+            </div>
+        </form>
+
+        <div class="table-responsive  bw-tabela-simples">
+            <table class="table  table-hover">
+                <thead>
+                <tr>
+                    <th class="table-vendas-col-codigo">
+                        Código
+                    </th>
+
+                    <th class="table-vendas-col-cliente">
+                        Cliente
+                    </th>
+
+                    <th class="table-vendas-col-data-criacao">
+                        Data de criação
+                    </th>
+
+                    <th class="table-vendas-col-valor-total">
+                        Valor total
+                    </th>
+
+                    <th class="table-vendas-col-vendedor">
+                        Vendedor
+                    </th>
+
+                    <th class="table-vendas-col-status">
+                        Status
+                    </th>
+
+                    <th class="table-vendas-col-acoes"></th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="venda : ${vendas}">
+
+                    <td th:text="${venda.codigo}">Emanuela</td>
+                    <!--                    <td th:text="${venda.cliente.nome}"></td>-->
+                    <td>NomeCliente</td>
+                    <td th:text="${{venda.dataCriacao}}"></td>
+                    <td th:text="|R$ ${{venda.valorTotal}}|"></td>
+                    <!--                    <td th:text="${venda.usuario.nome}"></td>-->
+                    <td>NomeVendedor</td>
+                    <td th:text="${venda.status}"></td>
+
+                    <td class="text-right">
+                        <a class="btn  btn-link  btn-xs" title="Editar">
+                            <i class="glyphicon glyphicon-pencil"></i>
+                        </a>
+                    </td>
+                </tr>
+
+                <!--                <tr th:if="${vendasPagina.vazia}">-->
+                <tr th:if="${#lists.isEmpty(vendas)}">
+                    <td colspan="7">Nenhum usuário encontrado</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!--        <div class="col-sm-12 text-center" th:if="${not vendasPagina.vazia}">-->
+        <!--            <brewer:pagination page="${vendasPagina}" />-->
+        <!--        </div>-->
+    </div>
+
+
+</section>
+</body>
+
+</html>

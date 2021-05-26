@@ -2,8 +2,11 @@ package com.projetojava.brewer.controller;
 
 import com.projetojava.brewer.controller.validator.VendaValidator;
 import com.projetojava.brewer.model.Cerveja;
+import com.projetojava.brewer.model.StatusVenda;
 import com.projetojava.brewer.model.Venda;
 import com.projetojava.brewer.repository.Cervejas;
+import com.projetojava.brewer.repository.Vendas;
+import com.projetojava.brewer.repository.filter.VendaFilter;
 import com.projetojava.brewer.security.UsuarioSistema;
 import com.projetojava.brewer.service.CadastroVendaService;
 import com.projetojava.brewer.session.TabelaItensSession;
@@ -36,9 +39,22 @@ public class VendasController {
     @Autowired
     private VendaValidator vendaValidator;
 
-    @InitBinder
+    @Autowired
+    private Vendas vendas;
+
+    @InitBinder("venda")
     public void inicializarValidador(WebDataBinder binder) {
         binder.setValidator(vendaValidator);
+    }
+
+    @GetMapping
+    public ModelAndView pesquisar(VendaFilter filter) {
+        ModelAndView mv = new ModelAndView("venda/PesquisaVendas");
+
+        mv.addObject("vendas", vendas.findAll());
+        mv.addObject("statusVenda", StatusVenda.values());
+
+        return mv;
     }
 
     @GetMapping("/novo")

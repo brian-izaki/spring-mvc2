@@ -16,18 +16,29 @@
 
     <div class="page-header">
         <div class="container-fluid">
+
             <div class="row">
                 <div class="col-xs-10">
-                    <h1>Cadastro de venda</h1>
+                    <h1>Cadastro de Venda</h1>
+                </div>
+
+                <div class="col-xs-2">
+                    <div class="aw-page-header-controls">
+                        <a class="btn btn-default" th:href="@{/vendas}">
+                            <i class="glyphicon glyphicon-search"></i>
+                            <span class="hidden-xs hidden-sm">Pesquisar</span>
+                        </a>
+                    </div>
                 </div>
             </div>
+
         </div>
     </div>
 
     <div class="container-fluid">
 
         <form method="POST" th:action="@{/vendas/novo}" th:object="${venda}" class="js-formulario-principal">
-            <brewer:message />
+            <brewer:message/>
             <input type="hidden" id="uuid" th:field="*{uuid}">
 
             <div class="row">
@@ -38,7 +49,7 @@
                         </div>
                         <div class="aw-box__value">
                             <span class="js-valor-total-box"
-                                                         th:text="|R$ ${{venda.valorTotal}}|">R$ 0,00
+                                  th:text="|R$ ${{venda.valorTotal}}|">R$ 0,00
                             </span>
                         </div>
                         <div class="aw-box__title">Total</div>
@@ -128,7 +139,7 @@
                                    id="cerveja"
                                    placeholder="Pesquise e adicione a cerveja pelo SKU ou nome"
                                    autofocus="autofocus"
-                                   data:url = "@{/cervejas}"/>
+                                   data:url="@{/cervejas}"/>
                         </div>
                     </div>
 
