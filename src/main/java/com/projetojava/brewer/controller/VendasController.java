@@ -1,5 +1,6 @@
 package com.projetojava.brewer.controller;
 
+import com.projetojava.brewer.controller.page.PageWrapper;
 import com.projetojava.brewer.controller.validator.VendaValidator;
 import com.projetojava.brewer.model.Cerveja;
 import com.projetojava.brewer.model.StatusVenda;
@@ -11,6 +12,8 @@ import com.projetojava.brewer.security.UsuarioSistema;
 import com.projetojava.brewer.service.CadastroVendaService;
 import com.projetojava.brewer.session.TabelaItensSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.UUID;
 
@@ -48,10 +52,14 @@ public class VendasController {
     }
 
     @GetMapping
-    public ModelAndView pesquisar(VendaFilter filter, BindingResult result) {
+    public ModelAndView pesquisar(VendaFilter filter, BindingResult result,
+                                  @PageableDefault(size = 5) Pageable pageable,
+                                  HttpServletRequest httpServletRequest) {
         ModelAndView mv = new ModelAndView("venda/PesquisaVendas");
 
-        mv.addObject("vendas", vendas.filtrar(filter));
+        PageWrapper<Venda> pagina = new PageWrapper(vendas.filtrar(filter, pageable), httpServletRequest);
+
+        mv.addObject("paginaVendas", pagina);
         mv.addObject("statusVenda", StatusVenda.values());
 
         return mv;

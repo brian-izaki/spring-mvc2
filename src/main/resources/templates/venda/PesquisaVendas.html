@@ -111,7 +111,7 @@
                     </th>
 
                     <th class="table-vendas-col-cliente">
-                        Cliente
+                        <brewer:order page="${paginaVendas}" field="c.nome" text="Cliente"/>
                     </th>
 
                     <th class="table-vendas-col-data-criacao">
@@ -135,7 +135,7 @@
                 </thead>
 
                 <tbody>
-                <tr th:each="venda : ${vendas}">
+                <tr th:each="venda : ${paginaVendas.conteudo}">
 
                     <td th:text="${venda.codigo}">Emanuela</td>
                     <td th:text="${venda.cliente.nome}"></td>
@@ -153,17 +153,16 @@
                     </td>
                 </tr>
 
-                <!--                <tr th:if="${vendasPagina.vazia}">-->
-                <tr th:if="${#lists.isEmpty(vendas)}">
+                <tr th:if="${paginaVendas.vazia}">
                     <td colspan="7">Nenhum usuário encontrado</td>
                 </tr>
                 </tbody>
             </table>
         </div>
 
-        <!--        <div class="col-sm-12 text-center" th:if="${not vendasPagina.vazia}">-->
-        <!--            <brewer:pagination page="${vendasPagina}" />-->
-        <!--        </div>-->
+        <div class="col-sm-12 text-center" th:if="${not paginaVendas.vazia}">
+            <brewer:pagination page="${paginaVendas}"/>
+        </div>
     </div>
 
 

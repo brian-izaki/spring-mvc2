@@ -2,11 +2,11 @@ package com.projetojava.brewer.repository.helper.venda;
 
 import com.projetojava.brewer.model.Venda;
 import com.projetojava.brewer.repository.filter.VendaFilter;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface VendasQueries {
 
-    public List<Venda> filtrar(VendaFilter filter);
+    public Page<Venda> filtrar(VendaFilter filter, Pageable pageable);
 
 }

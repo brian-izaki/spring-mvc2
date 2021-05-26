@@ -3,34 +3,49 @@ package com.projetojava.brewer.repository.helper.venda;
 import com.projetojava.brewer.model.TipoPessoa;
 import com.projetojava.brewer.model.Venda;
 import com.projetojava.brewer.repository.filter.VendaFilter;
+import com.projetojava.brewer.repository.paginacao.PaginacaoUtil;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.List;
 
 public class VendasImpl implements VendasQueries{
 
     @PersistenceContext
     EntityManager manager;
 
+    @Autowired
+    PaginacaoUtil paginacaoUtil;
+
     @SuppressWarnings("unckecked")
     @Override
     @Transactional
-    public List<Venda> filtrar(VendaFilter filter) {
+    public Page<Venda> filtrar(VendaFilter filter, Pageable pageable) {
         Criteria criteria = manager.unwrap(Session.class).createCriteria(Venda.class);
-
+        paginacaoUtil.preparar(criteria, pageable);
         filtrarVendas(filter, criteria);
 
-        return criteria.list();
+        return new PageImpl(criteria.list(), pageable, total(filter));
+    }
+
+    private Long total(VendaFilter filter) {
+        Criteria criteria = manager.unwrap(Session.class).createCriteria(Venda.class);
+        filtrarVendas(filter, criteria);
+        criteria.setProjection(Projections.rowCount());
+
+        return (Long) criteria.uniqueResult();
     }
 
     private void filtrarVendas(VendaFilter filter, Criteria criteria) {
