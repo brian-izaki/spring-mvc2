@@ -48,10 +48,10 @@ public class VendasController {
     }
 
     @GetMapping
-    public ModelAndView pesquisar(VendaFilter filter) {
+    public ModelAndView pesquisar(VendaFilter filter, BindingResult result) {
         ModelAndView mv = new ModelAndView("venda/PesquisaVendas");
 
-        mv.addObject("vendas", vendas.findAll());
+        mv.addObject("vendas", vendas.filtrar(filter));
         mv.addObject("statusVenda", StatusVenda.values());
 
         return mv;
@@ -108,7 +108,7 @@ public class VendasController {
 
     @PostMapping(value = "/novo", params = "enviarEmail")
     public ModelAndView enviarEmail(Venda venda, BindingResult result, RedirectAttributes attributes,
-                               @AuthenticationPrincipal UsuarioSistema usuarioSistema) {
+                                    @AuthenticationPrincipal UsuarioSistema usuarioSistema) {
         validarVenda(venda, result);
 
         if (result.hasErrors()) {

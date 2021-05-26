@@ -138,12 +138,12 @@
                 <tr th:each="venda : ${vendas}">
 
                     <td th:text="${venda.codigo}">Emanuela</td>
-                    <!--                    <td th:text="${venda.cliente.nome}"></td>-->
-                    <td>NomeCliente</td>
+                    <td th:text="${venda.cliente.nome}"></td>
+
                     <td th:text="${{venda.dataCriacao}}"></td>
                     <td th:text="|R$ ${{venda.valorTotal}}|"></td>
-                    <!--                    <td th:text="${venda.usuario.nome}"></td>-->
-                    <td>NomeVendedor</td>
+                    <td th:text="${venda.usuario.nome}"></td>
+
                     <td th:text="${venda.status}"></td>
 
                     <td class="text-right">
