@@ -49,6 +49,9 @@ public class VendasController {
             venda.setUuid(UUID.randomUUID().toString());
 
         mv.addObject("itens", venda.getItens());
+        mv.addObject("valorFrete", venda.getValorFrete());
+        mv.addObject("valorDesconto", venda.getValorDesconto());
+        mv.addObject("valorTotalItens", tabelaItens.getValorTotal(venda.getUuid()));
 
         return mv;
     }

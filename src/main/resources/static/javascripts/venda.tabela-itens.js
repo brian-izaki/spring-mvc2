@@ -6,10 +6,14 @@ class TabelaItens{
 
         this.emitter = $({})
         this.on = this.emitter.on.bind(this.emitter);
+        this.valorTotal = this.tabelaItensContainer.data('valor');
     }
 
     iniciar() {
         this.autoComplete.on('item-selecionado', this.onItemSelecionado.bind(this))
+
+        this.bindQuantidade.call(this);
+        this.bindTabelaItem.call(this)
     }
 
     onItemSelecionado(eve, item) {
@@ -31,15 +35,23 @@ class TabelaItens{
     onItemAtualizadoServidor(htmlResponse) {
         this.tabelaItensContainer.html(htmlResponse)
 
+        this.bindQuantidade.call(this)
+        const tabelaItem = this.bindTabelaItem.call(this)
+
+        this.emitter.trigger('tabela-itens-atualizada', tabelaItem.data('valorTotal'));
+    }
+
+    bindQuantidade() {
         const quantidadeItemInput = $('.js-tabela-cerveja-quantidade-item');
         quantidadeItemInput.on('change', this.onQuantidadeItemAlterado.bind(this))
         quantidadeItemInput.maskMoney({precision: 0, thousands: ''});
+    }
 
+    bindTabelaItem() {
         const tabelaItem = $('.js-tabela-item');
         tabelaItem.on('dblclick', this.onDoubleClick)
         $('.js-exclusao-item-btn').on('click', this.onExclusaoItemClick.bind(this))
-
-        this.emitter.trigger('tabela-itens-atualizada', tabelaItem.data('valorTotal'));
+        return tabelaItem;
     }
 
     onQuantidadeItemAlterado(event) {

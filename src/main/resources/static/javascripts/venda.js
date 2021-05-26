@@ -5,9 +5,9 @@ class Venda {
         this.valorFreteInput = $('#valorFrete');
         this.valorDescontoInput = $('#valorDesconto');
 
-        this.valorTotalItens = 0;
-        this.valorFrete = 0;
-        this.valorDesconto = 0;
+        this.valorTotalItens = Number(this.tabelaItens.valorTotal);
+        this.valorFrete = Number(this.valorFreteInput.data("valor")) || 0;
+        this.valorDesconto = Number(this.valorDescontoInput.data("valor")) || 0;
     }
 
     iniciar() {
@@ -18,6 +18,8 @@ class Venda {
         this.tabelaItens.on('tabela-itens-atualizada', this.onValoresAlterados.bind(this))
         this.valorFreteInput.on('keyup', this.onValoresAlterados.bind(this))
         this.valorDescontoInput.on('keyup', this.onValoresAlterados.bind(this));
+
+        this.onValoresAlterados.call(this);
     }
 
     onTabelaItensAtualizada(ev, valorTotalItens) {
@@ -37,13 +39,8 @@ class Venda {
 
         this.valorTotalBox.html(Brewer.formatarMoeda(valorTotal))
 
-        // pegar o box e deixar vermelho só se estiver com valortotal negativo
         const precoBox = $('.js-preco-venda-box');
-
-        if (valorTotal < 0)
-            precoBox.addClass('alert-danger')
-        else
-            precoBox.removeClass('alert-danger');
+        precoBox.toggleClass('alert-danger', valorTotal < 0)
     }
 
 }
