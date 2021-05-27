@@ -42,7 +42,8 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
 10. [Partes do Java](#Do-Java)
 11. [http session](#HTTP-Session)
 12. [testes unitários](#Testes-unitarios)
-13. [Links de Referencia](#Referências)
+13. [Envio de E-mail](#Envio-de-Email-📧) 
+14. [Links de Referencia](#Referências)
 
 ---
 
@@ -618,6 +619,79 @@ Foi usado para testar no momento de carrinho de compras.
   - _métodos_:
     - `assertEquals(esperado, valorParaTeste)`: faz comparação de igualdade.
 
+### Envio de Email 📧
+Será utilizado um serviço de e-mail externo. (_pesquise por transaction email service_) <br/>
+Aqui será utilizado o serviço **SendGrid** que pode ser feito transactional email ou email marketing. <br/>
+**Transactional email** são tipos de emails que facilita uma transação entre as duas partes cliente-empresa para confirmar uma transação. <br/>
+_ex: o usuario realiza uma compra e ele espera que a empresa lhe retorne um email da compra realizada. 
+A criação de uma nova conta, resetar senhas, etc._ 
+
+- É necessário utilizar a dependência `JavaMail`.
+  
+- Fazer configuração do uso de email criando @Beans.
+  - o Host do serviço de email varia para cada um (necessário ver a documentação deles).
+  - A configuração da porta tambem deve ser visto na documentação. 
+  
+- Envio de E-mail é necessário torná-lo **Assíncrono**, utilizando a notation `@Async` e foi **necessário habilitar** ele
+  no `WebConfig` com o `@EnableAsync`. Isso garante que o sistema tenha que esperar por um terceiro para continuar funcionando.
+
+- Enviando email simples:
+  - é necessário instanciar o `SimpleMailMessage` e setar os atributos: 
+    - `from` (email do sistema - email do serviço de email utilizado), 
+    - `to` (email para quem quer enviar), 
+    - `subject` (titulo do email), 
+    - `text`(mensagem do corpo do email).
+  - por fim deve utilizar o **JavaMailSender** injetado com @Autowired e utilizar o método `.send(oSimpleMailInstanciado)`
+
+- Enviando email com HTML:
+  - é necessário colocar o CSS de forma inline.
+  - criando o código para processar html com o thymeleaf.
+  
+  ```java
+    @AutoWired
+    private JavaMailSender mailSender;
+  
+    @Autowired
+    private TemplateEngine thymeleaf;
+    
+    public void enviar(Object objeto) {
+        Context context = new Context();
+        context.setVariable("objeto", objeto);   // igual ao addObject das controllers   
+        context.setVariable("nomeImagem", "nomeImagem"); // no helper será setado o caminho
+     
+        String email = thymeleaf.process("dirTemplates/arquivoHtml", context); // gera o html processado pelo thymeleaf
+
+        MimeMessage mimeMessage = mailSender.createMimeMessage(); // responsável por poder enviar o HTML pelo send().
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8"); // o true é pq será add imagens ele é Multipart.
+  
+        // com o helper, vai ser setado o que teria no SimpleMessage
+        // diferença que no text é passado o HTML do thymeleaf e o segundo argumento significa "é um html?"
+        helper.text(email, true);
+        // responsável por setar o caminho que tem a imagem.
+        helper.addInline("nomeImagem", new ClassPathResource("nomeDoDiretorioComImagem"))
+  
+        mailSender.send(mimeMessage); // realiza envio de email
+    }
+  ```
+  - as **imagens para o html** deve passar na src a seguinte string: `cid:${nomeImagem}`
+  - `cid:` significa q é o conteúdo junto do email
+  - o nome da imagem é definido com o setVariable e addInline no código acima.
+  
+
+- Utilizando **variáveis de ambiente** em arquivo `.properties` (antes, deve-se criar diretorio env com arquivo properties em resources)
+  na classe que for utilizar eles, deve-se usar a annotation `@PropertiesSource({ classpath:env/nomeArquivo.properties })` e
+  fazer a injeção do Tipo **`Enviroment`** com ele pode ser pego os atributos passados dentro do arquivo properties.
+    - pode ser utilizado variaveis que são subidas no momento de executar o servidor com `${variavelNoServidor:stringQueQuiser}` o 
+      `:` significa "se não". <br/>
+      ex: `@PropertiesSource({ classpath:env/mail-${ambiente:local}.properties })`, envTarget poderá ser "producao", "testes", etc. 
+      se não tiver nada será sempre "local".
+    - Pode também fazer o carregamento das variáveis através de um arquivo externo que é salvo na máquina local (diretorio do seu pc).
+      para isso é necessário passar o caminho para esse arquivo com 
+      ```
+      @PropertySource(value = {"file://${HOME}/arquivoCriado.properties"}, ignoreResourceNotFound = true)
+      ```
+      ignoreResourceNotFound serve para que não ocorra erros ao iniciar o servidor caso não encontre o arquivo especificado.
+  
 ## Referências
 
 - AlgaWorks Spring experts

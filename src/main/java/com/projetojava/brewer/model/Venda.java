@@ -183,13 +183,15 @@ public class Venda implements Serializable {
         this.itens.forEach(i -> i.setVenda(this)); // para cada item está sendo setando este objeto Venda para ele. Para fazer referência.
     }
 
-    public void calcularValorTotal() {
-        BigDecimal valorTotalItens = getItens().stream()
+    public BigDecimal valorTotalItens() {
+        return getItens().stream()
                 .map(ItemVenda::getValorTotal)
                 .reduce(BigDecimal::add)
                 .orElse(BigDecimal.ZERO);
+    }
 
-        this.valorTotal = calcularItensFreteDesconto(valorTotalItens, getValorFrete(), getValorDesconto());
+    public void calcularValorTotal() {
+        this.valorTotal = calcularItensFreteDesconto(valorTotalItens(), getValorFrete(), getValorDesconto());
     }
 
     private BigDecimal calcularItensFreteDesconto(BigDecimal valorTotalItens,
