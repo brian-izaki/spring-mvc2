@@ -49,6 +49,15 @@ public class UsuariosController {
 		return mv;
 	}
 
+	@GetMapping("/{codigo}")
+	public ModelAndView editar(@PathVariable Long codigo) {
+		Usuario usuario = usuarios.buscarComGrupos(codigo);
+
+		ModelAndView mv = novo(usuario);
+		mv.addObject(usuario);
+		return mv;
+	}
+
 	@GetMapping(value = "/novo")
 	public ModelAndView novo(Usuario usuario) {
 		ModelAndView mv = new ModelAndView("usuario/CadastroUsuario");
@@ -57,7 +66,7 @@ public class UsuariosController {
 		return mv;
 	}
 
-	@PostMapping(value = "/novo")
+	@PostMapping(value = {"/novo", "{\\d+}"})
 	public ModelAndView salvar(@Valid Usuario usuario, BindingResult result, RedirectAttributes attributes) {
 		if (result.hasErrors()) {
 			return novo(usuario);
