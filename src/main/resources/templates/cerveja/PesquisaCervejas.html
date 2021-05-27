@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorator="'layout/LayoutPadrao'" xmlns:brewer="http://brewer.projetojava.com">
+      layout:decorator="'layout/LayoutPadrao'"
+      xmlns:brewer="http://brewer.projetojava.com"
+      xmlns:data="http://www.thymeleaf.org/extras/data">
 
 <head>
     <title>Pesquisa de cerveja</title>
@@ -132,10 +134,11 @@
                     <td th:text="${cerveja.origem.descricao}">Internacional</td>
                     <td class="text-right" th:text="|R$ ${cerveja.valor}|">R$ 8.00</td>
                     <td class="text-center">
-                        <a class="btn  btn-link  btn-xs" title="Editar">
+                        <a class="btn  btn-link  btn-xs js-tooltip" title="Editar">
                             <i class="glyphicon glyphicon-pencil"></i>
                         </a>
-                        <a class="btn  btn-link  btn-xs" title="Excluir">
+                        <a class="btn  btn-link  btn-xs js-tooltip js-exclusao-btn" title="Excluir" href="#"
+                           data:url="@{/cervejas/{codigo}(codigo=${cerveja.codigo})}" data:objeto="${cerveja.nome}">
                             <i class="glyphicon glyphicon-remove"></i>
                         </a>
                     </td>
