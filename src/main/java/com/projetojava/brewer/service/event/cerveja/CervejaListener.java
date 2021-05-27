@@ -13,7 +13,7 @@ public class CervejaListener {
 
     // condition fala que esse evento será chamado apenas se a condição for verdadeira. uma forma de diminuir linha
     // e não colocar if
-    @EventListener(condition = "#evento.temFoto()")
+    @EventListener(condition = "#evento.temFoto() and #evento.temFotoNova()")
     public void cervejaSalva(CervejaSalvaEvent evento) {
         fotoStorage.salvar(evento.getCerveja().getFoto());
     }
