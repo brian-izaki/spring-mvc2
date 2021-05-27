@@ -3,6 +3,7 @@ package com.projetojava.brewer.controller;
 import com.projetojava.brewer.controller.page.PageWrapper;
 import com.projetojava.brewer.controller.validator.VendaValidator;
 import com.projetojava.brewer.model.Cerveja;
+import com.projetojava.brewer.model.ItemVenda;
 import com.projetojava.brewer.model.StatusVenda;
 import com.projetojava.brewer.model.Venda;
 import com.projetojava.brewer.repository.Cervejas;
@@ -65,12 +66,25 @@ public class VendasController {
         return mv;
     }
 
+    @GetMapping("/{codigo}")
+    public ModelAndView editar(@PathVariable Long codigo) {
+        Venda venda = vendas.buscarComItens(codigo);
+
+        setUuid(venda);
+        for(ItemVenda item : venda.getItens()) {
+            tabelaItens.adicionarItem(venda.getUuid(), item.getCerveja(), item.getQuantidade());
+        }
+        
+        ModelAndView mv = novo(venda);
+        mv.addObject(venda);
+        return mv;
+    }
+
     @GetMapping("/novo")
     public ModelAndView novo(Venda venda) {
         ModelAndView mv = new ModelAndView("venda/CadastroVenda");
 
-        if (StringUtils.isEmpty(venda.getUuid()))
-            venda.setUuid(UUID.randomUUID().toString());
+        setUuid(venda);
 
         mv.addObject("itens", venda.getItens());
         mv.addObject("valorFrete", venda.getValorFrete());
@@ -139,9 +153,9 @@ public class VendasController {
         return mvTabelaItens(uuid);
     }
 
+
     // está sendo realizado um findOne automático. O Spring e o JPA que realizam essa integração
     // foi necessário adicionar uma configuração no WEBConfig para habilitar esta funcionalidade.
-
     @PutMapping("/item/{codigoCerveja}")
     public ModelAndView alterarQuatidadeItem(@PathVariable("codigoCerveja") Cerveja cerveja,
                                              Integer quantidade,
@@ -169,5 +183,10 @@ public class VendasController {
         venda.calcularValorTotal();
 
         vendaValidator.validate(venda, result);
+    }
+
+    private void setUuid(Venda venda) {
+        if (StringUtils.isEmpty(venda.getUuid()))
+            venda.setUuid(UUID.randomUUID().toString());
     }
 }

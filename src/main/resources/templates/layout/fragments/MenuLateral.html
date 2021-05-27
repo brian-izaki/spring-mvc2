@@ -38,12 +38,12 @@
                     </a>
 
                     <ul class="aw-menu__list  aw-menu__list--sublist">
-                        <li class="aw-menu__item  aw-menu__item--link" brewer:menu="@{/vendas}">
+                        <li class="aw-menu__item  aw-menu__item--link" brewer:menu="@{/vendas/?}">
                             <a th:href="@{/vendas}">Pesquisa de vendas</a>
                         </li>
 
-                        <li class="aw-menu__item  aw-menu__item--link" brewer:menu="@{/vendas/novo}">
-                            <a th:href="@{/vendas/novo}">Nova Venda</a>
+                        <li class="aw-menu__item  aw-menu__item--link" brewer:menu="@{/vendas/\w.*}">
+                            <a th:href="@{/vendas/novo}">Cadastro de Venda</a>
                         </li>
 
                     </ul>

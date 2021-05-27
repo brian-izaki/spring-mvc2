@@ -400,8 +400,11 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
     - quais são as colunas de uma tabela, 
     - se devem realizar ações antes ou depois de algum comando DML (ver seção de métodos de callback), 
     - configurações que alteram a forma padrão do framework como a annotation `@DynamicUpdate` que permite alterar apenas o valor desejado, e não tudo msm que apenas esteja alterando um valor.
-  - `Cascade`: na model de venda está sendo feito o cadastro de itens além da venda em si. Com o cascade será feito a 
-    inserção dos itens que foram cadastrados (item e venda são tabelas diferentes)
+  - atributos da notation **@ManyToMany**:
+    - `cascade`: na model de venda está sendo feito o cadastro de itens além da venda em si. Com o cascade será feito a 
+      inserção dos itens que foram cadastrados (item e venda são tabelas diferentes) 
+    - `orphanRemoval` (padrão false): na Model Venda qnd é feito uma alteração ele altera somente o atributo de itens (uma List) isto não reflete
+      no BD, com o **orphanRemoval sendo `true`, as remoções da List são refletidas no BD**.
 
 - **Embedded** 
   - foi utilizado na model Cliente com o Endereço, pois na tabela dentro do BD, dados de endereço e cliente estão juntos mas, dentro do projeto foram separados para ser de fácil leitura.
