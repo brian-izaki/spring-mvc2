@@ -1,5 +1,7 @@
 package com.projetojava.brewer.model;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -15,6 +17,7 @@ import java.util.Optional;
 
 @Entity
 @Table(name = "venda")
+@DynamicUpdate
 public class Venda implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -199,6 +202,14 @@ public class Venda implements Serializable {
         LocalDate inicio = dataCriacao != null ? dataCriacao.toLocalDate() : LocalDate.now();
         // chronoUnit fará as contagens de tempo
         return ChronoUnit.DAYS.between(inicio, LocalDate.now());
+    }
+
+    public boolean isSalvarPermitido() {
+        return !status.equals(StatusVenda.CANCELADA);
+    }
+
+    public boolean isSalvarProibido() {
+        return status.equals(StatusVenda.CANCELADA);
     }
 
     private BigDecimal calcularItensFreteDesconto(BigDecimal valorTotalItens,

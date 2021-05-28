@@ -45,7 +45,6 @@ class MaskDate {
             orientation: "bottom",
             language: "pt-BR",
             autoclose: "true",
-            endDate: "0d",
         })
     }
 }

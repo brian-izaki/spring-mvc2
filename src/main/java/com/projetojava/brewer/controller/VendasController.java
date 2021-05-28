@@ -15,6 +15,7 @@ import com.projetojava.brewer.session.TabelaItensSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -144,6 +145,20 @@ public class VendasController {
 
         return new ModelAndView("redirect:/vendas/novo");
     }
+
+    @PostMapping(value = "/novo", params = "cancelar")
+    public ModelAndView cancelar(Venda venda, BindingResult result, RedirectAttributes attributes,
+                                    @AuthenticationPrincipal UsuarioSistema usuarioSistema) {
+        try {
+            cadastroVendaService.cancelar(venda);
+        } catch (AccessDeniedException e) {
+            return new ModelAndView("/403");
+        }
+
+        attributes.addFlashAttribute("mensagem", "Venda cancelada com sucesso");
+        return new ModelAndView("redirect:/vendas/" + venda.getCodigo());
+    }
+
 
     @PostMapping("/item")
     public ModelAndView adicionarItem(Long codigoCerveja, String uuid) {

@@ -534,9 +534,19 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
 
   - **arquivo 📄: SecurityConfig.java**
     - São as configurações do Spring Security
-    - nele possui o método responsável pela encriptação das senhas.
-    - é necessário sobrescrever o método `configurer(AuthenticationManagerBuilder auth)` com o parâmetro `AuthenticationManagerBuilder` ele irá servir para configurar o **login**.
-    - o `configurer(HttpSecurity http)` é polimórfico e caso utilize ele com o parâmetro de `HttpSecurity` ele irá servir para configurar o **logout**.
+    - nele possui o método responsável pela encriptação das senhas. 
+    - Caso queira **limitar ações** de usuários ao **manipular BD** deve colocar a anotation `@EnableGlobalMethodSecurity(prePostEnabled = true)`
+      - ele vai liberar a anotação abaixo na aplicação que pode ser utilizada em métodos que escrevem no BD (save, delete).
+        ```
+        @PreAuthorize("#objeto.atributo == principal.usuario")
+        ```
+          - o valor na String é uma verifição para ver se o valor do atributo é igual ao usuario logado.
+          - o # diz que está pegando um objeto da aplicação
+          - apenas se for verdadeiro, a aplicação irá permitir que excute o método, caso não, ele lança uma exceção 
+            (AccessDeniedException - spring security)!
+      - 
+    - Para configurar o **login** é necessário sobrescrever o método `configurer(AuthenticationManagerBuilder auth)` com o parâmetro `AuthenticationManagerBuilder`.
+    - Para configurar o **logout** é necessário passar com o parâmetro de `HttpSecurity` no `configurer(HttpSecurity http)` (configurer é um método polimórfico) .
       - métodos do httpSecurity
         - `and()` ele faz com que retorne ao objeto anterior para permitir encadear mais métodos.
         - `antMatchers()` utilizado para mapear uma url do sistema.
