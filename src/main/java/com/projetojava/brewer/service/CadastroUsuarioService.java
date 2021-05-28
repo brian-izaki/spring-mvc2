@@ -2,14 +2,19 @@ package com.projetojava.brewer.service;
 
 import com.projetojava.brewer.model.Usuario;
 import com.projetojava.brewer.repository.Usuarios;
+import com.projetojava.brewer.security.UsuarioSistema;
 import com.projetojava.brewer.service.exception.EmailUsuarioJaExistenteException;
+import com.projetojava.brewer.service.exception.ImpossivelExcluirEntidadeException;
 import com.projetojava.brewer.service.exception.SenhaObrigatoriaUsuarioException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import javax.persistence.PersistenceException;
+import javax.persistence.PostPersist;
 import java.util.Optional;
 
 @Service
@@ -52,5 +57,16 @@ public class CadastroUsuarioService {
     @Transactional
     public void alterarStatus(Long[] codigos, StatusUsuario statusUsuario) {
         statusUsuario.executar(codigos, usuarios);
+    }
+
+    @Transactional
+    @PreAuthorize("#usuario != principal.usuario")
+    public void excluir(Usuario usuario) {
+        try {
+            usuarios.delete(usuario);
+            usuarios.flush();
+        } catch (PersistenceException e) {
+            throw new ImpossivelExcluirEntidadeException("Impossível excluir este usuário, ele já realizou uma venda");
+        }
     }
 }

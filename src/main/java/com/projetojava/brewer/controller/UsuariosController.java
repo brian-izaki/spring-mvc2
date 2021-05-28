@@ -8,17 +8,22 @@ import com.projetojava.brewer.repository.filter.UsuarioFilter;
 import com.projetojava.brewer.service.CadastroUsuarioService;
 import com.projetojava.brewer.service.StatusUsuario;
 import com.projetojava.brewer.service.exception.EmailUsuarioJaExistenteException;
+import com.projetojava.brewer.service.exception.ImpossivelExcluirEntidadeException;
 import com.projetojava.brewer.service.exception.SenhaObrigatoriaUsuarioException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.print.attribute.standard.Media;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Arrays;
@@ -56,6 +61,23 @@ public class UsuariosController {
 		ModelAndView mv = novo(usuario);
 		mv.addObject(usuario);
 		return mv;
+	}
+
+	@DeleteMapping("/{codigo}")
+	public @ResponseBody ResponseEntity excluir(@PathVariable("codigo") Usuario usuario) {
+
+		try {
+			cadastroUsuarioService.excluir(usuario);
+		} catch (ImpossivelExcluirEntidadeException e) {
+			return ResponseEntity.badRequest().contentType(MediaType.APPLICATION_JSON_UTF8)
+					.body(e.getMessage());
+		} catch (AccessDeniedException e) {
+			return ResponseEntity.badRequest().contentType(MediaType.APPLICATION_JSON_UTF8)
+					.body("Usuário logado não pode se auto excluir apenas editar");
+		}
+
+		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON_UTF8)
+				.body("Usuário excluído com sucesso!");
 	}
 
 	@GetMapping(value = "/novo")

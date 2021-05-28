@@ -722,3 +722,4 @@ A criação de uma nova conta, resetar senhas, etc._
   - [JPA Entity life cicle events](https://www.baeldung.com/jpa-entity-lifecycle-events)
     - fonte: [hibernate comunity](https://docs.jboss.org/hibernate/stable/entitymanager/reference/en/html/listeners.html)
   - [Consultas utilizando Criteria](https://docs.jboss.org/hibernate/orm/3.5/reference/pt-BR/html/querycriteria.html) do hibernate
+  - [annotations do Spring](https://domineospring.wordpress.com/2016/07/13/guia-das-annotations-do-spring/)
