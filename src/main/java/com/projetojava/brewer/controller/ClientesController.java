@@ -8,6 +8,7 @@ import com.projetojava.brewer.repository.Estados;
 import com.projetojava.brewer.repository.filter.ClienteFilter;
 import com.projetojava.brewer.service.CadastroClienteService;
 import com.projetojava.brewer.service.exception.CpfCnpjClienteJaCadastradoException;
+import com.projetojava.brewer.service.exception.ImpossivelExcluirEntidadeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -91,6 +92,16 @@ public class ClientesController {
         return new ModelAndView("redirect:/clientes/novo");
     }
 
+    @DeleteMapping("/{codigo}")
+    public @ResponseBody ResponseEntity<?> deletar(@PathVariable Long codigo) {
+        try {
+            cadastroClienteService.excluir(codigo);
+        } catch (ImpossivelExcluirEntidadeException e) {
+            return ResponseEntity.badRequest().contentType(MediaType.APPLICATION_JSON_UTF8).body(e.getMessage());
+        }
+
+        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON_UTF8).body("Deletado com sucesso");
+    }
 
     private void validarTamanhoNOme(String nome) {
         if(StringUtils.isEmpty(nome) || nome.length() < 3) {
