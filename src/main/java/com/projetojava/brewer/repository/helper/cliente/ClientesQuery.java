@@ -11,4 +11,5 @@ public interface ClientesQuery {
 
     public Page<Cliente> filtrar(ClienteFilter filter, Pageable pageable);
 
+    Cliente buscaComEstado(Long codigo);
 }

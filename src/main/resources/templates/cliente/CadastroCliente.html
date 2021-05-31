@@ -32,9 +32,11 @@
     </div>
 
     <div class="container-fluid">
-        <form method="POST" th:object="${cliente}" class="form-vertical" th:action="@{/clientes/novo}">
+        <form method="POST" th:object="${cliente}" class="form-vertical"
+              th:action="${cliente.novo} ? @{/clientes/novo} : @{/clientes/{codigo}(codigo = ${cliente.codigo})}">
 
             <brewer:message/>
+            <input type="hidden" th:field="*{codigo}">
 
             <div class="form-group bw-required" brewer:classforerror="nome">
                 <label for="nome" class="control-label">Nome</label>
@@ -118,6 +120,9 @@
 
                 <div class="form-group col-sm-4">
                     <label for="estado" class="control-label">Estado</label>
+
+                    <input type="hidden" id="inputHiddenEstado"
+                           th:value="${cliente.comCidade} ? *{endereco.cidade.estado.codigo} : null">
 
                     <select id="estado" class="form-control" th:field="*{endereco.estado}">
                         <option value="">Selecione um estado</option>

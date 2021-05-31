@@ -9,6 +9,7 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
+import org.hibernate.validator.constraints.ScriptAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -18,6 +19,7 @@ import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.Arrays;
 
 public class ClientesImpl implements ClientesQuery{
 
@@ -40,6 +42,20 @@ public class ClientesImpl implements ClientesQuery{
         criteria.createAlias("c.estado", "e", JoinType.LEFT_OUTER_JOIN);
 
         return new PageImpl(criteria.list(), pageable, total(filter));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Cliente buscaComEstado(Long codigo) {
+        Criteria criteria = manager.unwrap(Session.class).createCriteria(Cliente.class);
+
+        criteria.add(Restrictions.eq("codigo", codigo));
+        criteria.createAlias("endereco.cidade", "c", JoinType.LEFT_OUTER_JOIN);
+        criteria.createAlias("c.estado", "e", JoinType.LEFT_OUTER_JOIN);
+
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+
+        return (Cliente) criteria.uniqueResult();
     }
 
     private Long total(ClienteFilter filtro) {

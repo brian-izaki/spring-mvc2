@@ -5,10 +5,25 @@ class ComboEstado {
         this.combo = $('#estado');
         this.emitter = $({});
         this.on = this.emitter.on.bind(this.emitter);
+
+        this.codigoEstadoHiddenUpdate = $('#inputHiddenEstado');
     }
 
     iniciar() {
         this.combo.on('change', this.onEstadoAlterado.bind(this))
+
+        if (this.codigoEstadoHiddenUpdate.val() !== "") {
+            this.onSelecionarEstado(this.codigoEstadoHiddenUpdate.val());
+        }
+    }
+
+    onSelecionarEstado(codigo) {
+        const options = document.querySelectorAll('#estado option');
+        options.forEach(option => {
+            if (option.getAttribute('value') === codigo) {
+                option.setAttribute("selected", '');
+            }
+        })
     }
 
     onEstadoAlterado() {

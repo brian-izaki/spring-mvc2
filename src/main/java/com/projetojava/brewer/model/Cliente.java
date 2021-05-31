@@ -42,6 +42,7 @@ public class Cliente implements Serializable {
 
     private String telefone;
 
+    @NotNull(message = "E-mail é obrigatório")
     @Email(message = "E-mail está inválido")
     private String email;
 
@@ -117,6 +118,14 @@ public class Cliente implements Serializable {
 
     public String getCpfOuCnpjSemFormatacao() {
         return TipoPessoa.removerFormatacao(this.cpfOuCnpj);
+    }
+
+    public boolean isNovo() {
+        return this.codigo == null;
+    }
+
+    public boolean isComCidade() {
+        return this.endereco.getCidade() != null && this.endereco.getCidade().getEstado() != null;
     }
 
     @Override

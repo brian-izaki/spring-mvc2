@@ -39,7 +39,7 @@ public class ClientesController {
 
     @GetMapping
     public ModelAndView pesquisa(ClienteFilter filter, BindingResult result,
-								 @PageableDefault(size = 2) Pageable pageable,
+								 @PageableDefault(size = 5) Pageable pageable,
 								 HttpServletRequest httpServletRequest) {
 
         ModelAndView mv = new ModelAndView("cliente/PesquisaCliente");
@@ -66,7 +66,15 @@ public class ClientesController {
         return mv;
     }
 
-    @PostMapping("/novo")
+    @GetMapping("/{codigo}")
+    public ModelAndView editar(@PathVariable Long codigo) {
+        Cliente cliente = clientes.buscaComEstado(codigo);
+        ModelAndView mv = novo(cliente);
+        mv.addObject(cliente);
+        return mv;
+    }
+
+    @RequestMapping(value = {"/novo", "{\\d+}"}, method = RequestMethod.POST)
     public ModelAndView salvar(@Valid Cliente cliente, BindingResult result, RedirectAttributes attributes) {
         if (result.hasErrors()) {
             return novo(cliente);
