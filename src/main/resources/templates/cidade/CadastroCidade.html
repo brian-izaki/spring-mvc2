@@ -15,7 +15,8 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-xs-10">
-                    <h1 class="fs-1">Cadastro de cidades</h1>
+                    <h1 th:unless="${cidade.codigo}" class="fs-1">Cadastro de cidades</h1>
+                    <h1 th:if="${cidade.codigo}" class="fs-1">Alterar o nome da cidade: [[${cidade.nome}]]/[[${cidade.estado.sigla}]]</h1>
                 </div>
 
                 <div class="col-xs-2">

@@ -5,7 +5,8 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="'layout/LayoutPadrao'"
       xmlns:brewer="http://brewer.projetojava.com"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity">
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity"
+      xmlns:data="http://www.thymeleaf.org/extras/data">
 
 <head>
     <title>Pesquisa de Cidades</title>
@@ -82,7 +83,9 @@
                            th:href="@{cidades/{codigo}(codigo = ${cidade.codigo})}">
                             <i class="glyphicon glyphicon-pencil"></i>
                         </a>
-                        <a class="btn  btn-link  btn-xs js-tooltip" title="Excluir">
+                        <a class="btn  btn-link  btn-xs js-tooltip js-exclusao-btn" title="Excluir"
+                           data:url="@{cidades/{codigo}(codigo = ${cidade.codigo})}"
+                           data:object="|${cidade.nome}/${cidade.estado.sigla}|">
                             <i class="glyphicon glyphicon-remove"></i>
                         </a>
                     </td>

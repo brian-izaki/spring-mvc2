@@ -6,6 +6,7 @@ import com.projetojava.brewer.repository.Cidades;
 import com.projetojava.brewer.repository.Estados;
 import com.projetojava.brewer.repository.filter.CidadeFilter;
 import com.projetojava.brewer.service.CadastroCidadeService;
+import com.projetojava.brewer.service.exception.ImpossivelExcluirEntidadeException;
 import com.projetojava.brewer.service.exception.NomeCidadeJaCadastradoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -13,6 +14,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -101,4 +103,18 @@ public class CidadeController {
         return mv;
     }
 
+    @DeleteMapping("/{codigo}")
+    public @ResponseBody ResponseEntity<?> excluir(@PathVariable Long codigo) {
+        try {
+            cadastroCidadeService.excluir(codigo);
+        } catch (ImpossivelExcluirEntidadeException e) {
+            return ResponseEntity.badRequest()
+                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+                    .body(e.getMessage());
+        }
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .body("cidade foi excluída com sucesso.");
+    }
 }
