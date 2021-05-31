@@ -50,7 +50,9 @@ public class JPAConfig {
 		factory.setJpaVendorAdapter(jpaVendorAdapter);
 		
 		factory.setPackagesToScan(Cerveja.class.getPackage().getName());
-		
+
+		factory.setMappingResources("sql/consultas-nativas.xml");
+
 		factory.afterPropertiesSet();
 		
 		return factory.getObject();		

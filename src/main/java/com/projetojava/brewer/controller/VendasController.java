@@ -2,6 +2,7 @@ package com.projetojava.brewer.controller;
 
 import com.projetojava.brewer.controller.page.PageWrapper;
 import com.projetojava.brewer.controller.validator.VendaValidator;
+import com.projetojava.brewer.dto.VendaMes;
 import com.projetojava.brewer.model.Cerveja;
 import com.projetojava.brewer.model.ItemVenda;
 import com.projetojava.brewer.model.StatusVenda;
@@ -27,6 +28,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -184,6 +186,11 @@ public class VendasController {
                                     @PathVariable("uuid") String uuid) {
         tabelaItens.excluirItem(uuid, cerveja);
         return mvTabelaItens(uuid);
+    }
+
+    @GetMapping("/totalPorMes")
+    public @ResponseBody List <VendaMes> listarTotalVendaPorMes() {
+        return vendas.totalPorMes();
     }
 
     private ModelAndView mvTabelaItens(String uuid) {

@@ -471,6 +471,20 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
     - `@PrePersist` para antes de inserir
     - `@PreUpdate` para antes de alterar um dado.
 
+- **Utilizando consultas externas**:
+  - A consulta externa foi utilizada pois se trata de uma query que utiliza funções específicas do MySQL.
+  - É utilizado um arquivo xml com um boilerplate específico. 
+    veja: [consultar-nativas.xml](/src/main/resources/sql/consultas-nativas.xml)
+    - Deve-se notar o `name` na linha 7, esse nome que será utilizado qnd for executar a query.
+    - Da linha 19 à 25 são os atributos que são resultados da query.
+  - Foi necessário também configurar o JPAConfig para que a aplicação saiba onde encontrar 
+    esse arquivo (método EntityManagerFactory - setMappingResources -).
+  - No local que é utilizado esse arquivo xml é necessário usar o método createNamedQuery do EntityManager. 
+    veja: [VendasImpl](/src/main/java/com/projetojava/brewer/repository/helper/venda/VendasImpl.java)
+  - Para utilizar os dados que retornam da query, foi criado uma classe no diretorio DTO para ser utilizada na aplicação. 
+    veja: [VendasMes](/src/main/java/com/projetojava/brewer/dto/VendaMes.java)
+  
+
 ### Tratando imagens 📷
 - Frontend
   - foi utilizado a lib do UIKit para realizar as requisições de imagens (por detrás dos panos ele utiliza o ajax)

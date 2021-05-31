@@ -1,5 +1,6 @@
 package com.projetojava.brewer.repository.helper.venda;
 
+import com.projetojava.brewer.dto.VendaMes;
 import com.projetojava.brewer.model.StatusVenda;
 import com.projetojava.brewer.model.TipoPessoa;
 import com.projetojava.brewer.model.Venda;
@@ -22,6 +23,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.math.BigDecimal;
 import java.time.*;
+import java.util.List;
 import java.util.Optional;
 
 public class VendasImpl implements VendasQueries{
@@ -90,6 +92,25 @@ public class VendasImpl implements VendasQueries{
                         .getSingleResult());
         // caso não retorne nada, retornará um 0.
         return optional.orElse(BigDecimal.ZERO);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<VendaMes> totalPorMes() {
+        List<VendaMes> vendasMes = manager.createNamedQuery("Vendas.totalPorMes").getResultList();
+
+        LocalDate hoje = LocalDate.now();
+        for (int i = 1; i <= 6; i++) {
+            String mesIdeal = String.format("%d/%02d", hoje.getYear(), hoje.getMonthValue());
+            boolean possuiMes = vendasMes.stream().filter(v -> v.getMes().equals(mesIdeal)).findAny().isPresent();
+            if (!possuiMes) {
+                vendasMes.add(i - 1, new VendaMes(mesIdeal, 0));
+            }
+
+            hoje = hoje.minusMonths(1);
+        }
+
+        return vendasMes;
     }
 
     private Long total(VendaFilter filter) {

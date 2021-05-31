@@ -6,16 +6,28 @@ class GraficoVendaPorMes {
     }
 
     iniciar() {
+        fetch('vendas/totalPorMes', {
+            method: "GET",
+        })
+            .then(success => success.json())
+            .then(json => this.renderizar(json))
+    }
+
+    renderizar(vendaMes) {
+        console.log(vendaMes)
+        const meses = vendaMes.map((obj) => obj.mes).reverse();
+        const valores = vendaMes.map((obj) => obj.total).reverse();
+
         const graficoVendasPorMes = new Chart(this.ctx, {
             type: 'line',
             data: {
-                labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Jun'],
+                labels: meses,
                 datasets: [{
                     label: 'Vendas por mês',
                     backgroundColor: "rgba(26, 179, 148, 0.5)",
                     pointBorderColor: "rgba(26, 179, 148, 1)",
                     pointBackgroundColor: "#fff",
-                    data: [10, 5, 6, 2, 6]
+                    data: valores
                 }]
             },
         });
