@@ -6,6 +6,7 @@ import javax.validation.Valid;
 import com.projetojava.brewer.controller.page.PageWrapper;
 import com.projetojava.brewer.repository.Estilos;
 import com.projetojava.brewer.repository.filter.EstiloFilter;
+import com.projetojava.brewer.service.exception.ImpossivelExcluirEntidadeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -91,5 +92,20 @@ public class EstilosController {
 		ModelAndView mv = novo(estilo);
 		mv.addObject(estilo);
 		return mv;
+	}
+
+	@DeleteMapping("/{codigo}")
+	public @ResponseBody ResponseEntity<?> excluir(@PathVariable Long codigo){
+		try {
+			cadastroEstiloService.excluir(codigo);
+		} catch (ImpossivelExcluirEntidadeException e) {
+			return  ResponseEntity.badRequest()
+					.contentType(MediaType.APPLICATION_JSON_UTF8)
+					.body(e.getMessage());
+		}
+
+		return ResponseEntity.ok()
+				.contentType(MediaType.APPLICATION_JSON_UTF8)
+				.body("Estilo excluído com sucesso!");
 	}
 }
