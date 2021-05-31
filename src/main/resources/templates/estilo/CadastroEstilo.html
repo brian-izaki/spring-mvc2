@@ -17,7 +17,8 @@
             <div class="row">
 
                 <div class="col-xs-10">
-                    <h1 class="fs-1">Cadastro de estilo</h1>
+                    <h1 th:unless="${estilo.codigo}" class="fs-1">Cadastro de estilo</h1>
+                    <h1 th:if="${estilo.codigo}" class="fs-1">Editar o estilo: [[${estilo.nome}]]</h1>
                 </div>
 
                 <div class="col-xs-2">
@@ -38,11 +39,12 @@
         <form method="POST" th:action="@{/estilos/novo}" th:object="${estilo}" class="form-vertical  js-form-loading">
 
             <brewer:message/>
+            <input type="hidden" th:field="*{codigo}">
 
             <div class="row">
                 <div class="form-group col-sm-12 bw-required" brewer:classforerror="nome">
                     <label for="nome" class="control-label">Nome</label>
-                    <input type="text" id="nome" class="form-control" name="nome">
+                    <input type="text" id="nome" class="form-control" name="nome" th:field="*{nome}">
                 </div>
             </div>
 

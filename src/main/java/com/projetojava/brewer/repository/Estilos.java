@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface Estilos extends JpaRepository<Estilo, Long>, EstilosQueries {
+    Estilo findByCodigo(Long codigo);
 
     Optional<Estilo> findByNomeIgnoreCase(String nome);
 

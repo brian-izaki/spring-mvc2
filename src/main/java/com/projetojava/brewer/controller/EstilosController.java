@@ -32,7 +32,8 @@ public class EstilosController {
 	private Estilos estilos;
 
 	@GetMapping
-	public ModelAndView pesquisar(EstiloFilter filtro, @PageableDefault(size = 2) Pageable pageable, HttpServletRequest httpServletRequest) {
+	public ModelAndView pesquisar(EstiloFilter filtro, @PageableDefault(size = 5) Pageable pageable,
+								  HttpServletRequest httpServletRequest) {
 		ModelAndView mv = new ModelAndView("estilo/PesquisaEstilos");
 
 		PageWrapper pagina = new PageWrapper(estilos.filtrar(filtro, pageable), httpServletRequest);
@@ -42,7 +43,8 @@ public class EstilosController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE })
-	public @ResponseBody ResponseEntity<?> salvar(@RequestBody @Valid Estilo estilo, BindingResult result) {
+	public @ResponseBody ResponseEntity<?> salvar(@RequestBody @Valid Estilo estilo,
+												  BindingResult result) {
 		if (result.hasErrors()) {
 			return ResponseEntity
 					.badRequest()
@@ -63,8 +65,9 @@ public class EstilosController {
 		return mv;
 	}
 
-	@RequestMapping(value = "/novo", method = RequestMethod.POST)
-	public ModelAndView cadastrar(@Valid Estilo estilo, BindingResult results, RedirectAttributes attributes) {
+	@RequestMapping(value = {"/novo", "{\\d+}"}, method = RequestMethod.POST)
+	public ModelAndView salvar(@Valid Estilo estilo, BindingResult results,
+							   RedirectAttributes attributes) {
 
 		if (results.hasErrors()) {
 			return novo(estilo);
@@ -77,9 +80,16 @@ public class EstilosController {
 			return novo(estilo);
 		}
 
-		attributes.addFlashAttribute("mensagem", "Estilo Cadastrado com sucesso!");
+		attributes.addFlashAttribute("mensagem", "Estilo salvo com sucesso!");
 
 		return new ModelAndView("redirect:/estilos/novo");
 	}
 
+	@GetMapping("/{codigo}")
+	public ModelAndView editar(@PathVariable Long codigo) {
+		Estilo estilo = estilos.findByCodigo(codigo);
+		ModelAndView mv = novo(estilo);
+		mv.addObject(estilo);
+		return mv;
+	}
 }
