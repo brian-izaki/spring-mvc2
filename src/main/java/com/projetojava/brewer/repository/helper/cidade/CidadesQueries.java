@@ -9,4 +9,5 @@ public interface CidadesQueries {
 
     public Page<Cidade> filtrar(CidadeFilter filter, Pageable pageable);
 
+    Cidade buscaCidadeEstado(Long codigo);
 }

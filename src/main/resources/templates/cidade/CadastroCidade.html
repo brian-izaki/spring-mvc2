@@ -34,6 +34,7 @@
 
         <form method="POST" th:action="@{/cidades/novo}" class="form-vertical  js-form-loading" th:object="${cidade}">
             <brewer:message/>
+            <input type="hidden" th:field="*{codigo}">
 
             <div class="row">
                 <div class="form-group col-sm-3 bw-required" brewer:classforerror="estado">

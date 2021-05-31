@@ -46,6 +46,17 @@ public class CidadesImpl implements CidadesQueries{
         return new PageImpl(criteria.list(), pageable, total(filter));
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Cidade buscaCidadeEstado(Long codigo) {
+        Criteria criteria = manager.unwrap(Session.class).createCriteria(Cidade.class);
+        criteria.createAlias("estado", "e");
+        criteria.add(Restrictions.eq("codigo", codigo));
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+
+        return (Cidade) criteria.uniqueResult();
+    }
+
     private Long total(CidadeFilter filtro) {
         Criteria criteria = manager.unwrap(Session.class).createCriteria(Cidade.class);
         adicionarFiltro(filtro, criteria);

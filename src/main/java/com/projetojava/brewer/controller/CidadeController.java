@@ -75,7 +75,7 @@ public class CidadeController {
         return mv;
     }
 
-    @PostMapping("/novo")
+    @PostMapping(value = {"/novo", "{\\d+}"})
     @CacheEvict(value = "cidades", key = "#cidade.estado.codigo", condition = "#cidade.temEstado()")
     public ModelAndView salvar(@Valid Cidade cidade, BindingResult result, Model model, RedirectAttributes attributes) {
         if (result.hasErrors()) {
@@ -89,8 +89,16 @@ public class CidadeController {
             return novo(cidade);
         }
 
-        attributes.addFlashAttribute("mensagem", "Cidade cadastrada com sucesso");
+        attributes.addFlashAttribute("mensagem", "Cidade salva com sucesso");
         return new ModelAndView("redirect:/cidades/novo");
+    }
+
+    @GetMapping("/{codigo}")
+    public ModelAndView editar(@PathVariable Long codigo) {
+        Cidade cidade = cidades.buscaCidadeEstado(codigo);
+        ModelAndView mv = novo(cidade);
+        mv.addObject(cidade);
+        return mv;
     }
 
 }
