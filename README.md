@@ -100,10 +100,11 @@ O projeto será um sistema para uma cervejaria com relatórios, dashboard, venda
 - **package 🎁: handler**
   - nela tem a classe de Controller Advice. (veja mais a baixo o tópico sobrre ele)
 
-- **package 🎁: event**
-  - é um padrão de projeto que auxiliam a desacoplar código. 
+- **package 🎁: event (dentro de service)**
+  - é um padrão de projeto que auxiliam a desacoplar código. ex: caso queira salvar fotos, executar outra 
+    query em uma tabela diferente atual, etc.
   - o evento é apenas uma classe normal.
-  - o evento será chamada pelo `ApplicationEventPublisher` (dentro da classe service)
+  - o evento será chamada pelo `ApplicationEventPublisher` (dentro da classe que deseja ter o evento)
     - essa classe possui métodos para reallizar a publicação do evento.
     - é possível ter diferentes eventos que serão escutados para ações diferentes. 
     - é colocado dentro do contexto.
