@@ -1,6 +1,7 @@
 package com.projetojava.brewer.repository.helper.venda;
 
 import com.projetojava.brewer.dto.VendaMes;
+import com.projetojava.brewer.dto.VendaOrigem;
 import com.projetojava.brewer.model.Venda;
 import com.projetojava.brewer.repository.filter.VendaFilter;
 import org.springframework.data.domain.Page;
@@ -22,4 +23,6 @@ public interface VendasQueries {
     BigDecimal valorTicketMedioNoAno();
 
     public List<VendaMes> totalPorMes();
+
+    List<VendaOrigem> porOrigem();
 }

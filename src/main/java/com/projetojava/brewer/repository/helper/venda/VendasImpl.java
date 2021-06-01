@@ -1,6 +1,7 @@
 package com.projetojava.brewer.repository.helper.venda;
 
 import com.projetojava.brewer.dto.VendaMes;
+import com.projetojava.brewer.dto.VendaOrigem;
 import com.projetojava.brewer.model.StatusVenda;
 import com.projetojava.brewer.model.TipoPessoa;
 import com.projetojava.brewer.model.Venda;
@@ -111,6 +112,25 @@ public class VendasImpl implements VendasQueries{
         }
 
         return vendasMes;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<VendaOrigem> porOrigem() {
+        List<VendaOrigem> porOrigem = manager.createNamedQuery("Vendas.porOrigem").getResultList();
+
+        LocalDate hoje = LocalDate.now();
+        for (int i = 1; i <= 6; i++) {
+            String mesIdeal = String.format("%d/%02d", hoje.getYear(), hoje.getMonthValue());
+            boolean possuiMes = porOrigem.stream().filter(v -> v.getMes().equals(mesIdeal)).findAny().isPresent();
+            if (!possuiMes) {
+                porOrigem.add(i - 1, new VendaOrigem(mesIdeal, 0, 0));
+            }
+
+            hoje = hoje.minusMonths(1);
+        }
+
+        return porOrigem;
     }
 
     private Long total(VendaFilter filter) {

@@ -3,6 +3,7 @@ package com.projetojava.brewer.controller;
 import com.projetojava.brewer.controller.page.PageWrapper;
 import com.projetojava.brewer.controller.validator.VendaValidator;
 import com.projetojava.brewer.dto.VendaMes;
+import com.projetojava.brewer.dto.VendaOrigem;
 import com.projetojava.brewer.model.Cerveja;
 import com.projetojava.brewer.model.ItemVenda;
 import com.projetojava.brewer.model.StatusVenda;
@@ -191,6 +192,11 @@ public class VendasController {
     @GetMapping("/totalPorMes")
     public @ResponseBody List <VendaMes> listarTotalVendaPorMes() {
         return vendas.totalPorMes();
+    }
+
+    @GetMapping("/vendaPorOrigem")
+    public @ResponseBody List<VendaOrigem> listarVendasPorOrigem() {
+        return vendas.porOrigem();
     }
 
     private ModelAndView mvTabelaItens(String uuid) {
