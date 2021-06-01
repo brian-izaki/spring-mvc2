@@ -20,7 +20,10 @@ import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
+import java.util.Optional;
 
 public class CervejasImpl implements CervejasQueries {
 
@@ -51,6 +54,24 @@ public class CervejasImpl implements CervejasQueries {
                 .setParameter("skuOuNome", skuOuNome + "%")
                 .getResultList();
         return cervejasFiltradas;
+    }
+
+    @Override
+    public Long totalQuantidadeEstoque() {
+        String jpql = "select SUM(quantidadeEstoque) from Cerveja";
+        Optional<Long> totalQuantidade = Optional.ofNullable(
+                manager.createQuery(jpql, Long.class).getSingleResult());
+
+        return totalQuantidade.orElse(0L);
+    }
+
+    @Override
+    public BigDecimal totalValorEstoque() {
+        String jpql = "select SUM(valor * quantidadeEstoque)  from Cerveja";
+        Optional<BigDecimal> totalValor = Optional.ofNullable(
+                manager.createQuery(jpql, BigDecimal.class).getSingleResult());
+
+        return totalValor.orElse(BigDecimal.ZERO);
     }
 
     private Long total(CervejaFilter filtro) {
